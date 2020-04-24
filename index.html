@@ -358,18 +358,18 @@ Configures rules for a group of projects. Rules will be executed in the followin
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Name</th>
 <th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Required</th>
-<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -377,22 +377,22 @@ Configures rules for a group of projects. Rules will be executed in the followin
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">enabled</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables all rules. You may override this value with a System property named <code>enforcer.enabled</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">failFast</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fails and reports the first rule violation if set to <code>true</code> otherwise reports all rule violations within the same phase.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">mergeStrategy</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MergeStrategy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MergeStrategy.OVERRIDE</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Controls how duplicate rule definitions should be handled.</p></td>
 </tr>
 </tbody>
@@ -610,9 +610,9 @@ If rules are configured using the <code>org.kordamp.gradle.project-enforcer</cod
 </td>
 <td class="content">
 The following icons indicate the required state of a property:<br>
-icon_req_y_ required<br>
-icon_req_n optional<br>
-icon_req_c conditionally required
+<span class="icon green"><i class="fa fa-check"></i></span> required<br>
+<span class="icon red"><i class="fa fa-times"></i></span> optional<br>
+<span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span> conditionally required
 </td>
 </tr>
 </table>
