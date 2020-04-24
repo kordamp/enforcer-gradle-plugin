@@ -1,0 +1,5 @@
+enforcer.rules
+enforcer.rules.internal
+org.kordamp.gradle.plugin.enforcer
+org.kordamp.gradle.plugin.enforcer.api
+org.kordamp.gradle.plugin.enforcer.internal

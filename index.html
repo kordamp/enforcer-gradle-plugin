@@ -1,0 +1,3291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Andres Almiray">
+<title>Enforcer Gradle Plugin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Enforcer Gradle Plugin</h1>
+<div class="details">
+<span id="author" class="author">Andres Almiray</span><br>
+<span id="revnumber">version 0.1.0-SNAPSHOT</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_usage">2. Usage</a>
+<ul class="sectlevel2">
+<li><a href="#_requirements">2.1. Requirements</a></li>
+<li><a href="#_rule_dsl">2.2. Rule DSL</a>
+<ul class="sectlevel3">
+<li><a href="#_mergestrategy">2.2.1. MergeStrategy</a></li>
+<li><a href="#_enforcer_phase">2.2.2. Enforcer Phase</a></li>
+</ul>
+</li>
+<li><a href="#_version_range">2.3. Version Ranges</a></li>
+</ul>
+</li>
+<li><a href="#_rules">3. Rules</a>
+<ul class="sectlevel2">
+<li><a href="#_alwaysfail">3.1. AlwaysFail</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases">3.1.1. Trigger Phases</a></li>
+<li><a href="#_configuration">3.1.2. Configuration</a></li>
+<li><a href="#_properties">3.1.3. Properties</a></li>
+</ul>
+</li>
+<li><a href="#_alwayspass">3.2. AlwaysPass</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_2">3.2.1. Trigger Phases</a></li>
+<li><a href="#_configuration_2">3.2.2. Configuration</a></li>
+<li><a href="#_properties_2">3.2.3. Properties</a></li>
+</ul>
+</li>
+<li><a href="#_banduplicateclasses">3.3. BanDuplicateClasses</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_3">3.3.1. Trigger Phases</a></li>
+<li><a href="#_configuration_3">3.3.2. Configuration</a></li>
+<li><a href="#_methods">3.3.3. Methods</a></li>
+<li><a href="#_example">3.3.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_banneddependencies">3.4. BannedDependencies</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_4">3.4.1. Trigger Phases</a></li>
+<li><a href="#_configuration_4">3.4.2. Configuration</a></li>
+<li><a href="#_properties_3">3.4.3. Properties</a></li>
+<li><a href="#_methods_2">3.4.4. Methods</a></li>
+<li><a href="#_example_2">3.4.5. Example</a></li>
+</ul>
+</li>
+<li><a href="#_bannedrepositories">3.5. BannedRepositories</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_5">3.5.1. Trigger Phases</a></li>
+<li><a href="#_configuration_5">3.5.2. Configuration</a></li>
+<li><a href="#_example_3">3.5.3. Example</a></li>
+</ul>
+</li>
+<li><a href="#_dependencyconvergence">3.6. DependencyConvergence</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_6">3.6.1. Trigger Phases</a></li>
+<li><a href="#_configuration_6">3.6.2. Configuration</a></li>
+<li><a href="#_properties_4">3.6.3. Properties</a></li>
+<li><a href="#_example_4">3.6.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_enforcebytecodeversion">3.7. EnforceBytecodeVersion</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_7">3.7.1. Trigger Phases</a></li>
+<li><a href="#_configuration_7">3.7.2. Configuration</a></li>
+<li><a href="#_properties_5">3.7.3. Properties</a></li>
+<li><a href="#_methods_3">3.7.4. Methods</a></li>
+<li><a href="#_example_5">3.7.5. Example</a></li>
+</ul>
+</li>
+<li><a href="#_excludedependencies">3.8. ExcludeDependencies</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_8">3.8.1. Trigger Phases</a></li>
+<li><a href="#_configuration_8">3.8.2. Configuration</a></li>
+<li><a href="#_methods_4">3.8.3. Methods</a></li>
+<li><a href="#_example_6">3.8.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_forcedependencies">3.9. ForceDependencies</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_9">3.9.1. Trigger Phases</a></li>
+<li><a href="#_configuration_9">3.9.2. Configuration</a></li>
+<li><a href="#_properties_6">3.9.3. Properties</a></li>
+<li><a href="#_example_7">3.9.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requireenvironmentvariable">3.10. RequireEnvironmentVariable</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_10">3.10.1. Trigger Phases</a></li>
+<li><a href="#_configuration_10">3.10.2. Configuration</a></li>
+<li><a href="#_properties_7">3.10.3. Properties</a></li>
+<li><a href="#_example_8">3.10.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requirefilechecksum">3.11. RequireFileChecksum</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_11">3.11.1. Configuration</a></li>
+<li><a href="#_properties_8">3.11.2. Properties</a></li>
+</ul>
+</li>
+<li><a href="#_requirefilesdontexist">3.12. RequireFilesDontExist</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_12">3.12.1. Configuration</a></li>
+<li><a href="#_properties_9">3.12.2. Properties</a></li>
+<li><a href="#_methods_5">3.12.3. Methods</a></li>
+<li><a href="#_example_9">3.12.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requirefilesexist">3.13. RequireFilesExist</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_13">3.13.1. Configuration</a></li>
+<li><a href="#_properties_10">3.13.2. Properties</a></li>
+<li><a href="#_methods_6">3.13.3. Methods</a></li>
+<li><a href="#_example_10">3.13.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requirefilessize">3.14. RequireFilesSize</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_14">3.14.1. Configuration</a></li>
+<li><a href="#_properties_11">3.14.2. Properties</a></li>
+<li><a href="#_methods_7">3.14.3. Methods</a></li>
+</ul>
+</li>
+<li><a href="#_requiregradleproperty">3.15. RequireGradleProperty</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_11">3.15.1. Trigger Phases</a></li>
+<li><a href="#_configuration_15">3.15.2. Configuration</a></li>
+<li><a href="#_properties_12">3.15.3. Properties</a></li>
+<li><a href="#_example_11">3.15.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requiregradleversion">3.16. RequireGradleVersion</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_12">3.16.1. Trigger Phases</a></li>
+<li><a href="#_configuration_16">3.16.2. Configuration</a></li>
+<li><a href="#_properties_13">3.16.3. Properties</a></li>
+</ul>
+</li>
+<li><a href="#_requirejavaversion">3.17. RequireJavaVersion</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_13">3.17.1. Trigger Phases</a></li>
+<li><a href="#_configuration_17">3.17.2. Configuration</a></li>
+<li><a href="#_properties_14">3.17.3. Properties</a></li>
+</ul>
+</li>
+<li><a href="#_requireos">3.18. RequireOS</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_14">3.18.1. Trigger Phases</a></li>
+<li><a href="#_configuration_18">3.18.2. Configuration</a></li>
+<li><a href="#_properties_15">3.18.3. Properties</a></li>
+<li><a href="#_example_12">3.18.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requiresystemproperty">3.19. RequireSystemProperty</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_15">3.19.1. Trigger Phases</a></li>
+<li><a href="#_configuration_19">3.19.2. Configuration</a></li>
+<li><a href="#_properties_16">3.19.3. Properties</a></li>
+<li><a href="#_example_13">3.19.4. Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_authoring">4. Authoring</a>
+<ul class="sectlevel2">
+<li><a href="#_create_a_project">4.1. Create a project</a></li>
+<li><a href="#_create_a_rule_class">4.2. Create a Rule class</a></li>
+<li><a href="#_build">4.3. Build</a></li>
+<li><a href="#_configure_the_enforcer_plugin">4.4. Configure the Enforcer plugin</a></li>
+<li><a href="#_configure_the_rule">4.5. Configure the rule</a></li>
+</ul>
+</li>
+<li><a href="#_links">5. Links</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Enforce build and project settings. A port of the popular <a href="https://maven.apache.org/enforcer/maven-enforcer-plugin/index.html">maven-enforcer-plugin</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage"><a class="anchor" href="#_usage"></a>2. Usage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are two modes for applying the plugin: <strong>build</strong> and <strong>project</strong></p>
+</div>
+<div class="paragraph">
+<div class="title">Build</div>
+<p>Add the following to your <code>settings.gradle</code> file</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    // configure rules
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<div class="title">Project</div>
+<p>Add the following to a project build file (<code>build.gradle</code>)</p>
+</div>
+<div class="paragraph">
+<p>Option #1</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.project-enforcer'
+
+enforce {
+    // configure rules
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Option #2</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'org.kordamp.gradle.project-enforcer' version '0.1.0-SNAPSHOT'
+}
+
+enforce {
+    // configure rules
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirements"><a class="anchor" href="#_requirements"></a>2.1. Requirements</h3>
+<div class="paragraph">
+<p>Java 8 and Gradle 5 are the minimum requirements to use this plugin.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rule_dsl"><a class="anchor" href="#_rule_dsl"></a>2.2. Rule DSL</h3>
+<div class="paragraph">
+<p>There are two variations of the Rule DSL depending on which mode (<strong>build</strong> or <strong>project</strong>) you are
+running the plugin</p>
+</div>
+<div class="listingblock">
+<div class="title">Build</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    <a href="#_dsl_configure_build">configure</a>()
+    <a href="#_dsl_rule_build">rule</a>()
+    <a href="#_dsl_allprojects">allprojects</a> {
+        <a href="#_dsl_rule_build">rule</a>()
+    }
+    <a href="#_dsl_project">project</a>() {
+        <a href="#_dsl_rule_build">rule</a>()
+    }
+    <a href="#_dsl_projects">projects</a>() {
+        <a href="#_dsl_rule_build">rule</a>()
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Project</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    <a href="#_dsl_configure_project">configure</a>()
+    <a href="#_dsl_rule_project">rule</a>()
+}</code></pre>
+</div>
+</div>
+<div id="_dsl_configure_build" class="paragraph">
+<div class="title">Methods</div>
+<p><strong>void configure(Class&lt;? extends Action&lt;? extends BuildEnforcerExtension&gt;&gt; configurerClass)</strong><br>
+Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds.</p>
+</div>
+<div id="_dsl_configure_project" class="paragraph">
+<p><strong>void configure(Class&lt;? extends Action&lt;? extends ProjectEnforcerExtension&gt;&gt; configurerClass)</strong><br>
+Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds.</p>
+</div>
+<div id="_dsl_rule_build" class="paragraph">
+<p><strong>&lt;R extends EnforcerRule&gt; void rule(Class&lt;R&gt; ruleType)</strong><br>
+<strong>&lt;R extends EnforcerRule&gt; void rule(Class&lt;R&gt; ruleType, Action&lt;R&gt; configurer)</strong><br>
+Defines a rule for the build. Use the <code>configurer</code> variant if you need to configure the rule. Note that this configuration
+will be applied lazily, that is, when the rule is about to be invoked.<br>
+Rules will be executed in the following phases:
+<code>BEFORE_BUILD</code>, <code>BEFORE_PROJECT</code>, <code>AFTER_PROJECT</code>, <code>PROJECTS_EVALUATED</code>, <code>AFTER_BUILD</code>.</p>
+</div>
+<div id="_dsl_rule_project" class="paragraph">
+<p><strong>&lt;R extends EnforcerRule&gt; void rule(Class&lt;R&gt; ruleType)</strong><br>
+<strong>&lt;R extends EnforcerRule&gt; void rule(Class&lt;R&gt; ruleType, Action&lt;R&gt; configurer)</strong><br>
+Defines a rule for the current project. Use the <code>configurer</code> variant if you need to configure the rule. Note that this configuration
+will be applied lazily, that is, when the rule is about to be invoked.<br>
+Rules will be executed in the following phases:
+<code>BEFORE_PROJECT</code>, <code>AFTER_PROJECT</code>.</p>
+</div>
+<div id="_dsl_allprojects" class="paragraph">
+<p><strong>void allprojects(Action&lt;? extends EnforcerRuleConfiguration&gt; configurer)</strong><br>
+Configures rules for all projects. Rules will be executed in the following phases:
+<code>BEFORE_PROJECT</code>, <code>AFTER_PROJECT</code>.</p>
+</div>
+<div id="_dsl_project" class="paragraph">
+<p><strong>void project(String projectPath, Action&lt;? extends EnforcerRuleConfiguration&gt; configurer)</strong><br>
+Configures rules for a single project. Rules will be executed in the following phases:
+<code>BEFORE_PROJECT</code>, <code>AFTER_PROJECT</code>.</p>
+</div>
+<div id="_dsl_projects" class="paragraph">
+<p><strong>void projects(List&lt;String&gt; projectPaths, Action&lt;? extends EnforcerRuleConfiguration&gt; configurer)</strong><br>
+Configures rules for a group of projects. Rules will be executed in the following phases:
+<code>BEFORE_PROJECT</code>, <code>AFTER_PROJECT</code>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Properties</div>
+<p>The DSL exposes the following properties regardless of the mode choice</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables all rules. You may override this value with a System property named <code>enforcer.enabled</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failFast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fails and reports the first rule violation if set to <code>true</code> otherwise reports all rule violations within the same phase.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mergeStrategy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MergeStrategy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MergeStrategy.OVERRIDE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Controls how duplicate rule definitions should be handled.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_mergestrategy"><a class="anchor" href="#_mergestrategy"></a>2.2.1. MergeStrategy</h4>
+<div class="paragraph">
+<p>The <code>mergeStrategy</code> property takes effect when duplicate rule definitions are encountered during the configuration phase.
+Duplicate rule definitions may occur when configuring the enforcer using any of the two <strong>configure()</strong> variants. Once a value for
+this property is set it cannot be changed, thus it&#8217;s a good idea to set it in your build before invoking
+<strong>configure()</strong> if you need your build to have a choice in how duplicates should be handled.</p>
+</div>
+<div class="dlist horizonal">
+<div class="title">Values</div>
+<dl>
+<dt>OVERRIDE</dt>
+<dd>
+<p>The last configuration action wins. All previous configuration(s) (if any) will be discarded.</p>
+</dd>
+<dt>APPEND</dt>
+<dd>
+<p>Executes all configurations on a single rule instance, in FIFO order.</p>
+</dd>
+<dt>PREPEND</dt>
+<dd>
+<p>Executes all configurations on a single rule instance, in LIFO order.</p>
+</dd>
+<dt>DUPLICATE</dt>
+<dd>
+<p>Creates a duplicate rule with no shared configuration.</p>
+</dd>
+<dt>DENY</dt>
+<dd>
+<p>Does not allow configuration to be changed. First (if any) wins.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enforcer_phase"><a class="anchor" href="#_enforcer_phase"></a>2.2.2. Enforcer Phase</h4>
+<div class="paragraph">
+<p>Rules are invoked during phases. A single rule may trigger for more than one phase during a build.
+The following list shows all possible values and the order of invocation.</p>
+</div>
+<div class="hdlist">
+<div class="title">Values</div>
+<table>
+<tr>
+<td class="hdlist1">
+BEFORE_BUILD
+</td>
+<td class="hdlist2">
+<p>After <code>Settings</code> have been evaluated and before any projects are loaded.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+BEFORE_PROJECTS
+</td>
+<td class="hdlist2">
+<p>When projects have been loaded and before any is evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+BEFORE_PROJECT
+</td>
+<td class="hdlist2">
+<p>When a project is about to be evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+AFTER_PROJECT
+</td>
+<td class="hdlist2">
+<p>When a project has been evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+AFTER_PROJECTS
+</td>
+<td class="hdlist2">
+<p>When all projects have been evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+AFTER_BUILD
+</td>
+<td class="hdlist2">
+<p>When the build finishes.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If rules are configured using the <code>org.kordamp.gradle.project-enforcer</code> plugin then they will only trigger during the
+<code>BEFORE_PROJECT</code> (if project is not Root), <code>AFTER_PROJECT</code>, <code>AFTER_PROJECTS</code>, and <code>AFTER_BUILD</code> phases.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_version_range"><a class="anchor" href="#_version_range"></a>2.3. Version Ranges</h3>
+<div class="paragraph">
+<p>Some rules require a version range. The following table describes the supported formats and their meanings</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Range</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &gt;= 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(,1.0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &#8656; 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(,1.0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &lt; 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1.0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x == 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1.0,)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &gt;= 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1.0,)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &gt; 1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1.0,2.0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0 &lt; x &lt; 2.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1.0,2.0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0 &#8656; x &#8656; 2.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(,1.0],[1.2,)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x &#8656; 1.0 or x &gt;= 1.2. Multiple sets are comma-separated</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(,1.1),(1.1,)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x != 1.1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rules"><a class="anchor" href="#_rules"></a>3. Rules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<div class="title">Properties</div>
+<p>All rules share the following properties</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables the rule. Can be overridden using a <code>System</code> property whose key follows the pattern
+<code>&lt;fullyQualifiedClassName&gt;.enabled</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The following icons indicate the required state of a property:<br>
+icon_req_y_ required<br>
+icon_req_n optional<br>
+icon_req_c conditionally required
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_alwaysfail"><a class="anchor" href="#_alwaysfail"></a>3.1. AlwaysFail</h3>
+<div class="paragraph">
+<p>This rule will always fail. It is useful for testing proper plugin configuration.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases"><a class="anchor" href="#_trigger_phases"></a>3.1.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration"><a class="anchor" href="#_configuration"></a>3.1.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.AlwaysFail) { r -&gt;
+        r.enabled
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties"><a class="anchor" href="#_properties"></a>3.1.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_alwayspass"><a class="anchor" href="#_alwayspass"></a>3.2. AlwaysPass</h3>
+<div class="paragraph">
+<p>This rule will always succeed. It is useful for testing proper plugin configuration.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_2"><a class="anchor" href="#_trigger_phases_2"></a>3.2.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>3.2.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.AlwaysPass) { r -&gt;
+        r.enabled
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_2"><a class="anchor" href="#_properties_2"></a>3.2.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_banduplicateclasses"><a class="anchor" href="#_banduplicateclasses"></a>3.3. BanDuplicateClasses</h3>
+<div class="paragraph">
+<p>This rule checks the dependencies and fails if any class is present in more than one dependency.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The following exclusions are enabled by default: <code>module-info</code>, <code>META-INF/versions/*/module-info</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_3"><a class="anchor" href="#_trigger_phases_3"></a>3.3.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>3.3.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BanDuplicateClasses) { r -&gt;
+        r.enabled
+        r.message
+        r.findAllDuplicates
+        r.ignoreWhenIdentical
+        r.configurations
+        r.ignoreClasses
+        r.ignore()
+        r.dependencies
+        r.dependency() { d -&gt;
+            d.ignore()
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findAllDuplicates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicate whether the rule should find all duplicates or fail fast at the first duplicate.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignoreWhenIdentical</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When <code>true</code> indicates duplicate classes don&#8217;t fail the build when their bytecode exactly matches each other.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
+  to all resolvable configurations if this property is left empty.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignoreClasses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of classes to ignore duplicates of. Wildcards can be specified using the * character.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;Dependency&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of dependencies for which you want to ignore specific classes.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods"><a class="anchor" href="#_methods"></a>3.3.3. Methods</h4>
+<div class="paragraph">
+<p><strong>ignore(String str)</strong><br>
+Adds a class to ignore duplicates of. Wildcards can be specified using the * character.</p>
+</div>
+<div class="paragraph">
+<p><strong>dependency(String str, Action&lt;? extends Dependency&gt; configurer)</strong><br>
+<strong>dependency(Map&lt;String, String&gt; map, Action&lt;? extends Dependency&gt; configurer)</strong><br>
+Adds an explicit dependency from which classes will be ignored of. Wildcards can be specified using the * character.<br>
+Accepted format for <code>str</code> is <code>groupId:artifactId:version[:classifier]</code>.<br>
+Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</code>, <code>version</code>, <code>classifier</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example"><a class="anchor" href="#_example"></a>3.3.4. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BanDuplicateClasses) { r -&gt;
+        // search only on compile and runtime classpaths
+        r.configurations.addAll(['compileClasspath', 'runtimeClasspath'])
+        // ignore all classes under the following package
+        r.ignore('org.log4j.impl.*')
+        // ignore classes from commons-codec
+        r.dependency('commons-codec:commons-codec:1.14') { d -&gt;
+            // ignore all classes under a specific package
+            d.ignore('org.apache.commons.codec.cli.*)
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_banneddependencies"><a class="anchor" href="#_banneddependencies"></a>3.4. BannedDependencies</h3>
+<div class="paragraph">
+<p>This rule checks the dependencies and fails if any of the matching excludes are found.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_4"><a class="anchor" href="#_trigger_phases_4"></a>3.4.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>3.4.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BannedDependencies) { r -&gt;
+        r.enabled
+        r.configurations
+        r.excludes
+        r.includes
+        r.exclude()
+        r.include()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_3"><a class="anchor" href="#_properties_3"></a>3.4.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
+  to all resolvable configurations if this property is left empty.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to ban. The format is <code>groupId[:artifactId][:version][:classifier]</code> where <code>artifactId</code>, <code>version</code>,<br>
+  and <code>classifier</code> are optional. Wildcards may be used to replace an entire or just parts of a section.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with<br>
+  wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words,<br>
+  includes only subtract from artifacts that matched an exclude rule.<br>
+  For example, to ban all xerces except xerces-api you would exclude "xerces" (groupId) and include "xerces:xerces-api"</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Artifact pattern examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>org.apache.maven</p>
+</li>
+<li>
+<p>org.apache.maven:badArtifact</p>
+</li>
+<li>
+<p>org.apache.maven:artifact:badVersion</p>
+</li>
+<li>
+<p>org.apache.maven:*:1.2 (exclude version 1.2 and above, equivalent to [1.2,) )</p>
+</li>
+<li>
+<p>org.apache.maven:*:[1.2] (explicit exclude of version 1.2)</p>
+</li>
+<li>
+<p>org.apache.maven:*:*:test</p>
+</li>
+<li>
+<p>org.apache.*:maven-*:*</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_methods_2"><a class="anchor" href="#_methods_2"></a>3.4.4. Methods</h4>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+Add a dependency pattern to be excluded.</p>
+</div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+Add a dependency pattern to be included.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_2"><a class="anchor" href="#_example_2"></a>3.4.5. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BannedDependencies) { r -&gt;
+        // search only on compile and runtime classpaths
+        r.configurations.addAll(['compileClasspath', 'runtimeClasspath'])
+        // ignore all classes under the following package
+        r.exclude('org.apache.maven')
+        r.exclude('org.apache.maven:badArtifact')
+        r.exclude('*:badArtifact')
+        // only 1.0 of badArtifact is allowed
+        r.include('org.apache.maven:badArtifact:1.0')
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bannedrepositories"><a class="anchor" href="#_bannedrepositories"></a>3.5. BannedRepositories</h3>
+<div class="paragraph">
+<p>This rule checks whether the build or project include a specified banned repository.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_5"><a class="anchor" href="#_trigger_phases_5"></a>3.5.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>3.5.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BannedRepositories) { r -&gt;
+        r.enabled
+        r.mavenLocalAllowed
+        r.bannedRepositories
+        r.allowedRepositories
+    }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mavenLocalAllowed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether usage of the local Maven repository is allowed or not.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bannedRepositories</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify banned non-plugin repositories. This is a black list of http/https url patterns.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allowedRepositories</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify explicitly allowed non-plugin repositories. This is a white list of http/https url patterns.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_3"><a class="anchor" href="#_example_3"></a>3.5.3. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.BannedRepositories) { r -&gt;
+        // ban the following repository
+        r.bannedRepositories.add('http://repo1/*')
+        // for some cases, white list is more effective
+        r.allowedRepositories.add('http://repo2/*')
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dependencyconvergence"><a class="anchor" href="#_dependencyconvergence"></a>3.6. DependencyConvergence</h3>
+<div class="paragraph">
+<p>This rule requires that dependency version numbers converge. If a project has two dependencies, A and B, both depending
+on the same artifact, C, this rule will fail the build if A depends on a different version of C than the version of C
+depended on by B.</p>
+</div>
+<div class="paragraph">
+<p>This rule also configures additional settings applicable to the <code>resolutionStrategy</code> property of all <code>Configuration</code> instances
+that can be resolved.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_6"><a class="anchor" href="#_trigger_phases_6"></a>3.6.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>3.6.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.DependencyConvergence) { r -&gt;
+        r.enabled
+        r.failOnDynamicVersions
+        r.failOnChangingVersions
+        r.failOnNonReproducibleResolution
+        r.activateDependencyLocking
+        r.deactivateDependencyLocking
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_4"><a class="anchor" href="#_properties_4"></a>3.6.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failOnDynamicVersions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gradle will make sure that no dynamic version was used in the resulting dependency graph. In practice, it means that if<br>
+  the resolved dependency graph contains a module and that the versions participating in the selection of that module<br>
+  contain at least one dynamic version, then resolution will fail if the resolution result can change because of this<br>
+  version selector. This can be used in cases you want to make sure your build is reproducible, <em>without</em> relying on<br>
+  dependency locking.<br>
+  <strong>Requires Gradle 6.1+</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failOnChangingVersions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gradle will make sure that no changing version participates in resolution. This can be used in cases you want to make<br>
+  sure your build is reproducible, <em>without</em> relying on dependency locking.<br>
+  <strong>Requires Gradle 6.1+</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failOnNonReproducibleResolution</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configures Gradle to fail the build is the resolution result is expected to be unstable, that is to say that it includes<br>
+  dynamic versions or changing versions and therefore the result may change depending on when the build is executed.<br>
+  Setting this property is equivalent to settings both <code>failOnDynamicVersions</code> and <code>failOnChangingVersions</code>.<br>
+  <strong>Requires Gradle 6.1+</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">activateDependencyLocking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Activates dependency locking support in Gradle. Once turned on on a configuration, resolution result can be saved and<br>
+  then reused for subsequent builds. This enables reproducible builds when using dynamic versions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deactivateDependencyLocking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deactivates dependency locking support in Gradle.<br>
+  <strong>Requires Gradle 6.0+</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_4"><a class="anchor" href="#_example_4"></a>3.6.4. Example</h4>
+<div class="paragraph">
+<p>Given the following configuration found in <code>settings.gradle</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a simple project</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build will fail with the following message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+&gt; Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll have to temporarily disable this rule in order to invoke the suggested command, like so</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ gradle -Denforcer.rules.DependencyConvergence.enabled=false \
+         :dependencyInsight --configuration compileClasspath \
+          --dependency org.slf4j:slf4j-api
+
+&gt; Task :dependencyInsight
+org.slf4j:slf4j-api:1.6.1
+   variant "compile" [
+      org.gradle.status              = release (not requested)
+      org.gradle.usage               = java-api
+      org.gradle.libraryelements     = jar (compatible with: classes)
+      org.gradle.category            = library (not requested)
+
+      Requested attributes not found in the selected variant:
+         org.gradle.dependency.bundling = external
+         org.gradle.jvm.version         = 8
+   ]
+   Selection reasons:
+      - By conflict resolution : between versions 1.6.1 and 1.6.0
+
+org.slf4j:slf4j-api:1.6.1
+\--- org.slf4j:slf4j-jdk14:1.6.1
+     \--- compileClasspath
+
+org.slf4j:slf4j-api:1.6.0 -&gt; 1.6.1
+\--- org.slf4j:slf4j-nop:1.6.0
+     \--- compileClasspath</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may exclude the offending dependency, either by manually adding an exclusion (doing so in this example it&#8217;s trivial)
+or enabling the <code><a href="#_excludedependencies">ExcludeDependencies</a></code> rule (affecting all configurations). You may also force the version of
+slf4j-api with the <code><a href="#_forcedependencies">ForceDependencies</a></code> rule (affecting all configurations).</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enforcebytecodeversion"><a class="anchor" href="#_enforcebytecodeversion"></a>3.7. EnforceBytecodeVersion</h3>
+<div class="paragraph">
+<p>This rule checks the dependencies transitively and fails if any class of any dependency is having its bytecode version
+higher than the one specified.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The following exclusions are enabled by default: <code>module-info</code>, <code>META-INF/versions/(\d+)/.*</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_7"><a class="anchor" href="#_trigger_phases_7"></a>3.7.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_7"><a class="anchor" href="#_configuration_7"></a>3.7.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r -&gt;
+        r.enabled
+        r.maxJdkVersion
+        r.maxJavaMajorVersionNumber
+        r.maxJavaMinorVersionNumber
+        r.ignoreClasses
+        r.includes
+        r.excludes
+        r.configurations
+        r.showErrors
+        r.ignore()
+        r.include()
+        r.exclude()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_5"><a class="anchor" href="#_properties_5"></a>3.7.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxJdkVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum target jdk version in the 1.x form (e.g. 1.6, 1.7, 1.8, 1.9 or 6, 7, 8, 9, 10, 11&#8230;&#8203;).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxJavaMajorVersionNumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Integer&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An integer indicating the maximum bytecode major version number (cannot be specified if <code>maxJdkVersion</code> is present).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxJavaMinorVersionNumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Integer&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An integer indicating the maximum bytecode minor version number (cannot be specified if <code>maxJdkVersion</code> is present)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional list of artifacts to exclude. The format is <code>groupId[:artifactId][:version][:classifier]</code> where <code>artifactId</code>,<br>
+  <code>version</code>, and <code>classifier</code> are optional. Wildcards may be used to replace an entire or just parts of a section.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with<br>
+  wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words,<br>
+  includes only subtract from artifacts that matched an exclude rule.<br>
+  For example, to ban all xerces except xerces-api you would exclude "xerces" (groupId) and include "xerces:xerces-api"</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
+  to all resolvable configurations if this property is left empty.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignoreClasses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of classes to ignore. Wildcards can be specified using the * character.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">showErrors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The rule stops on the first violation. Set this property to <code>true</code> if you want to see all violations.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Artifact pattern examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>org.apache.maven</p>
+</li>
+<li>
+<p>org.apache.maven:badArtifact</p>
+</li>
+<li>
+<p>org.apache.maven:artifact:badVersion</p>
+</li>
+<li>
+<p>org.apache.maven:*:1.2 (exclude version 1.2 and above, equivalent to [1.2,) )</p>
+</li>
+<li>
+<p>org.apache.maven:*:[1.2] (explicit exclude of version 1.2)</p>
+</li>
+<li>
+<p>org.apache.maven:*:*:test</p>
+</li>
+<li>
+<p>org.apache.*:maven-*:*</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_methods_3"><a class="anchor" href="#_methods_3"></a>3.7.4. Methods</h4>
+<div class="paragraph">
+<p><strong>ignore(String str)</strong><br>
+Adds a class to ignore for verification. Wildcards can be specified using the * character.</p>
+</div>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+<strong>exclude(Map&lt;String, String&gt; map)</strong><br>
+Adds a dependency pattern from which classes will be excluded for verification. Wildcards can be specified using the * character.<br>
+Accepted format for <code>str</code> is <code>[groupId]:[artifactId]:[version]:[classifier]</code>.<br>
+Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</code>, <code>version</code>, <code>classifier</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+<strong>include(Map&lt;String, String&gt; map)</strong><br>
+Adds a dependency pattern from which classes will be included for verification. Wildcards can be specified using the * character.<br>
+Accepted format for <code>str</code> is <code>[groupId]:[artifactId]:[version]:[classifier]</code>.<br>
+Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</code>, <code>version</code>, <code>classifier</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_5"><a class="anchor" href="#_example_5"></a>3.7.5. Example</h4>
+<div class="paragraph">
+<p>Given the following configuration found in <code>settings.gradle</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.maxJdkVersion = '1.8'
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a simple project</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.kordamp.ikonli:ikonli-javafx:11.4.0'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the build will fail with the following message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FAILURE: Build failed with an exception.
+
+* What went wrong:
+[AFTER_PROJECTS] Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered
+&gt; Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
+  Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
+  invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the enforcer configuration is changed to show all errors</p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.maxJdkVersion = '1.8'
+        r.showErrors = true
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We get a better picture on why these dependencies cause the build to fail when running the build once more</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[build-enforcer] Restricted to JDK 1.8 yet ikonli-javafx-11.4.0.jar (org.kordamp.ikonli:ikonli-javafx:11.4.0) contains org/kordamp/ikonli/javafx/FontIcon$1.class targeted to JDK 11
+[build-enforcer] Restricted to JDK 1.8 yet ikonli-core-11.4.0.jar (org.kordamp.ikonli:ikonli-core:11.4.0) contains org/kordamp/ikonli/Ikon.class targeted to JDK 11
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+[AFTER_PROJECTS] Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered
+&gt; Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
+  Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
+  invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_excludedependencies"><a class="anchor" href="#_excludedependencies"></a>3.8. ExcludeDependencies</h3>
+<div class="paragraph">
+<p>This rule excludes dependencies from all resolvable configurations.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_8"><a class="anchor" href="#_trigger_phases_8"></a>3.8.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_8"><a class="anchor" href="#_configuration_8"></a>3.8.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.ExcludeDependencies) { r -&gt;
+        r.enabled
+        r.exclude()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_methods_4"><a class="anchor" href="#_methods_4"></a>3.8.3. Methods</h4>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+<strong>exclude(Map&lt;String, String&gt; map)</strong><br>
+Adds an dependency pattern for exclusion. Wildcards can be specified using the * character.<br>
+Accepted format for <code>str</code> is <code>[groupId]:[artifactId]:[version]:[classifier]</code>.<br>
+Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</code>, <code>version</code>, <code>classifier</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_6"><a class="anchor" href="#_example_6"></a>3.8.4. Example</h4>
+<div class="paragraph">
+<p>Given the following configuration found in <code>settings.gradle</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a simple project</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build will fail with the following message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+&gt; Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can force an exclusion for <code>org.slf4j:slf4j-api:1.6.0</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+    rule(enforcer.rules.ExcludeDependencies) { r ->
+        r.exclude('org.slf4j:slf4j-api:1.6.0')
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_forcedependencies"><a class="anchor" href="#_forcedependencies"></a>3.9. ForceDependencies</h3>
+<div class="paragraph">
+<p>This rule forces dependency versions for all resolvable configurations.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_9"><a class="anchor" href="#_trigger_phases_9"></a>3.9.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_9"><a class="anchor" href="#_configuration_9"></a>3.9.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.ForceDependencies) { r -&gt;
+        r.enabled
+        r.dependencies
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_6"><a class="anchor" href="#_properties_6"></a>3.9.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;Object&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of dependencies to be forced. Accepted formats are the same when declaring dependencies in a configuration.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_7"><a class="anchor" href="#_example_7"></a>3.9.4. Example</h4>
+<div class="paragraph">
+<p>Given the following configuration found in <code>settings.gradle</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And a simple project</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build will fail with the following message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+&gt; Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can force the version of <code>org.slf4j:slf4j-api</code> to be <code>1.6.1</code></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+    rule(enforcer.rules.ForceDependencies) { r ->
+        r.dependencies.add('org.slf4j:slf4j-api:1.6.1')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then running the build to verify that the version has been forced</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ gradle dependencies --configuration=compileClasspath
+
+&gt; Task :dependencies
+
+------------------------------------------------------------
+Root project
+------------------------------------------------------------
+
+compileClasspath - Compile classpath for source set 'main'.
++--- org.slf4j:slf4j-jdk14:1.6.1
+|    \--- org.slf4j:slf4j-api:1.6.1
+\--- org.slf4j:slf4j-nop:1.6.0
+     \--- org.slf4j:slf4j-api:1.6.0 -&gt; 1.6.1
+
+(*) - dependencies omitted (listed previously)</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requireenvironmentvariable"><a class="anchor" href="#_requireenvironmentvariable"></a>3.10. RequireEnvironmentVariable</h3>
+<div class="paragraph">
+<p>This rule checks that a specified environment variable is set.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_10"><a class="anchor" href="#_trigger_phases_10"></a>3.10.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_10"><a class="anchor" href="#_configuration_10"></a>3.10.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireEnvironmentVariable) { r -&gt;
+        r.enabled
+        r.message
+        r.variableName
+        r.regex
+        r.regexMessage
+        r.displayValue
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_7"><a class="anchor" href="#_properties_7"></a>3.10.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the environment variable to be checked for.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A regular expression used to check the value of the variable.<br>
+  The regex is applied to the entire value of the variable (i.e. using the regex "match" method), and not just a substring<br>
+  of the variable&#8217;s value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regexMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayValue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the value to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">after</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to check during the <code>BEFORE_*</code> or <code>AFTER_*</code> phases.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_8"><a class="anchor" href="#_example_8"></a>3.10.4. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireEnvironmentVariable) { r -&gt;
+        r.variableName = 'SECRET_TOKEN'
+        r.regex = '[A-Za-z0-9]{16}'
+        r.displayValue = false
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilechecksum"><a class="anchor" href="#_requirefilechecksum"></a>3.11. RequireFileChecksum</h3>
+<div class="paragraph">
+<p>This rule checks that the specified file has an given checksum.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_11"><a class="anchor" href="#_configuration_11"></a>3.11.1. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireFileChecksum) { r -&gt;
+        r.enabled
+        r.message
+        r.file
+        r.checksum
+        r.type
+        r.phases
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_8"><a class="anchor" href="#_properties_8"></a>3.11.2. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;File&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The file to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checksum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected checksum</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of hashing algorithm used to calculate the checksum. May be one of ['md5', 'sha1', 'sha256', 'sha384', 'sha512'].</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilesdontexist"><a class="anchor" href="#_requirefilesdontexist"></a>3.12. RequireFilesDontExist</h3>
+<div class="paragraph">
+<p>This rule checks that the specified list of files do not exist.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_12"><a class="anchor" href="#_configuration_12"></a>3.12.1. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireFilesDontExist) { r -&gt;
+        r.enabled
+        r.message
+        r.files
+        r.allowNulls
+        r.phases
+        r.file()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_9"><a class="anchor" href="#_properties_9"></a>3.12.2. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do not exist.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods_5"><a class="anchor" href="#_methods_5"></a>3.12.3. Methods</h4>
+<div class="paragraph">
+<p><strong>file(String str)</strong><br>
+<strong>file(File file)</strong><br>
+Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_9"><a class="anchor" href="#_example_9"></a>3.12.4. Example</h4>
+<div class="paragraph">
+<p>Given the following project structure</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── secrets.txt
+└── settings.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following enforcer configuration</p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.RequireFilesDontExist) { r ->
+        r.file('secrets.txt')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the build results in an error</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>* What went wrong:
+[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered
+&gt; Some files should not exist:
+
+  /Users/joe/projects/sample/secrets.txt</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilesexist"><a class="anchor" href="#_requirefilesexist"></a>3.13. RequireFilesExist</h3>
+<div class="paragraph">
+<p>This rule checks that the specified list of files exist.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_13"><a class="anchor" href="#_configuration_13"></a>3.13.1. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireFilesExist) { r -&gt;
+        r.enabled
+        r.message
+        r.files
+        r.allowNulls
+        r.phases
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_10"><a class="anchor" href="#_properties_10"></a>3.13.2. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do exist.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods_6"><a class="anchor" href="#_methods_6"></a>3.13.3. Methods</h4>
+<div class="paragraph">
+<p><strong>file(String str)</strong><br>
+<strong>file(File file)</strong><br>
+Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_10"><a class="anchor" href="#_example_10"></a>3.13.4. Example</h4>
+<div class="paragraph">
+<p>Given the following project structure</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following enforcer configuration</p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.RequireFilesExist) { r ->
+        r.file('gradle.properties')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the build results in an error</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>* What went wrong:
+[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered
+&gt; Some required files are missing:
+
+  /Users/joe/projects/sample/gradle.properties</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilessize"><a class="anchor" href="#_requirefilessize"></a>3.14. RequireFilesSize</h3>
+<div class="paragraph">
+<p>This rule checks that the specified list of files exist and are within the specified size range.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_14"><a class="anchor" href="#_configuration_14"></a>3.14.1. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireFilesSize) { r -&gt;
+        r.enabled
+        r.message
+        r.files
+        r.maxsize
+        r.minsize
+        r.allowNulls
+        r.phases
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_11"><a class="anchor" href="#_properties_11"></a>3.14.2. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do exist.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maxsize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Long&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10_000L</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size in bytes for this file.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">minsize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Long&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0L</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum size in bytes for this file.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods_7"><a class="anchor" href="#_methods_7"></a>3.14.3. Methods</h4>
+<div class="paragraph">
+<p><strong>file(String str)</strong><br>
+<strong>file(File file)</strong><br>
+Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requiregradleproperty"><a class="anchor" href="#_requiregradleproperty"></a>3.15. RequireGradleProperty</h3>
+<div class="paragraph">
+<p>This rule checks that a specified Gradle property is set.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_11"><a class="anchor" href="#_trigger_phases_11"></a>3.15.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_15"><a class="anchor" href="#_configuration_15"></a>3.15.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireGradleProperty) { r -&gt;
+        r.enabled
+        r.message
+        r.property
+        r.regex
+        r.regexMessage
+        r.displayValue
+        r.after
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_12"><a class="anchor" href="#_properties_12"></a>3.15.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the Gradle property to be checked for.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A regular expression used to check the value of the property.<br>
+  The regex is applied to the entire value of the property (i.e. using the regex "match" method), and not just a substring<br>
+  of the property&#8217;s value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regexMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayValue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the value to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">after</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to check during the <code>BEFORE_*</code> or <code>AFTER_*</code> phases.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_11"><a class="anchor" href="#_example_11"></a>3.15.4. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireGradleProperty) { r -&gt;
+        r.property = 'somePropertyName'
+        r.regex = '[A-Za-z0-9]{16}'
+        r.displayValue = false
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requiregradleversion"><a class="anchor" href="#_requiregradleversion"></a>3.16. RequireGradleVersion</h3>
+<div class="paragraph">
+<p>This rule enforces certain Gradle versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_12"><a class="anchor" href="#_trigger_phases_12"></a>3.16.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_16"><a class="anchor" href="#_configuration_16"></a>3.16.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireGradleVersion) { r -&gt;
+        r.enabled
+        r.message
+        r.version
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_13"><a class="anchor" href="#_properties_13"></a>3.16.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Gradle versions.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirejavaversion"><a class="anchor" href="#_requirejavaversion"></a>3.17. RequireJavaVersion</h3>
+<div class="paragraph">
+<p>This rule enforces certain Java versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
+</div>
+<div class="paragraph">
+<p>The JDK version is retrieved and the following processing occurs before being checked:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop all non-numeric characters preceeding the first number. (build 1.5.0_07-b03 becomes 1.5.0_07-b03)</p>
+</li>
+<li>
+<p>Replace all '_' and '-' with '.' (1.5.0_07-b03 becomes 1.5.0.07.b03)</p>
+</li>
+<li>
+<p>Remove all non digit characters "[^0-9] and convert each section using Integer.parseInt() (1.5.0_07-b03 becomes 1.5.0.7.3)</p>
+</li>
+<li>
+<p>Split the string on '.' and take the first 3 sections, separated by '.' and add '-' followed by the fourth section (1.5.0.7.3 becomes 1.5.0-7)</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_13"><a class="anchor" href="#_trigger_phases_13"></a>3.17.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_17"><a class="anchor" href="#_configuration_17"></a>3.17.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireJavaVersion) { r -&gt;
+        r.enabled
+        r.message
+        r.version
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_14"><a class="anchor" href="#_properties_14"></a>3.17.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Java versions.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requireos"><a class="anchor" href="#_requireos"></a>3.18. RequireOS</h3>
+<div class="paragraph">
+<p>This rule can enforce certain values about the Operating System and processor architecture.
+Detects the same values as the <a href="https://github.com/trustin/os-maven-plugin">os-maven-plugin</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_14"><a class="anchor" href="#_trigger_phases_14"></a>3.18.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_18"><a class="anchor" href="#_configuration_18"></a>3.18.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireOS) { r -&gt;
+        r.enabled
+        r.message
+        r.arch
+        r.name
+        r.version
+        r.release
+        r.classifier
+        r.classifierWithLikes
+        r.failOnUnknownOS
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_15"><a class="anchor" href="#_properties_15"></a>3.18.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">arch</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected OS architecture.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected OS name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected OS version.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">release</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected OS release (Linux).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The expected OS classifier (Linux).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">classifierWithLikes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional classifiers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failOnUnknownOS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fails the build if an unsupported OS is detected.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_12"><a class="anchor" href="#_example_12"></a>3.18.4. Example</h4>
+<div class="paragraph">
+<p>The following configuration only works when the build is run on a Windows OS</p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireOS) { r -&gt;
+        r.name = 'windows'
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the build on a Mac results in a failed build</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ gradle help
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireOS' was triggered
+&gt; OS Name: osx Arch: x86_64 Version: 10.14 Classifier: osx-x86_64 is not allowed by Name=windows</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requiresystemproperty"><a class="anchor" href="#_requiresystemproperty"></a>3.19. RequireSystemProperty</h3>
+<div class="paragraph">
+<p>This rule checks that a specified System property is set.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_15"><a class="anchor" href="#_trigger_phases_15"></a>3.19.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_19"><a class="anchor" href="#_configuration_19"></a>3.19.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireSystemProperty) { r -&gt;
+        r.enabled
+        r.message
+        r.property
+        r.regex
+        r.regexMessage
+        r.displayValue
+        r.after
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_16"><a class="anchor" href="#_properties_16"></a>3.19.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the System property to be checked for.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A regular expression used to check the value of the property.<br>
+  The regex is applied to the entire value of the property (i.e. using the regex "match" method), and not just a substring<br>
+  of the property&#8217;s value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regexMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayValue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the value to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">after</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to check during the <code>BEFORE_*</code> or <code>AFTER_*</code> phases.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_13"><a class="anchor" href="#_example_13"></a>3.19.4. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireSystemProperty) { r -&gt;
+        r.property = 'somePropertyName'
+        r.regex = '[A-Za-z0-9]{16}'
+        r.displayValue = false
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_authoring"><a class="anchor" href="#_authoring"></a>4. Authoring</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_a_project"><a class="anchor" href="#_create_a_project"></a>4.1. Create a project</h3>
+<div class="paragraph">
+<p>First create a basic <code>java-library</code> project if you don&#8217;t have one already. Choose your preferred
+JVM language to implement your rules.</p>
+</div>
+<div class="listingblock primary">
+<div class="title">build.gradle (Groovy)</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">apply plugin: 'groovy'
+apply plugin: 'java-library'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.kordamp.gradle:enforcer-api:0.1.0-SNAPSHOT'
+    implementation gradleApi()
+}</code></pre>
+</div>
+</div>
+<div class="listingblock secondary">
+<div class="title">build.gradle (Java)</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">apply plugin: 'java-library'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.kordamp.gradle:enforcer-api:0.1.0-SNAPSHOT'
+    implementation gradleApi()
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_rule_class"><a class="anchor" href="#_create_a_rule_class"></a>4.2. Create a Rule class</h3>
+<div class="paragraph">
+<p>Create your rule class. The rule must implement the <a href="api/org/kordamp/gradle/plugin/enforcer/api/EnforcerRule.html">EnforcerRule</a> interface. You may rely on service injection
+as described at <a href="https://docs.gradle.org/current/userguide/custom_gradle_types.html">Developing Custom Gradle Types</a>.
+It&#8217;s suggested to use the <a href="api/org/kordamp/gradle/plugin/enforcer/api/AbstractEnforcerRule.html">AbstractEnforcerRule</a> as starting point.</p>
+</div>
+<div class="paragraph">
+<p>If the rule succeeds, it should just simply return. If the rule fails, it should throw an <a href="api/org/kordamp/gradle/plugin/enforcer/api/EnforcerRuleException.html">EnforcerRuleException</a>
+with a descriptive message telling the user why the rule failed.</p>
+</div>
+<div class="listingblock primary">
+<div class="title">com/acme/enforcer/rules/MyCustomRule.groovy</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">package com.acme.enforcer.rules
+
+import groovy.transform.CompileStatic
+import org.gradle.api.model.ObjectFactory
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
+import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
+
+@CompileStatic
+class MyCustomRule extends AbstractEnforcerRule {
+    MyCustomRule(ObjectFactory objects) {
+        super(objects)
+    }
+
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        if (context.enforcerPhase == EnforcerPhase.AFTER_BUILD) {
+            println "Everything went OK!"
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock secondary">
+<div class="title">com/acme/enforcer/rules/MyCustomRule.java</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">package com.acme.enforcer.rules;
+
+import org.gradle.api.model.ObjectFactory;
+import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException;
+
+public class MyCustomRule extends AbstractEnforcerRule {
+    public MyCustomRule(ObjectFactory objects) {
+        super(objects);
+    }
+
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        if (context.getEnforcerPhase().equals(EnforcerPhase.AFTER_BUILD)) {
+            System.out.println("Everything went OK!");
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build"><a class="anchor" href="#_build"></a>4.3. Build</h3>
+<div class="paragraph">
+<p>Build and Install, or Deploy your custom rule to a repository.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_the_enforcer_plugin"><a class="anchor" href="#_configure_the_enforcer_plugin"></a>4.4. Configure the Enforcer plugin</h3>
+<div class="paragraph">
+<p>On the consuming project, select which mode you want: <strong>build</strong> or <strong>project</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>build</strong></p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>project</strong></p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+apply plugin: 'org.kordamp.gradle.project-enforcer'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or alternatively</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+
+plugins {
+    id 'org.kordamp.gradle.project-enforcer' version '0.1.0-SNAPSHOT'
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_the_rule"><a class="anchor" href="#_configure_the_rule"></a>4.5. Configure the rule</h3>
+<div class="paragraph">
+<p>Finally configure the rule as you need it</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(com.acme.enforcer.rules.MyCustomRule)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_links"><a class="anchor" href="#_links"></a>5. Links</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="api/index.html" target="_blank" rel="noopener">Groovydoc</a></p>
+</div>
+<div class="paragraph">
+<p><a href="api-html/index.html" target="_blank" rel="noopener">Source</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 0.1.0-SNAPSHOT<br>
+Last updated 2020-04-23 14:45:44 +0200
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+</body>
+</html>
