@@ -16,7 +16,7 @@
 <h1>Enforcer Gradle Plugin</h1>
 <div class="details">
 <span id="author" class="author">Andres Almiray</span><br>
-<span id="revnumber">version 0.1.0-SNAPSHOT</span>
+<span id="revnumber">version 0.1.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -24,14 +24,14 @@
 <li><a href="#_introduction">1. Introduction</a></li>
 <li><a href="#_usage">2. Usage</a>
 <ul class="sectlevel2">
-<li><a href="#_requirements">2.1. Requirements</a></li>
-<li><a href="#_rule_dsl">2.2. Rule DSL</a>
-<ul class="sectlevel3">
-<li><a href="#_mergestrategy">2.2.1. MergeStrategy</a></li>
-<li><a href="#_enforcer_phase">2.2.2. Enforcer Phase</a></li>
-</ul>
-</li>
-<li><a href="#_version_range">2.3. Version Ranges</a></li>
+<li><a href="#_applying_the_plugin">2.1. Applying the plugin</a></li>
+<li><a href="#_requirements">2.2. Requirements</a></li>
+<li><a href="#_rule_dsl">2.3. Rule DSL</a></li>
+<li><a href="#_mergestrategy">2.4. MergeStrategy</a></li>
+<li><a href="#_enforcer_phase">2.5. Enforcer Phase</a></li>
+<li><a href="#_version_range">2.6. Version Ranges</a></li>
+<li><a href="#_system_properties">2.7. System Properties</a></li>
+<li><a href="#_comparison_to_maven">2.8. Comparison to Maven</a></li>
 </ul>
 </li>
 <li><a href="#_rules">3. Rules</a>
@@ -209,6 +209,8 @@
 <div class="sect1">
 <h2 id="_usage"><a class="anchor" href="#_usage"></a>2. Usage</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_applying_the_plugin"><a class="anchor" href="#_applying_the_plugin"></a>2.1. Applying the plugin</h3>
 <div class="paragraph">
 <p>There are two modes for applying the plugin: <strong>build</strong> and <strong>project</strong></p>
 </div>
@@ -224,7 +226,7 @@
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -249,7 +251,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.project-enforcer'
@@ -265,7 +267,7 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.1.0-SNAPSHOT'
+    id 'org.kordamp.gradle.project-enforcer' version '0.1.0'
 }
 
 enforce {
@@ -273,14 +275,15 @@ enforce {
 }</code></pre>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_requirements"><a class="anchor" href="#_requirements"></a>2.1. Requirements</h3>
+<h3 id="_requirements"><a class="anchor" href="#_requirements"></a>2.2. Requirements</h3>
 <div class="paragraph">
 <p>Java 8 and Gradle 5 are the minimum requirements to use this plugin.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rule_dsl"><a class="anchor" href="#_rule_dsl"></a>2.2. Rule DSL</h3>
+<h3 id="_rule_dsl"><a class="anchor" href="#_rule_dsl"></a>2.3. Rule DSL</h3>
 <div class="paragraph">
 <p>There are two variations of the Rule DSL depending on which mode (<strong>build</strong> or <strong>project</strong>) you are
 running the plugin</p>
@@ -379,7 +382,7 @@ Configures rules for a group of projects. Rules will be executed in the followin
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables all rules. You may override this value with a System property named <code>enforcer.enabled</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables all rules.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">failFast</p></td>
@@ -397,42 +400,63 @@ Configures rules for a group of projects. Rules will be executed in the followin
 </tr>
 </tbody>
 </table>
-<div class="sect3">
-<h4 id="_mergestrategy"><a class="anchor" href="#_mergestrategy"></a>2.2.1. MergeStrategy</h4>
+</div>
+<div class="sect2">
+<h3 id="_mergestrategy"><a class="anchor" href="#_mergestrategy"></a>2.4. MergeStrategy</h3>
 <div class="paragraph">
 <p>The <code>mergeStrategy</code> property takes effect when duplicate rule definitions are encountered during the configuration phase.
 Duplicate rule definitions may occur when configuring the enforcer using any of the two <strong>configure()</strong> variants. Once a value for
 this property is set it cannot be changed, thus it&#8217;s a good idea to set it in your build before invoking
 <strong>configure()</strong> if you need your build to have a choice in how duplicates should be handled.</p>
 </div>
-<div class="dlist horizonal">
+<div class="hdlist">
 <div class="title">Values</div>
-<dl>
-<dt>OVERRIDE</dt>
-<dd>
+<table>
+<tr>
+<td class="hdlist1">
+OVERRIDE
+</td>
+<td class="hdlist2">
 <p>The last configuration action wins. All previous configuration(s) (if any) will be discarded.</p>
-</dd>
-<dt>APPEND</dt>
-<dd>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+APPEND
+</td>
+<td class="hdlist2">
 <p>Executes all configurations on a single rule instance, in FIFO order.</p>
-</dd>
-<dt>PREPEND</dt>
-<dd>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+PREPEND
+</td>
+<td class="hdlist2">
 <p>Executes all configurations on a single rule instance, in LIFO order.</p>
-</dd>
-<dt>DUPLICATE</dt>
-<dd>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+DUPLICATE
+</td>
+<td class="hdlist2">
 <p>Creates a duplicate rule with no shared configuration.</p>
-</dd>
-<dt>DENY</dt>
-<dd>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+DENY
+</td>
+<td class="hdlist2">
 <p>Does not allow configuration to be changed. First (if any) wins.</p>
-</dd>
-</dl>
+</td>
+</tr>
+</table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_enforcer_phase"><a class="anchor" href="#_enforcer_phase"></a>2.2.2. Enforcer Phase</h4>
+<div class="sect2">
+<h3 id="_enforcer_phase"><a class="anchor" href="#_enforcer_phase"></a>2.5. Enforcer Phase</h3>
 <div class="paragraph">
 <p>Rules are invoked during phases. A single rule may trigger for more than one phase during a build.
 The following list shows all possible values and the order of invocation.</p>
@@ -504,9 +528,8 @@ If rules are configured using the <code>org.kordamp.gradle.project-enforcer</cod
 </table>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="_version_range"><a class="anchor" href="#_version_range"></a>2.3. Version Ranges</h3>
+<h3 id="_version_range"><a class="anchor" href="#_version_range"></a>2.6. Version Ranges</h3>
 <div class="paragraph">
 <p>Some rules require a version range. The following table describes the supported formats and their meanings</p>
 </div>
@@ -564,6 +587,268 @@ If rules are configured using the <code>org.kordamp.gradle.project-enforcer</cod
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>2.7. System Properties</h3>
+<div class="paragraph">
+<p>The behavior of the enforcer and configured rules can be changed with the following <code>System</code> properties</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">enforcer.enabled</dt>
+<dd>
+<p>Enables of disables all enforcer rules.</p>
+</dd>
+<dt class="hdlist1">enforcer.fail.fast</dt>
+<dd>
+<p>Fails and reports the first rule violation if set to <code>true</code> otherwise reports all rule violations within the same phase.</p>
+</dd>
+<dt class="hdlist1">enforcer.phase.&lt;phase-name&gt;.enabled</dt>
+<dd>
+<p>Enables or disables all rules in the given phase. The value of <code>phase-name</code> must be any of the <a href="#_enforcer_phase">enforcer phases</a>,
+in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
+</dd>
+<dt class="hdlist1">&lt;rule-class-name&gt;.enabled</dt>
+<dd>
+<p>Enables or disables a specific rule. The value of <code>rule-class-name</code> is the fully qualified classname of the rule.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comparison_to_maven"><a class="anchor" href="#_comparison_to_maven"></a>2.8. Comparison to Maven</h3>
+<div class="paragraph">
+<p>The following table shows rules available to both plugins</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Rule</th>
+<th class="tableblock halign-center valign-top">Maven</th>
+<th class="tableblock halign-center valign-top">Gradle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AlwaysFail</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AlwaysPass</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BanCircularDependencies</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BanDistributionManagement</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BanDuplicateClasses</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BanDuplicatePomDependencyVersions</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BannedDependencies</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BannedPlugins</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BannedRepositories</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BanTransitiveDependencies</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DependencyConvergence</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EnforceBytecodeVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EvaluateBeanshell</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ExcludeDependencies</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ForceDependencies</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReactorModuleConvergence</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireActiveProfile</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireContributorRoles</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireDeveloperRoles</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireEncoding</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireEnvironmentVariable</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFileChecksum</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesDontExist</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesExist</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesSize</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireGradleProperty</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireGradleVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireJavaVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireMavenVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireNoRepositories</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireOS</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequirePluginVersions</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequirePrerequisite</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireProfileIdsExist</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireProperty</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequirePropertyDiverges</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireReleaseDeps</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireReleaseVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireSnapshotVersion</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireSameVersions</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireSystemProperty</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireUpperBoundDeps</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See <a href="https://maven.apache.org/enforcer/enforcer-rules/index.html">Maven enforcer rules</a>, <a href="https://www.mojohaus.org/extra-enforcer-rules/index.html">Maven extra enforcer rules</a> for reference.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1283,7 +1568,7 @@ that can be resolved.</p>
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1577,7 +1862,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1616,8 +1901,10 @@ dependencies {
 <pre>FAILURE: Build failed with an exception.
 
 * What went wrong:
-[AFTER_PROJECTS] Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered
-&gt; Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+[AFTER_PROJECTS] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered.
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
   Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
   Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
   invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.</pre>
@@ -1634,7 +1921,7 @@ dependencies {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1658,8 +1945,10 @@ enforce {
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-[AFTER_PROJECTS] Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered
-&gt; Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+[AFTER_PROJECTS] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered.
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
   Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
   Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
   invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.</pre>
@@ -1721,7 +2010,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1779,7 +2068,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1868,7 +2157,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1926,7 +2215,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2272,7 +2561,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2290,8 +2579,10 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre>* What went wrong:
-[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered
-&gt; Some files should not exist:
+[BEFORE_BUILD] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered.
+  Some files should not exist:
 
   /Users/joe/projects/sample/secrets.txt</pre>
 </div>
@@ -2407,7 +2698,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2425,8 +2716,10 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre>* What went wrong:
-[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered
-&gt; Some required files are missing:
+[BEFORE_BUILD] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.RequireFilesExist' was triggered.
+  Some required files are missing:
 
   /Users/joe/projects/sample/gradle.properties</pre>
 </div>
@@ -2947,8 +3240,10 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-[BEFORE_BUILD] Enforcer rule 'enforcer.rules.RequireOS' was triggered
-&gt; OS Name: osx Arch: x86_64 Version: 10.14 Classifier: osx-x86_64 is not allowed by Name=windows</pre>
+[BEFORE_BUILD] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.RequireOS' was triggered.
+  OS Name: osx Arch: x86_64 Version: 10.14 Classifier: osx-x86_64 is not allowed by Name=windows</pre>
 </div>
 </div>
 </div>
@@ -3094,12 +3389,15 @@ JVM language to implement your rules.</p>
 <pre class="prettyprint highlight"><code data-lang="groovy">apply plugin: 'groovy'
 apply plugin: 'java-library'
 
+group   = 'com.acme'
+version = '1.2.3'
+
 repositories {
     jcenter()
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.1.0-SNAPSHOT'
+    api 'org.kordamp.gradle:enforcer-api:0.1.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -3109,12 +3407,15 @@ dependencies {
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">apply plugin: 'java-library'
 
+group   = 'com.acme'
+version = '1.2.3'
+
 repositories {
     jcenter()
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.1.0-SNAPSHOT'
+    api 'org.kordamp.gradle:enforcer-api:0.1.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -3205,7 +3506,7 @@ public class MyCustomRule extends AbstractEnforcerRule {
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3224,7 +3525,7 @@ apply plugin: 'org.kordamp.gradle.enforcer'</code></pre>
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0-SNAPSHOT'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.1.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3247,7 +3548,7 @@ apply plugin: 'org.kordamp.gradle.project-enforcer'</code></pre>
 }
 
 plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.1.0-SNAPSHOT'
+    id 'org.kordamp.gradle.project-enforcer' version '0.1.0'
 }</code></pre>
 </div>
 </div>
@@ -3281,7 +3582,7 @@ plugins {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1.0-SNAPSHOT<br>
+Version 0.1.0<br>
 Last updated 2020-04-23 14:45:44 +0200
 </div>
 </div>

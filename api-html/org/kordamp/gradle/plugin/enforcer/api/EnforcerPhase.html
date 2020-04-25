@@ -56,13 +56,19 @@ EnforcerPhase.groovy
 <a name="25"><font color="#808080">25</font>&nbsp;</a><font color="#ffffff">&nbsp;</font><font color="#008000">*/</font><br />
 <a name="26"><font color="#808080">26</font>&nbsp;</a><font color="#646464">@CompileStatic</font><br />
 <a name="27"><font color="#808080">27</font>&nbsp;</a><font color="#0000c0"><b>enum&nbsp;</b></font><font color="#000000">EnforcerPhase&nbsp;</font><font color="#000000">{</font><br />
-<a name="28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_BUILD,</font><br />
-<a name="29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_PROJECTS,</font><br />
-<a name="30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_PROJECT,</font><br />
-<a name="31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_PROJECT,</font><br />
-<a name="32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_PROJECTS,</font><br />
-<a name="33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_BUILD</font><br />
-<a name="34"><font color="#808080">34</font>&nbsp;</a><font color="#000000">}</font></code>
+<a name="28"><font color="#808080">28</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;After&nbsp;`Settings`&nbsp;have&nbsp;been&nbsp;evaluated&nbsp;and&nbsp;before&nbsp;any&nbsp;projects&nbsp;are&nbsp;loaded.&nbsp;*/</font><br />
+<a name="29"><font color="#808080">29</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_BUILD,</font><br />
+<a name="30"><font color="#808080">30</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;When&nbsp;projects&nbsp;have&nbsp;been&nbsp;loaded&nbsp;and&nbsp;before&nbsp;any&nbsp;is&nbsp;evaluated.&nbsp;*/</font><br />
+<a name="31"><font color="#808080">31</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_PROJECTS,</font><br />
+<a name="32"><font color="#808080">32</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;When&nbsp;a&nbsp;project&nbsp;is&nbsp;about&nbsp;to&nbsp;be&nbsp;evaluated.&nbsp;*/</font><br />
+<a name="33"><font color="#808080">33</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">BEFORE_PROJECT,</font><br />
+<a name="34"><font color="#808080">34</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;When&nbsp;a&nbsp;project&nbsp;has&nbsp;been&nbsp;evaluated.&nbsp;*/</font><br />
+<a name="35"><font color="#808080">35</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_PROJECT,</font><br />
+<a name="36"><font color="#808080">36</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;When&nbsp;all&nbsp;projects&nbsp;have&nbsp;been&nbsp;evaluated.&nbsp;*/</font><br />
+<a name="37"><font color="#808080">37</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_PROJECTS,</font><br />
+<a name="38"><font color="#808080">38</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#008000">/**&nbsp;When&nbsp;the&nbsp;build&nbsp;finishes.&nbsp;*/</font><br />
+<a name="39"><font color="#808080">39</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">AFTER_BUILD</font><br />
+<a name="40"><font color="#808080">40</font>&nbsp;</a><font color="#000000">}</font></code>
     
    </td>
   <!-- end source code -->
