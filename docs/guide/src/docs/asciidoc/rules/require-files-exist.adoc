@@ -1,0 +1,114 @@
+
+= RequireFilesExist
+
+This rule checks that the specified list of files exist.
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireFilesExist) { r ->
+        r.enabled
+        r.message
+        r.files
+        r.allowNulls
+        r.phases
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| allowNulls
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| If null files should be allowed. If allowed, they will be treated as if they do exist.
+
+| files
+| Property<String>
+|
+| {icon_req_y}
+| A list of files to be checked.
+
+| phases
+| ListProperty<EnforcerPhase>
+| `[BEFORE_BUILD]`
+| {icon_req_n}
+| The list of phases where the check should be run.
+
+|===
+
+== Methods
+
+*file(String str)* +
+*file(File file)* +
+Adds a file to the list of files to be checked. Path may be relative or absolute.
+
+== Example
+
+Given the following project structure
+
+[source]
+----
+.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle
+----
+
+And the following enforcer configuration
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.RequireFilesExist) { r ->
+        r.file('gradle.properties')
+    }
+}
+----
+
+Running the build results in an error
+
+----
+* What went wrong:
+[BEFORE_BUILD] A Enforcer rule has failed
+>
+  Enforcer rule 'enforcer.rules.RequireFilesExist' was triggered.
+  Some required files are missing:
+
+  /Users/joe/projects/sample/gradle.properties
+----
+

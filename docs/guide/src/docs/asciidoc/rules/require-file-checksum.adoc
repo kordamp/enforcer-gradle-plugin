@@ -1,0 +1,62 @@
+
+= RequireFileChecksum
+
+This rule checks that the specified file has an given checksum.
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireFileChecksum) { r ->
+        r.enabled
+        r.message
+        r.file
+        r.checksum
+        r.type
+        r.phases
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| file
+| Property<File>
+|
+| {icon_req_y}
+| The file to be checked.
+
+| checksum
+| Property<String>
+|
+| {icon_req_y}
+| The expected checksum
+
+| type
+| Property<String>
+|
+| {icon_req_y}
+| Type of hashing algorithm used to calculate the checksum. May be one of ['md5', 'sha1', 'sha256', 'sha384', 'sha512'].
+
+| phases
+| ListProperty<EnforcerPhase>
+| `[BEFORE_BUILD]`
+| {icon_req_n}
+| The list of phases where the check should be run.
+
+|===

@@ -1,0 +1,52 @@
+= yguard-gradle-plugin
+:linkattrs:
+:project-owner:   kordamp
+:project-repo:    maven
+:project-name:    kordamp-parentpom
+:project-name:    yguard-gradle-plugin
+:project-group:   org.kordamp.gradle
+:project-version: 0.1.0
+
+image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
+image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
+image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
+image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/user?u=6609318"]
+
+---
+
+A Gradle plugin for link:https://www.yworks.com/products/yguard[yGuard]
+
+== Usage
+
+Option #1
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{project-group}.yguard'
+----
+
+Option #2
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id '{project-group}.yguard' version '{project-version}'
+}
+----
+
+Refer to the link:http://{project-owner}.github.io/{project-name}[guide, window="_blank"] for further information on configuration
+and usage.
+
+== Requirements
+
+ * Java 8
+ * Gradle 5+

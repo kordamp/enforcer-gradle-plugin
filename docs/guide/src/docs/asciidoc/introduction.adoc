@@ -1,0 +1,5 @@
+
+= Introduction
+
+Enforce build and project settings. A port of the popular {link_maven_enforcer_plugin}.
+

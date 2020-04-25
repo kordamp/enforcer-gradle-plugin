@@ -1,0 +1,110 @@
+
+= ExcludeDependencies
+
+This rule excludes dependencies from all resolvable configurations.
+
+== Trigger Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.ExcludeDependencies) { r ->
+        r.enabled
+        r.exclude()
+    }
+}
+----
+
+== Methods
+
+*exclude(String str)* +
+*exclude(Map<String, String> map)* +
+Adds an dependency pattern for exclusion. Wildcards can be specified using the * character. +
+Accepted format for `str` is `[groupId]:[artifactId]:[version]:[classifier]`. +
+Accepted keys for `map` are `groupId`, `artifactId`, `version`, `classifier`.
+
+== Example
+
+Given the following configuration found in `settings.gradle`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}
+----
+
+And a simple project
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}
+----
+
+The build will fail with the following message
+
+----
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+> Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.
+----
+
+We can force an exclusion for `org.slf4j:slf4j-api:1.6.0`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+    rule(enforcer.rules.ExcludeDependencies) { r ->
+        r.exclude('org.slf4j:slf4j-api:1.6.0')
+    }
+}
+----

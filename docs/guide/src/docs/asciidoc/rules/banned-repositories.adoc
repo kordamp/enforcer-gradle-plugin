@@ -1,0 +1,66 @@
+
+= BannedRepositories
+
+This rule checks whether the build or project include a specified banned repository.
+
+== Trigger Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.BannedRepositories) { r ->
+        r.enabled
+        r.mavenLocalAllowed
+        r.bannedRepositories
+        r.allowedRepositories
+    }
+}
+----
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| mavenLocalAllowed
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Whether usage of the local Maven repository is allowed or not.
+
+| bannedRepositories
+| ListProperty<String>
+| `[]`
+| {icon_req_c}
+| Specify banned non-plugin repositories. This is a black list of http/https url patterns.
+
+| allowedRepositories
+| ListProperty<String>
+| `[]`
+| {icon_req_c}
+| Specify explicitly allowed non-plugin repositories. This is a white list of http/https url patterns.
+
+|===
+
+== Example
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.BannedRepositories) { r ->
+        // ban the following repository
+        r.bannedRepositories.add('http://repo1/*')
+        // for some cases, white list is more effective
+        r.allowedRepositories.add('http://repo2/*')
+    }
+}
+----
+

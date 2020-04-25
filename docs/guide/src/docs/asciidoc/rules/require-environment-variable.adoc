@@ -1,0 +1,88 @@
+
+= RequireEnvironmentVariable
+
+This rule checks that a specified environment variable is set.
+
+== Trigger Phases
+* BEFORE_BUILD
+* AFTER_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireEnvironmentVariable) { r ->
+        r.enabled
+        r.message
+        r.variableName
+        r.regex
+        r.regexMessage
+        r.displayValue
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| property
+| Property<String>
+|
+| {icon_req_y}
+| The name of the environment variable to be checked for.
+
+| regex
+| Property<String>
+|
+| {icon_req_n}
+| A regular expression used to check the value of the variable. +
+  The regex is applied to the entire value of the variable (i.e. using the regex "match" method), and not just a substring +
+  of the variable's value.
+
+| regexMessage
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to the user if the regex check fails.
+
+| displayValue
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Displays the value to the user if the regex check fails.
+
+| after
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Whether to check during the `BEFORE_*` or `AFTER_*` phases.
+
+|===
+
+== Example
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireEnvironmentVariable) { r ->
+        r.variableName = 'SECRET_TOKEN'
+        r.regex = '[A-Za-z0-9]{16}'
+        r.displayValue = false
+    }
+}
+----

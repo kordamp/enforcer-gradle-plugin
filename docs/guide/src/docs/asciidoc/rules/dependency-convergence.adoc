@@ -1,0 +1,179 @@
+
+= DependencyConvergence
+
+This rule requires that dependency version numbers converge. If a project has two dependencies, A and B, both depending
+on the same artifact, C, this rule will fail the build if A depends on a different version of C than the version of C
+depended on by B.
+
+This rule also configures additional settings applicable to the `resolutionStrategy` property of all `Configuration` instances
+that can be resolved.
+
+== Trigger Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.DependencyConvergence) { r ->
+        r.enabled
+        r.failOnDynamicVersions
+        r.failOnChangingVersions
+        r.failOnNonReproducibleResolution
+        r.activateDependencyLocking
+        r.deactivateDependencyLocking
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| failOnDynamicVersions
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Gradle will make sure that no dynamic version was used in the resulting dependency graph. In practice, it means that if +
+  the resolved dependency graph contains a module and that the versions participating in the selection of that module +
+  contain at least one dynamic version, then resolution will fail if the resolution result can change because of this +
+  version selector. This can be used in cases you want to make sure your build is reproducible, _without_ relying on +
+  dependency locking. +
+  *Requires Gradle 6.1+*
+
+| failOnChangingVersions
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Gradle will make sure that no changing version participates in resolution. This can be used in cases you want to make +
+  sure your build is reproducible, _without_ relying on dependency locking. +
+  *Requires Gradle 6.1+*
+
+| failOnNonReproducibleResolution
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Configures Gradle to fail the build is the resolution result is expected to be unstable, that is to say that it includes +
+  dynamic versions or changing versions and therefore the result may change depending on when the build is executed. +
+  Setting this property is equivalent to settings both `failOnDynamicVersions` and `failOnChangingVersions`. +
+  *Requires Gradle 6.1+*
+
+| activateDependencyLocking
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Activates dependency locking support in Gradle. Once turned on on a configuration, resolution result can be saved and +
+  then reused for subsequent builds. This enables reproducible builds when using dynamic versions.
+
+| deactivateDependencyLocking
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Deactivates dependency locking support in Gradle. +
+  *Requires Gradle 6.0+*
+
+|===
+
+== Example
+
+Given the following configuration found in `settings.gradle`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}
+----
+
+And a simple project
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}
+----
+
+The build will fail with the following message
+
+----
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+> Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.
+----
+
+You'll have to temporarily disable this rule in order to invoke the suggested command, like so
+
+----
+$ gradle -Denforcer.rules.DependencyConvergence.enabled=false \
+         :dependencyInsight --configuration compileClasspath \
+          --dependency org.slf4j:slf4j-api
+
+> Task :dependencyInsight
+org.slf4j:slf4j-api:1.6.1
+   variant "compile" [
+      org.gradle.status              = release (not requested)
+      org.gradle.usage               = java-api
+      org.gradle.libraryelements     = jar (compatible with: classes)
+      org.gradle.category            = library (not requested)
+
+      Requested attributes not found in the selected variant:
+         org.gradle.dependency.bundling = external
+         org.gradle.jvm.version         = 8
+   ]
+   Selection reasons:
+      - By conflict resolution : between versions 1.6.1 and 1.6.0
+
+org.slf4j:slf4j-api:1.6.1
+\--- org.slf4j:slf4j-jdk14:1.6.1
+     \--- compileClasspath
+
+org.slf4j:slf4j-api:1.6.0 -> 1.6.1
+\--- org.slf4j:slf4j-nop:1.6.0
+     \--- compileClasspath
+----
+
+You may exclude the offending dependency, either by manually adding an exclusion (doing so in this example it's trivial)
+or enabling the `<<ExcludeDependencies>>` rule (affecting all configurations). You may also force the version of
+slf4j-api with the `<<ForceDependencies>>` rule (affecting all configurations).
+

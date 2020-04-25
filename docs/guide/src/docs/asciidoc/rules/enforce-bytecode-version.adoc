@@ -1,0 +1,233 @@
+
+= EnforceBytecodeVersion
+
+This rule checks the dependencies transitively and fails if any class of any dependency is having its bytecode version
+higher than the one specified.
+
+NOTE: The following exclusions are enabled by default: `module-info`, `META-INF/versions/(\d+)/.*`
+
+== Trigger Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.enabled
+        r.maxJdkVersion
+        r.maxJavaMajorVersionNumber
+        r.maxJavaMinorVersionNumber
+        r.ignoreClasses
+        r.includes
+        r.excludes
+        r.configurations
+        r.showErrors
+        r.ignore()
+        r.include()
+        r.exclude()
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| maxJdkVersion
+| Property<String>
+|
+| {icon_req_c}
+| The maximum target jdk version in the 1.x form (e.g. 1.6, 1.7, 1.8, 1.9 or 6, 7, 8, 9, 10, 11...).
+
+| maxJavaMajorVersionNumber
+| Property<Integer>
+|
+| {icon_req_c}
+| An integer indicating the maximum bytecode major version number (cannot be specified if `maxJdkVersion` is present).
+
+| maxJavaMinorVersionNumber
+| Property<Integer>
+| `0`
+| {icon_req_c}
+| An integer indicating the maximum bytecode minor version number (cannot be specified if `maxJdkVersion` is present)
+
+| excludes
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| An optional list of artifacts to exclude. The format is `groupId[:artifactId][:version][:classifier]` where `artifactId`, +
+  `version`, and `classifier` are optional. Wildcards may be used to replace an entire or just parts of a section.
+
+| includes
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| An optional list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with +
+  wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words, +
+  includes only subtract from artifacts that matched an exclude rule. +
+  For example, to ban all xerces except xerces-api you would exclude "xerces" (groupId) and include "xerces:xerces-api"
+
+| configurations
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies +
+  to all resolvable configurations if this property is left empty.
+
+| ignoreClasses
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| A list of classes to ignore. Wildcards can be specified using the * character.
+
+| showErrors
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| The rule stops on the first violation. Set this property to `true` if you want to see all violations.
+
+|===
+
+Artifact pattern examples:
+
+* org.apache.maven
+* org.apache.maven:badArtifact
+* org.apache.maven:artifact:badVersion
+* org.apache.maven:*:1.2 (exclude version 1.2 and above, equivalent to [1.2,) )
+* org.apache.maven:*:[1.2] (explicit exclude of version 1.2)
+* org.apache.maven:*:*:test
+* org.apache.+*+:maven-+*+:*
+
+== Methods
+
+*ignore(String str)* +
+Adds a class to ignore for verification. Wildcards can be specified using the * character.
+
+*exclude(String str)* +
+*exclude(Map<String, String> map)* +
+Adds a dependency pattern from which classes will be excluded for verification. Wildcards can be specified using the * character. +
+Accepted format for `str` is `[groupId]:[artifactId]:[version]:[classifier]`. +
+Accepted keys for `map` are `groupId`, `artifactId`, `version`, `classifier`.
+
+*include(String str)* +
+*include(Map<String, String> map)* +
+Adds a dependency pattern from which classes will be included for verification. Wildcards can be specified using the * character. +
+Accepted format for `str` is `[groupId]:[artifactId]:[version]:[classifier]`. +
+Accepted keys for `map` are `groupId`, `artifactId`, `version`, `classifier`.
+
+== Example
+
+Given the following configuration found in `settings.gradle`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.maxJdkVersion = '1.8'
+    }
+}
+----
+
+And a simple project
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.kordamp.ikonli:ikonli-javafx:11.4.0'
+}
+----
+
+Running the build will fail with the following message
+
+----
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+[AFTER_PROJECTS] A Enforcer rule has failed
+>
+  Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered.
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
+  Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
+  invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.
+----
+
+If the enforcer configuration is changed to show all errors
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.maxJdkVersion = '1.8'
+        r.showErrors = true
+    }
+}
+----
+
+We get a better picture on why these dependencies cause the build to fail when running the build once more
+
+----
+[build-enforcer] Restricted to JDK 1.8 yet ikonli-javafx-11.4.0.jar (org.kordamp.ikonli:ikonli-javafx:11.4.0) contains org/kordamp/ikonli/javafx/FontIcon$1.class targeted to JDK 11
+[build-enforcer] Restricted to JDK 1.8 yet ikonli-core-11.4.0.jar (org.kordamp.ikonli:ikonli-core:11.4.0) contains org/kordamp/ikonli/Ikon.class targeted to JDK 11
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+[AFTER_PROJECTS] A Enforcer rule has failed
+>
+  Enforcer rule 'enforcer.rules.EnforceBytecodeVersion' was triggered.
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-javafx:11.4.0
+  Found Banned Dependency: org.kordamp.ikonli:ikonli-core:11.4.0
+  Disable this rule temporarily with -Denforcer.rules.EnforceBytecodeVersion.enabled=false and
+  invoke 'dependencyInsight' or 'dependencies' to locate the source of the banned dependencies.
+----
+

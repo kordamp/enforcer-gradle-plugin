@@ -1,0 +1,12 @@
+
+:link_maven_enforcer_plugin: link:https://maven.apache.org/enforcer/maven-enforcer-plugin/index.html[maven-enforcer-plugin]
+:link_maven_enforcer_rules: link:https://maven.apache.org/enforcer/enforcer-rules/index.html[Maven enforcer rules]
+:link_maven_extra_enforcer_rules: link:https://www.mojohaus.org/extra-enforcer-rules/index.html[Maven extra enforcer rules]
+:link_api_EnforcerRule: link:api/org/kordamp/gradle/plugin/enforcer/api/EnforcerRule.html[EnforcerRule]
+:link_api_AbstractEnforcerRule: link:api/org/kordamp/gradle/plugin/enforcer/api/AbstractEnforcerRule.html[AbstractEnforcerRule]
+:link_api_EnforcerRuleException: link:api/org/kordamp/gradle/plugin/enforcer/api/EnforcerRuleException.html[EnforcerRuleException]
+
+:icon_req_y: icon:check[role="green"]
+:icon_req_n: icon:times[role="red"]
+:icon_req_c: icon:exclamation-triangle[role="yellow"]
+

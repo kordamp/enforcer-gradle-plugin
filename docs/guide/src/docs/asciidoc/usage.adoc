@@ -1,0 +1,412 @@
+
+= Usage
+
+== Applying the plugin
+
+There are two modes for applying the plugin: *build* and *project*
+
+.Build
+
+Add the following to your `settings.gradle` file
+
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    // configure rules
+}
+----
+
+.Project
+
+Add the following to a project build file (`build.gradle`)
+
+Option #1
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{project-plugin-id}'
+
+enforce {
+    // configure rules
+}
+----
+
+Option #2
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id '{project-plugin-id}' version '{project-version}'
+}
+
+enforce {
+    // configure rules
+}
+----
+
+== Requirements
+
+Java 8 and Gradle 5 are the minimum requirements to use this plugin.
+
+== Rule DSL
+
+There are two variations of the Rule DSL depending on which mode (*build* or *project*) you are
+running the plugin
+
+.Build
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    <<_dsl_configure_build,configure>>()
+    <<_dsl_rule_build,rule>>()
+    <<_dsl_allprojects,allprojects>> {
+        <<_dsl_rule_build,rule>>()
+    }
+    <<_dsl_project,project>>() {
+        <<_dsl_rule_build,rule>>()
+    }
+    <<_dsl_projects,projects>>() {
+        <<_dsl_rule_build,rule>>()
+    }
+}
+----
+
+.Project
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    <<_dsl_configure_project,configure>>()
+    <<_dsl_rule_project,rule>>()
+}
+----
+
+.Methods
+
+[[_dsl_configure_build]]
+*void configure(Class<? extends Action<? extends BuildEnforcerExtension>> configurerClass)* +
+Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds.
+
+[[_dsl_configure_project]]
+*void configure(Class<? extends Action<? extends ProjectEnforcerExtension>> configurerClass)* +
+Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds.
+
+[[_dsl_rule_build]]
+*<R extends EnforcerRule> void rule(Class<R> ruleType)* +
+*<R extends EnforcerRule> void rule(Class<R> ruleType, Action<R> configurer)* +
+Defines a rule for the build. Use the `configurer` variant if you need to configure the rule. Note that this configuration
+will be applied lazily, that is, when the rule is about to be invoked. +
+Rules will be executed in the following phases:
+`BEFORE_BUILD`, `BEFORE_PROJECT`, `AFTER_PROJECT`, `PROJECTS_EVALUATED`, `AFTER_BUILD`.
+
+[[_dsl_rule_project]]
+*<R extends EnforcerRule> void rule(Class<R> ruleType)* +
+*<R extends EnforcerRule> void rule(Class<R> ruleType, Action<R> configurer)* +
+Defines a rule for the current project. Use the `configurer` variant if you need to configure the rule. Note that this configuration
+will be applied lazily, that is, when the rule is about to be invoked. +
+Rules will be executed in the following phases:
+`BEFORE_PROJECT`, `AFTER_PROJECT`.
+
+[[_dsl_allprojects]]
+*void allprojects(Action<? extends EnforcerRuleConfiguration> configurer)* +
+Configures rules for all projects. Rules will be executed in the following phases:
+`BEFORE_PROJECT`, `AFTER_PROJECT`.
+
+[[_dsl_project]]
+*void project(String projectPath, Action<? extends EnforcerRuleConfiguration> configurer)* +
+Configures rules for a single project. Rules will be executed in the following phases:
+`BEFORE_PROJECT`, `AFTER_PROJECT`.
+
+[[_dsl_projects]]
+*void projects(List<String> projectPaths, Action<? extends EnforcerRuleConfiguration> configurer)* +
+Configures rules for a group of projects. Rules will be executed in the following phases:
+`BEFORE_PROJECT`, `AFTER_PROJECT`.
+
+.Properties
+
+The DSL exposes the following properties regardless of the mode choice
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name          | Type              | Default                | Required     | Description
+| enabled       | Property<Boolean> | `true`                 | {icon_req_n} | Enables or disables all rules.
+| failFast      | Property<Boolean> | `true`                 | {icon_req_n} | Fails and reports the first rule violation if set to `true` otherwise reports all rule violations within the same phase.
+| mergeStrategy | MergeStrategy     | MergeStrategy.OVERRIDE | {icon_req_n} | Controls how duplicate rule definitions should be handled.
+|===
+
+== MergeStrategy
+
+The `mergeStrategy` property takes effect when duplicate rule definitions are encountered during the configuration phase.
+Duplicate rule definitions may occur when configuring the enforcer using any of the two *configure()* variants. Once a value for
+this property is set it cannot be changed, thus it's a good idea to set it in your build before invoking
+*configure()* if you need your build to have a choice in how duplicates should be handled.
+
+.Values
+[horizontal]
+OVERRIDE:: The last configuration action wins. All previous configuration(s) (if any) will be discarded.
+APPEND:: Executes all configurations on a single rule instance, in FIFO order.
+PREPEND:: Executes all configurations on a single rule instance, in LIFO order.
+DUPLICATE:: Creates a duplicate rule with no shared configuration.
+DENY:: Does not allow configuration to be changed. First (if any) wins.
+
+[[_enforcer_phase]]
+== Enforcer Phase
+
+Rules are invoked during phases. A single rule may trigger for more than one phase during a build.
+The following list shows all possible values and the order of invocation.
+
+.Values
+[horizontal]
+BEFORE_BUILD:: After `Settings` have been evaluated and before any projects are loaded.
+BEFORE_PROJECTS:: When projects have been loaded and before any is evaluated.
+BEFORE_PROJECT:: When a project is about to be evaluated.
+AFTER_PROJECT:: When a project has been evaluated.
+AFTER_PROJECTS:: When all projects have been evaluated.
+AFTER_BUILD:: When the build finishes.
+
+WARNING: If rules are configured using the `{project-plugin-id}` plugin then they will only trigger during the
+`BEFORE_PROJECT` (if project is not Root), `AFTER_PROJECT`, `AFTER_PROJECTS`, and `AFTER_BUILD` phases.
+
+[[_version_range]]
+== Version Ranges
+
+Some rules require a version range. The following table describes the supported formats and their meanings
+
+[options="header"]
+|===
+| Range         | Meaning
+| 1.0           | x >= 1.0
+| (,1.0]        | x <= 1.0
+| (,1.0)        | x < 1.0
+| [1.0]         | x == 1.0
+| [1.0,)        | x >= 1.0
+| (1.0,)        | x > 1.0
+| (1.0,2.0)     |1.0 < x < 2.0
+| [1.0,2.0]     |1.0 <= x <= 2.0
+| (,1.0],[1.2,) |x <= 1.0 or x >= 1.2. Multiple sets are comma-separated
+| (,1.1),(1.1,) |x != 1.1
+|===
+
+== System Properties
+
+The behavior of the enforcer and configured rules can be changed with the following `System` properties
+
+enforcer.enabled::
+Enables of disables all enforcer rules.
+
+enforcer.fail.fast::
+Fails and reports the first rule violation if set to `true` otherwise reports all rule violations within the same phase.
+
+enforcer.phase.<phase-name>.enabled::
+Enables or disables all rules in the given phase. The value of `phase-name` must be any of the <<_enforcer_phase,enforcer phases>>,
+in lower case; a `.` may be used instead of `_`.
+
+<rule-class-name>.enabled::
+Enables or disables a specific rule. The value of `rule-class-name` is the fully qualified classname of the rule.
+
+== Comparison to Maven
+
+The following table shows rules available to both plugins
+
+[%header, cols="2,^,^"]
+|===
+| Rule
+| Maven
+| Gradle
+
+| AlwaysFail
+| {icon_req_y}
+| {icon_req_y}
+
+| AlwaysPass
+| {icon_req_y}
+| {icon_req_y}
+
+| BanCircularDependencies
+| {icon_req_y}
+| {icon_req_n}
+
+| BanDistributionManagement
+| {icon_req_y}
+| {icon_req_n}
+
+| BanDuplicateClasses
+| {icon_req_y}
+| {icon_req_y}
+
+| BanDuplicatePomDependencyVersions
+| {icon_req_y}
+| {icon_req_n}
+
+| BannedDependencies
+| {icon_req_y}
+| {icon_req_y}
+
+| BannedPlugins
+| {icon_req_y}
+| {icon_req_n}
+
+| BannedRepositories
+| {icon_req_y}
+| {icon_req_y}
+
+| BanTransitiveDependencies
+| {icon_req_y}
+| {icon_req_n}
+
+| DependencyConvergence
+| {icon_req_y}
+| {icon_req_y}
+
+| EnforceBytecodeVersion
+| {icon_req_y}
+| {icon_req_y}
+
+| EvaluateBeanshell
+| {icon_req_y}
+| {icon_req_n}
+
+| ExcludeDependencies
+| {icon_req_n}
+| {icon_req_y}
+
+| ForceDependencies
+| {icon_req_n}
+| {icon_req_y}
+
+| ReactorModuleConvergence
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireActiveProfile
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireContributorRoles
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireDeveloperRoles
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireEncoding
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireEnvironmentVariable
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireFileChecksum
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireFilesDontExist
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireFilesExist
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireFilesSize
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireGradleProperty
+| {icon_req_n}
+| {icon_req_y}
+
+| RequireGradleVersion
+| {icon_req_n}
+| {icon_req_y}
+
+| RequireJavaVersion
+| {icon_req_y}
+| {icon_req_y}
+
+| RequireMavenVersion
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireNoRepositories
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireOS
+| {icon_req_y}
+| {icon_req_y}
+
+| RequirePluginVersions
+| {icon_req_y}
+| {icon_req_n}
+
+| RequirePrerequisite
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireProfileIdsExist
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireProperty
+| {icon_req_y}
+| {icon_req_n}
+
+| RequirePropertyDiverges
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireReleaseDeps
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireReleaseVersion
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireSnapshotVersion
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireSameVersions
+| {icon_req_y}
+| {icon_req_n}
+
+| RequireSystemProperty
+| {icon_req_n}
+| {icon_req_y}
+
+| RequireUpperBoundDeps
+| {icon_req_y}
+| {icon_req_n}
+|===
+
+See {link_maven_enforcer_rules}, {link_maven_extra_enforcer_rules} for reference.
+
+

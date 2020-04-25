@@ -1,0 +1,41 @@
+
+= Rules
+
+.Properties
+All rules share the following properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name    | Type              | Default | Required     | Description
+| enabled | Property<Boolean> | `true`  | {icon_req_n} | Enables or disables the rule. Can be overridden using a `System` property whose key follows the pattern
+`<fullyQualifiedClassName>.enabled`.
+|===
+
+NOTE: The following icons indicate the required state of a property: +
+{icon_req_y} required +
+{icon_req_n} optional +
+{icon_req_c} conditionally required
+
+:leveloffset: 2
+
+include::{includedir}/rules/always-fail.adoc[]
+include::{includedir}/rules/always-pass.adoc[]
+include::{includedir}/rules/ban-duplicate-classes.adoc[]
+include::{includedir}/rules/banned-dependencies.adoc[]
+include::{includedir}/rules/banned-repositories.adoc[]
+include::{includedir}/rules/dependency-convergence.adoc[]
+include::{includedir}/rules/enforce-bytecode-version.adoc[]
+include::{includedir}/rules/exclude-dependencies.adoc[]
+include::{includedir}/rules/force-dependencies.adoc[]
+include::{includedir}/rules/require-environment-variable.adoc[]
+include::{includedir}/rules/require-file-checksum.adoc[]
+include::{includedir}/rules/require-files-dont-exist.adoc[]
+include::{includedir}/rules/require-files-exist.adoc[]
+include::{includedir}/rules/require-files-size.adoc[]
+include::{includedir}/rules/require-gradle-property.adoc[]
+include::{includedir}/rules/require-gradle-version.adoc[]
+include::{includedir}/rules/require-java-version.adoc[]
+include::{includedir}/rules/require-os.adoc[]
+include::{includedir}/rules/require-system-property.adoc[]
+
+:leveloffset: 1

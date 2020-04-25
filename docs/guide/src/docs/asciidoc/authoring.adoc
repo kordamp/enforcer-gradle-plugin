@@ -1,0 +1,182 @@
+
+= Authoring
+
+== Create a project
+
+First create a basic `java-library` project if you don't have one already. Choose your preferred
+JVM language to implement your rules.
+
+[source,groovy,indent=0,subs="verbatim,attributes",role="primary"]
+.build.gradle (Groovy)
+----
+apply plugin: 'groovy'
+apply plugin: 'java-library'
+
+group   = 'com.acme'
+version = '1.2.3'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api '{project-group}:enforcer-api:{project-version}'
+    implementation gradleApi()
+}
+----
+
+[source,java,indent=0,subs="verbatim,attributes",role="secondary"]
+.build.gradle (Java)
+----
+apply plugin: 'java-library'
+
+group   = 'com.acme'
+version = '1.2.3'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api '{project-group}:enforcer-api:{project-version}'
+    implementation gradleApi()
+}
+----
+
+== Create a Rule class
+
+Create your rule class. The rule must implement the {link_api_EnforcerRule} interface. You may rely on service injection
+as described at link:https://docs.gradle.org/current/userguide/custom_gradle_types.html[Developing Custom Gradle Types].
+It's suggested to use the {link_api_AbstractEnforcerRule} as starting point.
+
+If the rule succeeds, it should just simply return. If the rule fails, it should throw an {link_api_EnforcerRuleException}
+with a descriptive message telling the user why the rule failed.
+
+[source,groovy,indent=0,subs="verbatim,attributes",role="primary"]
+.com/acme/enforcer/rules/MyCustomRule.groovy
+----
+package com.acme.enforcer.rules
+
+import groovy.transform.CompileStatic
+import org.gradle.api.model.ObjectFactory
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
+import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
+
+@CompileStatic
+class MyCustomRule extends AbstractEnforcerRule {
+    MyCustomRule(ObjectFactory objects) {
+        super(objects)
+    }
+
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        if (context.enforcerPhase == EnforcerPhase.AFTER_BUILD) {
+            println "Everything went OK!"
+        }
+    }
+}
+----
+
+[source,java,indent=0,subs="verbatim,attributes",role="secondary"]
+.com/acme/enforcer/rules/MyCustomRule.java
+----
+package com.acme.enforcer.rules;
+
+import org.gradle.api.model.ObjectFactory;
+import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase;
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException;
+
+public class MyCustomRule extends AbstractEnforcerRule {
+    public MyCustomRule(ObjectFactory objects) {
+        super(objects);
+    }
+
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        if (context.getEnforcerPhase().equals(EnforcerPhase.AFTER_BUILD)) {
+            System.out.println("Everything went OK!");
+        }
+    }
+}
+----
+
+== Build
+
+Build and Install, or Deploy your custom rule to a repository.
+
+== Configure the Enforcer plugin
+
+On the consuming project, select which mode you want: *build* or *project*
+
+*build*
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+apply plugin: '{build-plugin-id}'
+----
+
+*project*
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+apply plugin: '{project-plugin-id}'
+----
+
+Or alternatively
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        // add the repository where the rule artifact is located
+    }
+    dependencies {
+        classpath 'com.acme:my-enforcer-rules:1.2.3'
+    }
+}
+
+plugins {
+    id '{project-plugin-id}' version '{project-version}'
+}
+----
+
+== Configure the rule
+
+Finally configure the rule as you need it
+
+[source,groovy]
+[subs="attributes"]
+----
+enforce {
+    rule(com.acme.enforcer.rules.MyCustomRule)
+}
+----
+

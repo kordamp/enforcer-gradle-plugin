@@ -1,0 +1,22 @@
+= {project-title}
+:author: {project-author}
+:revnumber: {project-version}
+:toclevels: 4
+:docinfo1:
+ifndef::includedir[]
+:includedir: .
+endif::[]
+
+include::{includedir}/_links.adoc[]
+
+:leveloffset: 1
+include::{includedir}/introduction.adoc[]
+include::{includedir}/usage.adoc[]
+include::{includedir}/rules.adoc[]
+include::{includedir}/authoring.adoc[]
+
+= Links
+
+link:api/index.html[Groovydoc, window="_blank"]
+
+link:api-html/index.html[Source, window="_blank"]

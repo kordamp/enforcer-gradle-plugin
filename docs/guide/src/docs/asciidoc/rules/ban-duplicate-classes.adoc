@@ -1,0 +1,110 @@
+
+= BanDuplicateClasses
+
+This rule checks the dependencies and fails if any class is present in more than one dependency.
+
+NOTE: The following exclusions are enabled by default: `module-info`, `META-INF/versions/*/module-info`
+
+== Trigger Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.BanDuplicateClasses) { r ->
+        r.enabled
+        r.message
+        r.findAllDuplicates
+        r.ignoreWhenIdentical
+        r.configurations
+        r.ignoreClasses
+        r.ignore()
+        r.dependencies
+        r.dependency() { d ->
+            d.ignore()
+        }
+    }
+}
+----
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| findAllDuplicates
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Indicate whether the rule should find all duplicates or fail fast at the first duplicate.
+
+| ignoreWhenIdentical
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| When `true` indicates duplicate classes don't fail the build when their bytecode exactly matches each other.
+
+| configurations
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies +
+  to all resolvable configurations if this property is left empty.
+
+| ignoreClasses
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| A list of classes to ignore duplicates of. Wildcards can be specified using the * character.
+
+| dependencies
+| ListProperty<Dependency>
+| `[]`
+| {icon_req_n}
+| A list of dependencies for which you want to ignore specific classes.
+
+|===
+
+== Methods
+
+*ignore(String str)* +
+Adds a class to ignore duplicates of. Wildcards can be specified using the * character.
+
+*dependency(String str, Action<? extends Dependency> configurer)* +
+*dependency(Map<String, String> map, Action<? extends Dependency> configurer)* +
+Adds an explicit dependency from which classes will be ignored of. Wildcards can be specified using the * character. +
+Accepted format for `str` is `groupId:artifactId:version[:classifier]`. +
+Accepted keys for `map` are `groupId`, `artifactId`, `version`, `classifier`.
+
+== Example
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.BanDuplicateClasses) { r ->
+        // search only on compile and runtime classpaths
+        r.configurations.addAll(['compileClasspath', 'runtimeClasspath'])
+        // ignore all classes under the following package
+        r.ignore('org.log4j.impl.*')
+        // ignore classes from commons-codec
+        r.dependency('commons-codec:commons-codec:1.14') { d ->
+            // ignore all classes under a specific package
+            d.ignore('org.apache.commons.codec.cli.*)
+        }
+    }
+}
+----
+

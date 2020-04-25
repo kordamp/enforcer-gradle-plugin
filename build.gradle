@@ -1,0 +1,92 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2020 The author and/or original authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+plugins {
+    id 'org.kordamp.gradle.kordamp-parentpom'
+    id 'org.kordamp.gradle.groovy-project'
+    id 'org.kordamp.gradle.bintray'
+    id 'org.kordamp.gradle.plugin' apply false
+    id 'org.kordamp.gradle.integration-test' apply false
+}
+
+config {
+    info {
+        name = 'enforcer-gradle-plugin'
+        description = 'Enforcer Gradle Plugin'
+        inceptionYear = '2020'
+        tags = ['project', 'enforcer']
+
+        specification {
+            enabled = false
+        }
+
+        implementation {
+            enabled = false
+        }
+    }
+
+    docs {
+        javadoc {
+            enabled = false
+        }
+
+        groovydoc {
+            enabled = true
+            replaceJavadoc = true
+            options {
+                link 'https://docs.gradle.org/5.0/javadoc/', 'org.gradle.'
+            }
+        }
+    }
+
+    bintray {
+        skipMavenSync = true
+    }
+}
+
+allprojects {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+subprojects {
+    if (project.name != 'guide') {
+        apply plugin: 'groovy'
+        apply plugin: 'java-library'
+
+        config {
+            info {
+                description = project.project_description
+            }
+
+            bintray { enabled = true }
+        }
+
+        dependencies {
+            implementation gradleApi()
+        }
+    }
+
+    if (project.name.endsWith('-plugin')) {
+        apply plugin: 'org.kordamp.gradle.plugin'
+    }
+
+    configurations.all {
+        resolutionStrategy.force "org.apache.commons:commons-lang3:$commonsLang3Version"
+    }
+}

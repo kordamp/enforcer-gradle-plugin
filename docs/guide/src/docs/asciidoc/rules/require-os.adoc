@@ -1,0 +1,117 @@
+
+= RequireOS
+
+This rule can enforce certain values about the Operating System and processor architecture.
+Detects the same values as the link:https://github.com/trustin/os-maven-plugin[os-maven-plugin].
+
+== Trigger Phases
+* BEFORE_BUILD
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireOS) { r ->
+        r.enabled
+        r.message
+        r.arch
+        r.name
+        r.version
+        r.release
+        r.classifier
+        r.classifierWithLikes
+        r.failOnUnknownOS
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| arch
+| Property<String>
+|
+| {icon_req_c}
+| The expected OS architecture.
+
+| name
+| Property<String>
+|
+| {icon_req_c}
+| The expected OS name.
+
+| version
+| Property<String>
+|
+| {icon_req_c}
+| The expected OS version.
+
+| release
+| Property<String>
+|
+| {icon_req_c}
+| The expected OS release (Linux).
+
+| classifier
+| Property<String>
+|
+| {icon_req_c}
+| The expected OS classifier (Linux).
+
+| classifierWithLikes
+| ListProperty<String>
+| `[]`
+| {icon_req_n}
+| Additional classifiers
+
+| failOnUnknownOS
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Fails the build if an unsupported OS is detected.
+
+|===
+
+== Example
+
+The following configuration only works when the build is run on a Windows OS
+
+.settings.gradle
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireOS) { r ->
+        r.name = 'windows'
+    }
+}
+----
+
+Running the build on a Mac results in a failed build
+
+----
+$ gradle help
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+[BEFORE_BUILD] A Enforcer rule has failed
+>
+  Enforcer rule 'enforcer.rules.RequireOS' was triggered.
+  OS Name: osx Arch: x86_64 Version: 10.14 Classifier: osx-x86_64 is not allowed by Name=windows
+----
+

@@ -1,0 +1,141 @@
+
+= ForceDependencies
+
+This rule forces dependency versions for all resolvable configurations.
+
+== Trigger Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.ForceDependencies) { r ->
+        r.enabled
+        r.dependencies
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| dependencies
+| ListProperty<Object>
+| `[]`
+| {icon_req_y}
+| A list of dependencies to be forced. Accepted formats are the same when declaring dependencies in a configuration.
+
+|===
+
+== Example
+
+Given the following configuration found in `settings.gradle`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+}
+----
+
+And a simple project
+
+.build.gradle
+[source,groovy]
+[subs="attributes"]
+----
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-jdk14:1.6.1'
+    api 'org.slf4j:slf4j-nop:1.6.0'
+}
+----
+
+The build will fail with the following message
+
+----
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all dependencies for configuration ':compileClasspath'.
+> Conflict(s) found for the following module(s):
+    - org.slf4j:slf4j-api between versions 1.6.1 and 1.6.0
+  Run with:
+      --scan or
+      :dependencyInsight --configuration compileClasspath --dependency org.slf4j:slf4j-api
+  to get more insight on how to solve the conflict.
+----
+
+We can force the version of `org.slf4j:slf4j-api` to be `1.6.1`
+
+.settings.gradle
+[source,groovy]
+[subs="attributes"]
+----
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath '{project-group}:{project-name}:{project-version}'
+    }
+}
+apply plugin: '{build-plugin-id}'
+
+enforce {
+    rule(enforcer.rules.DependencyConvergence)
+    rule(enforcer.rules.ForceDependencies) { r ->
+        r.dependencies.add('org.slf4j:slf4j-api:1.6.1')
+    }
+}
+----
+
+Then running the build to verify that the version has been forced
+
+----
+$ gradle dependencies --configuration=compileClasspath
+
+> Task :dependencies
+
+------------------------------------------------------------
+Root project
+------------------------------------------------------------
+
+compileClasspath - Compile classpath for source set 'main'.
++--- org.slf4j:slf4j-jdk14:1.6.1
+|    \--- org.slf4j:slf4j-api:1.6.1
+\--- org.slf4j:slf4j-nop:1.6.0
+     \--- org.slf4j:slf4j-api:1.6.0 -> 1.6.1
+
+(*) - dependencies omitted (listed previously)
+----
+

@@ -1,0 +1,52 @@
+
+= RequireJavaVersion
+
+This rule enforces certain Java versions. The rule uses the <<_version_range,version range>> syntax to define allowed versions.
+
+The JDK version is retrieved and the following processing occurs before being checked:
+
+. Drop all non-numeric characters preceeding the first number. (build 1.5.0_07-b03 becomes 1.5.0_07-b03)
+. Replace all '_' and '-' with '.' (1.5.0_07-b03 becomes 1.5.0.07.b03)
+. Remove all non digit characters "[^0-9] and convert each section using Integer.parseInt() (1.5.0_07-b03 becomes 1.5.0.7.3)
+. Split the string on '.' and take the first 3 sections, separated by '.' and add '-' followed by the fourth section (1.5.0.7.3 becomes 1.5.0-7)
+
+== Trigger Phases
+* BEFORE_BUILD
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireJavaVersion) { r ->
+        r.enabled
+        r.message
+        r.version
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| version
+| Property<String>
+|
+| {icon_req_y}
+| Range of allowed Java versions.
+
+|===
+

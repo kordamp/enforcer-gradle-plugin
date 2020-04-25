@@ -1,0 +1,76 @@
+
+= RequireFilesSize
+
+This rule checks that the specified list of files exist and are within the specified size range.
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireFilesSize) { r ->
+        r.enabled
+        r.message
+        r.files
+        r.maxsize
+        r.minsize
+        r.allowNulls
+        r.phases
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| allowNulls
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| If null files should be allowed. If allowed, they will be treated as if they do exist.
+
+| files
+| Property<String>
+|
+| {icon_req_y}
+| A list of files to be checked.
+
+| maxsize
+| Property<Long>
+| `10_000L`
+| {icon_req_c}
+| Maximum size in bytes for this file.
+
+| minsize
+| Property<Long>
+| `0L`
+| {icon_req_c}
+| Minimum size in bytes for this file.
+
+| phases
+| ListProperty<EnforcerPhase>
+| `[BEFORE_BUILD]`
+| {icon_req_n}
+| The list of phases where the check should be run.
+
+|===
+
+== Methods
+
+*file(String str)* +
+*file(File file)* +
+Adds a file to the list of files to be checked. Path may be relative or absolute.
+
