@@ -1,24 +1,25 @@
-= yguard-gradle-plugin
+= enforcer-gradle-plugin
 :linkattrs:
 :project-owner:   kordamp
 :project-repo:    maven
 :project-name:    kordamp-parentpom
-:project-name:    yguard-gradle-plugin
+:project-name:    enforcer-gradle-plugin
 :project-group:   org.kordamp.gradle
 :project-version: 0.1.0
 
 image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
+image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
 image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
 image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
 image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/user?u=6609318"]
 
 ---
 
-A Gradle plugin for link:https://www.yworks.com/products/yguard[yGuard]
+Enforce build and project settings. A port of the popular link:https://maven.apache.org/enforcer/maven-enforcer-plugin/index.html[maven-enforcer-plugin].
 
 == Usage
 
-Option #1
+.settings.gradle
 [source,groovy]
 [subs="attributes"]
 ----
@@ -31,16 +32,7 @@ buildscript {
         classpath '{project-group}:{project-name}:{project-version}'
     }
 }
-apply plugin: '{project-group}.yguard'
-----
-
-Option #2
-[source,groovy]
-[subs="attributes"]
-----
-plugins {
-    id '{project-group}.yguard' version '{project-version}'
-}
+apply plugin: '{project-group}.enforcer'
 ----
 
 Refer to the link:http://{project-owner}.github.io/{project-name}[guide, window="_blank"] for further information on configuration
