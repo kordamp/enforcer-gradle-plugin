@@ -125,6 +125,8 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
             return
         }
 
+        context.logger.debug("Inspecting '${configuration.name}' for duplicate classes.")
+
         List<IgnorableDependency> ignorableDependencies = []
 
         IgnorableDependency ignoreableClasses = new IgnorableDependency()
