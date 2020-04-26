@@ -74,7 +74,10 @@ subprojects {
                 description = project.project_description
             }
 
-            bintray { enabled = true }
+            bintray {
+                enabled = true
+                name    = project.name
+            }
         }
 
         dependencies {
