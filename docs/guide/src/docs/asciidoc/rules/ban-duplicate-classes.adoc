@@ -5,6 +5,8 @@ This rule checks the dependencies and fails if any class is present in more than
 
 NOTE: The following exclusions are enabled by default: `module-info`, `META-INF/versions/*/module-info`
 
+WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+
 == Trigger Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS

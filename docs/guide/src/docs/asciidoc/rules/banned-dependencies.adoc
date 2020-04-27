@@ -3,6 +3,8 @@
 
 This rule checks the dependencies and fails if any of the matching excludes are found.
 
+WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+
 == Trigger Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS

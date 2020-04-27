@@ -8,6 +8,8 @@ depended on by B.
 This rule also configures additional settings applicable to the `resolutionStrategy` property of all `Configuration` instances
 that can be resolved.
 
+WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+
 == Trigger Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT

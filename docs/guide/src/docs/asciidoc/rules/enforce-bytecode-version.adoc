@@ -6,6 +6,8 @@ higher than the one specified.
 
 NOTE: The following exclusions are enabled by default: `module-info`, `META-INF/versions/(\d+)/.*`
 
+WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+
 == Trigger Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS
