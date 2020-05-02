@@ -52,7 +52,7 @@ class ProjectEnforcerRuleHelper implements EnforcerRuleHelper {
     void setAction(Action<? extends EnforcerRule> action) {
         projectActions.clear()
         globalActions.clear()
-        projectActions.add(action)
+        if (action) projectActions.add(action)
     }
 
     @Override

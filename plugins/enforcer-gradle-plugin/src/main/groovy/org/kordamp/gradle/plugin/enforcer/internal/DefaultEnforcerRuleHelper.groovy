@@ -47,7 +47,7 @@ class DefaultEnforcerRuleHelper implements EnforcerRuleHelper {
     @Override
     void setAction(Action<? extends EnforcerRule> action) {
         actions.clear()
-        actions.add(action)
+        if (action) actions.add(action)
     }
 
     @Override
