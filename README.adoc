@@ -5,7 +5,7 @@
 :project-name:    kordamp-parentpom
 :project-name:    enforcer-gradle-plugin
 :project-group:   org.kordamp.gradle
-:project-version: 0.4.0
+:project-version: 0.5.0
 
 image:https://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
 image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]

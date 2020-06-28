@@ -40,27 +40,19 @@ processResources {
 }
 
 config {
-    plugin {
-        enabled = true
-        id = project.buildPluginId
-        implementationClass = project.buildPluginImplementationClass
-    }
-}
-
-gradlePlugin {
     plugins {
-        pePlugin {
+        enabled = true
+        plugin {
+            name                = 'enforcer'
+            id                  = project.buildPluginId
+            implementationClass = project.buildPluginImplementationClass
+            displayName         = project.pluginDisplayName
+        }
+        plugin {
+            name                = 'projectEnforcer'
             id                  = project.projectPluginId
             implementationClass = project.projectPluginImplementationClass
-        }
-    }
-}
-
-pluginBundle {
-    plugins {
-        pePlugin {
-            id          = project.projectPluginId
-            displayName = project.pluginDisplayName
+            displayName         = project.pluginDisplayName
         }
     }
 }
