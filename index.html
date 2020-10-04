@@ -92,7 +92,7 @@ $(addBlockSwitches);
 <h1>Enforcer Gradle Plugin</h1>
 <div class="details">
 <span id="author" class="author">Andres Almiray</span><br>
-<span id="revnumber">version 0.5.0</span>
+<span id="revnumber">version 0.6.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -302,7 +302,7 @@ $(addBlockSwitches);
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -327,7 +327,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.project-enforcer'
@@ -343,7 +343,7 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.5.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.6.0'
 }
 
 enforce {
@@ -1680,7 +1680,7 @@ This rule will resolve configurations eagerly, once the target project or projec
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1986,7 +1986,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2045,7 +2045,7 @@ dependencies {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2134,7 +2134,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2192,7 +2192,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2281,7 +2281,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2339,7 +2339,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2685,7 +2685,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2822,7 +2822,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -3521,7 +3521,7 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.5.0'
+    api 'org.kordamp.gradle:enforcer-api:0.6.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -3539,7 +3539,7 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.5.0'
+    api 'org.kordamp.gradle:enforcer-api:0.6.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -3630,7 +3630,7 @@ public class MyCustomRule extends AbstractEnforcerRule {
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3649,7 +3649,7 @@ apply plugin: 'org.kordamp.gradle.enforcer'</code></pre>
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.5.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3672,7 +3672,7 @@ apply plugin: 'org.kordamp.gradle.project-enforcer'</code></pre>
 }
 
 plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.5.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.6.0'
 }</code></pre>
 </div>
 </div>
@@ -3706,7 +3706,7 @@ plugins {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.5.0<br>
+Version 0.6.0<br>
 Last updated 2020-05-09 12:39:28 +0200
 </div>
 </div>
