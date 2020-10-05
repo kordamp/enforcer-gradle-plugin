@@ -19,6 +19,7 @@ package org.kordamp.gradle.plugin.enforcer.internal
 
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
+import org.gradle.BuildAdapter
 import org.gradle.api.Action
 import org.gradle.api.invocation.Gradle
 import org.gradle.tooling.BuildException
@@ -38,7 +39,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank
  */
 @PackageScope
 @CompileStatic
-abstract class AbstractEnforcerRuleInvoker {
+abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
     protected final Gradle gradle
     protected final AbstractEnforcerExtension extension
 

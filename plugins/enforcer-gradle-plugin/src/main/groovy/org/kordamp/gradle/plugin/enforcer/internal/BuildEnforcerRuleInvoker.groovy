@@ -18,7 +18,6 @@
 package org.kordamp.gradle.plugin.enforcer.internal
 
 import groovy.transform.CompileStatic
-import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Project
 import org.gradle.api.ProjectEvaluationListener
@@ -43,7 +42,7 @@ import static org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerContext.befo
  * @since 0.1.0
  */
 @CompileStatic
-class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements BuildListener, ProjectEvaluationListener {
+class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements ProjectEvaluationListener {
     private final List<? extends EnforcerRule> buildRules = []
     private final Map<Project, List<? extends EnforcerRule>> projectRules = [:]
     private final ObjectFactory objects
@@ -60,11 +59,6 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Bu
 
     protected DefaultBuildEnforcerExtension extension() {
         (DefaultBuildEnforcerExtension) extension
-    }
-
-    @Override
-    void buildStarted(Gradle gradle) {
-        // noop
     }
 
     @Override
