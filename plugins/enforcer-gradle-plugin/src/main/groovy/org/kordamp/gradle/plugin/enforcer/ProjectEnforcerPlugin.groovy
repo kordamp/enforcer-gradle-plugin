@@ -38,7 +38,8 @@ class ProjectEnforcerPlugin implements Plugin<Project> {
         ProjectEnforcerExtension extension = project.extensions.create(
             ProjectEnforcerExtension,
             'enforce',
-            DefaultProjectEnforcerExtension)
+            DefaultProjectEnforcerExtension,
+            project)
 
         project.gradle.addListener(new ProjectEnforcerRuleInvoker(project.gradle, extension))
     }

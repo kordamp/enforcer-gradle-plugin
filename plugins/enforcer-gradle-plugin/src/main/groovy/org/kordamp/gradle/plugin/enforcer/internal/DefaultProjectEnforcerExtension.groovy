@@ -39,8 +39,8 @@ class DefaultProjectEnforcerExtension extends AbstractEnforcerExtension implemen
     final List<DefaultEnforcerRuleHelper> helpers = []
 
     @Inject
-    DefaultProjectEnforcerExtension(Project project, ObjectFactory objects, ProviderFactory providers) {
-        super(objects, providers)
+    DefaultProjectEnforcerExtension(Project project) {
+        super(project.objects, project.providers)
         this.project = project
     }
 
