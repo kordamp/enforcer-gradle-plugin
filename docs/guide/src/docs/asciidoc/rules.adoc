@@ -38,5 +38,6 @@ include::{includedir}/rules/require-gradle-version.adoc[]
 include::{includedir}/rules/require-java-version.adoc[]
 include::{includedir}/rules/require-os.adoc[]
 include::{includedir}/rules/require-system-property.adoc[]
+include::{includedir}/rules/require-url.adoc[]
 
 :leveloffset: 1

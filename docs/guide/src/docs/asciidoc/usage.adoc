@@ -409,6 +409,10 @@ The following table shows rules available to both plugins
 | RequireUpperBoundDeps
 | {icon_req_y}
 | {icon_req_n}
+
+| RequireUrl
+| {icon_req_n}
+| {icon_req_y}
 |===
 
 See {link_maven_enforcer_rules}, {link_maven_extra_enforcer_rules} for reference.

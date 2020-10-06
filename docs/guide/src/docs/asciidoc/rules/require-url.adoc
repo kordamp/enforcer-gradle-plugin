@@ -1,0 +1,52 @@
+
+= RequireUrl
+
+This rule checks the given URL is present and optionally matches against a regex.
+
+== Trigger Phases
+* AFTER_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireUrl) { r ->
+        r.enabled
+        r.message
+        r.regex
+        r.urlExtractor
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| regex
+| Property<String>
+| `^.+$`
+| {icon_req_n}
+| The regex that the url must match. Default is a non-empty URL.
+
+| urlExtractor
+| Function<Project, String>
+|
+| {icon_req_y}
+| Extracts an URL literal from the project.
+
+|===
+
