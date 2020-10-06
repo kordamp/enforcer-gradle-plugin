@@ -1,0 +1,126 @@
+
+= RequireEncoding
+
+Checks file encodings to see if they match the given encoding.
+
+== Trigger Phases
+* AFTER_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireEncoding) { r ->
+        r.enabled
+        r.encoding
+        r.includes
+        r.excludes
+        r.useDefaultExcludes
+        r.failFast
+        r.acceptAsciiSubset
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| encoding
+| Property<String>
+| `System.getProperty('file.encoding')`
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| includes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| List of globs to include.
+
+| excludes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| List of globs to exclude.
+
+| useDefaultExcludes
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Enables SCM files exclusions.
+
+| failFast
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Should the rule fail after the first error or should the errors be aggregated.
+
+| acceptAsciiSubset
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Should the rule accept US-ASCII as an subset of UTF-8 and ISO-8859-1.
+
+|===
+
+Default exclusions include the following patterns
+
+[source]
+----
+// Miscellaneous typical temporary files
+'**/*~', '**/#*#', '**/.#*', '**/%*%', '**/._*'
+
+// CVS
+'**/CVS', '**/CVS/**', '**/.cvsignore'
+
+// RCS
+'**/RCS', '**/RCS/**'
+
+// SCCS
+'**/SCCS', '**/SCCS/**'
+
+// Visual SourceSafe
+'**/vssver.scc'
+
+// MKS
+'**/project.pj'
+
+// Subversion
+'**/.svn', '**/.svn/**'
+
+// Arch
+'**/.arch-ids', '**/.arch-ids/**'
+
+//Bazaar
+'**/.bzr', '**/.bzr/**'
+
+//SurroundSCM
+'**/.MySCMServerInfo'
+
+// Mac
+'**/.DS_Store'
+
+// Serena Dimensions Version 10
+'**/.metadata', '**/.metadata/**'
+
+// Mercurial
+'**/.hg', '**/.hg/**'
+
+// git
+'**/.git', '**/.gitignore', '**/.gitattributes', '**/.git/**'
+
+// BitKeeper
+'**/BitKeeper', '**/BitKeeper/**', '**/ChangeSet', '**/ChangeSet/**'
+
+// darcs
+'**/_darcs', '**/_darcs/**', '**/.darcsrepo', '**/.darcsrepo/**', '**/-darcs-backup*', '**/.darcs-temp-mail'
+----
+

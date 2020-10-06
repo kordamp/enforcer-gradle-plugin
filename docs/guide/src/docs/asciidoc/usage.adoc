@@ -316,7 +316,7 @@ The following table shows rules available to both plugins
 
 | RequireEncoding
 | {icon_req_y}
-| {icon_req_n}
+| {icon_req_y}
 
 | RequireEnvironmentVariable
 | {icon_req_y}

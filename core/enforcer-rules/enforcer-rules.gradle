@@ -24,3 +24,7 @@ dependencies {
         exclude group: 'org.codehaus.plexus', module: 'plexus-utils'
     }
 }
+
+license {
+    exclude('**/FileEncoding.java')
+}
