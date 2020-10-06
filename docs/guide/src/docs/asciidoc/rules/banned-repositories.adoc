@@ -37,13 +37,13 @@ enforce {
 
 | bannedRepositories
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_c}
 | Specify banned non-plugin repositories. This is a black list of http/https url patterns.
 
 | allowedRepositories
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_c}
 | Specify explicitly allowed non-plugin repositories. This is a white list of http/https url patterns.
 

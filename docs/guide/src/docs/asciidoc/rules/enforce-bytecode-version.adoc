@@ -70,14 +70,14 @@ enforce {
 
 | excludes
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | An optional list of artifacts to exclude. The format is `groupId[:artifactId][:version][:classifier]` where `artifactId`, +
   `version`, and `classifier` are optional. Wildcards may be used to replace an entire or just parts of a section.
 
 | includes
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | An optional list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with +
   wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words, +
@@ -86,14 +86,14 @@ enforce {
 
 | configurations
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies +
   to all resolvable configurations if this property is left empty.
 
 | ignoreClasses
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | A list of classes to ignore. Wildcards can be specified using the * character.
 

@@ -60,20 +60,20 @@ enforce {
 
 | configurations
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies +
   to all resolvable configurations if this property is left empty.
 
 | ignoreClasses
 | ListProperty<String>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | A list of classes to ignore duplicates of. Wildcards can be specified using the * character.
 
 | dependencies
 | ListProperty<Dependency>
-| `[]`
+| `[ ]`
 | {icon_req_n}
 | A list of dependencies for which you want to ignore specific classes.
 

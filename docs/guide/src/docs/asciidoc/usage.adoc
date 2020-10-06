@@ -374,6 +374,10 @@ The following table shows rules available to both plugins
 | {icon_req_y}
 | {icon_req_n}
 
+| RequireProjectUrl
+| {icon_req_y}
+| {icon_req_n}
+
 | RequireProperty
 | {icon_req_y}
 | {icon_req_n}

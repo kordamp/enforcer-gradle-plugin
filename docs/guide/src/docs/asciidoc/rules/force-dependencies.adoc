@@ -31,7 +31,7 @@ enforce {
 
 | dependencies
 | ListProperty<Object>
-| `[]`
+| `[ ]`
 | {icon_req_y}
 | A list of dependencies to be forced. Accepted formats are the same when declaring dependencies in a configuration.
 
