@@ -16,6 +16,7 @@ WARNING: This rule will resolve configurations eagerly, once the target project 
 enforce {
     rule(enforcer.rules.BannedDependencies) { r ->
         r.enabled
+        r.enforcerLevel
         r.configurations
         r.excludes
         r.includes

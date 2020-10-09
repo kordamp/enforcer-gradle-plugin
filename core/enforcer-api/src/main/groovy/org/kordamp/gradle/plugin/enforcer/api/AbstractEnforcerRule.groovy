@@ -18,8 +18,11 @@
 package org.kordamp.gradle.plugin.enforcer.api
 
 import groovy.transform.CompileStatic
+import org.gradle.api.internal.provider.Providers
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank
 
 /**
  * Base class for implementing {@code EnforcerRule}.
@@ -30,9 +33,18 @@ import org.gradle.api.provider.Property
 @CompileStatic
 abstract class AbstractEnforcerRule implements EnforcerRule {
     final Property<Boolean> enabled
+    final Property<EnforcerLevel> enforcerLevel
 
     AbstractEnforcerRule(ObjectFactory objects) {
         enabled = objects.property(Boolean).convention(true)
+        enforcerLevel = objects.property(EnforcerLevel).convention(Providers.notDefined())
+    }
+
+    @Override
+    void setEnforcerLevel(String enforcerLevel) {
+        if (isNotBlank(enforcerLevel)) {
+            this.enforcerLevel.set(EnforcerLevel.valueOf(enforcerLevel.trim().toUpperCase()))
+        }
     }
 
     @Override

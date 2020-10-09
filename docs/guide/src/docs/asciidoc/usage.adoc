@@ -152,10 +152,11 @@ The DSL exposes the following properties regardless of the mode choice
 
 [%header, cols="<,<,<,^,<4"]
 |===
-| Name          | Type              | Default                | Required     | Description
-| enabled       | Property<Boolean> | `true`                 | {icon_req_n} | Enables or disables all rules.
-| failFast      | Property<Boolean> | `true`                 | {icon_req_n} | Fails and reports the first rule violation if set to `true` otherwise reports all rule violations within the same phase.
-| mergeStrategy | MergeStrategy     | MergeStrategy.OVERRIDE | {icon_req_n} | Controls how duplicate rule definitions should be handled.
+| Name          | Type                    | Default                | Required     | Description
+| enabled       | Property<Boolean>       | `true`                 | {icon_req_n} | Enables or disables all rules.
+| failFast      | Property<Boolean>       | `true`                 | {icon_req_n} | Fails and reports the first rule violation if set to `true` otherwise reports all rule violations within the same phase.
+| mergeStrategy | MergeStrategy           | MergeStrategy.OVERRIDE | {icon_req_n} | Controls how duplicate rule definitions should be handled.
+| enforcerLevel | Property<EnforcerLevel> | EnforcerLevel.ERROR    | {icon_req_n} | Fails the build if set to `EnforcerLevel.ERROR`.
 |===
 
 == MergeStrategy
@@ -190,6 +191,17 @@ AFTER_BUILD:: When the build finishes.
 
 WARNING: If rules are configured using the `{project-plugin-id}` plugin then they will only trigger during the
 `BEFORE_PROJECT` (if project is not Root), `AFTER_PROJECT`, `AFTER_PROJECTS`, and `AFTER_BUILD` phases.
+
+
+[[_enforcer_level]]
+== Enforcer Level
+The enforcer may configured to fail the build when a rule triggers if its `enforcerLevel` is set to `ERROR` or
+if any of the triggered rules has its `enforcerLevel` set to `ERROR`.
+
+.Values
+[horizontal]
+ERROR:: Fail the build when a rule triggers.
+WARN:: Do not fail the build when a rule triggers.
 
 [[_version_range]]
 == Version Ranges

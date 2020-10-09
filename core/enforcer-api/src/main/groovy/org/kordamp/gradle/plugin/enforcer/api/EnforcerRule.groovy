@@ -34,5 +34,9 @@ interface EnforcerRule {
      */
     Property<Boolean> getEnabled()
 
+    Property<EnforcerLevel> getEnforcerLevel()
+
+    void setEnforcerLevel(String level)
+
     void execute(EnforcerContext context) throws EnforcerRuleException
 }

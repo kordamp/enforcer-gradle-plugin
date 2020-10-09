@@ -10,12 +10,16 @@ This rule checks that the specified list of files exist.
 enforce {
     rule(enforcer.rules.RequireFilesExist) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.files
         r.includePatterns
         r.excludePatterns
         r.allowNulls
         r.phases
+        r.file()
+        r.include()
+        r.exclude()
     }
 }
 ----

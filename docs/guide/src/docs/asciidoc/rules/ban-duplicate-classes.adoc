@@ -18,6 +18,7 @@ WARNING: This rule will resolve configurations eagerly, once the target project 
 enforce {
     rule(enforcer.rules.BanDuplicateClasses) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.findAllDuplicates
         r.ignoreWhenIdentical

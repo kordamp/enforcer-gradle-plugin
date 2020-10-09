@@ -13,6 +13,7 @@ This rule checks the given URL is present and optionally matches against a regex
 enforce {
     rule(enforcer.rules.RequireUrl) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.regex
         r.urlExtractor

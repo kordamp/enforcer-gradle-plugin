@@ -18,29 +18,15 @@
 package org.kordamp.gradle.plugin.enforcer.api
 
 import groovy.transform.CompileStatic
-import org.gradle.api.provider.Property
 
 /**
  * @author Andres Almiray
- * @since 0.1.0
+ * @since 0.7.0
  */
 @CompileStatic
-interface EnforcerExtension {
-    /**
-     * Whether enforcer behavior is enabled or not. Defaults to {@code true}.
-     */
-    Property<Boolean> getEnabled()
-
-    /**
-     * Whether the enforce should fail the build on the first rule violation. Defaults to {@code true}.
-     */
-    Property<Boolean> getFailFast()
-
-    void setMergeStrategy(MergeStrategy mergeStrategy)
-
-    void setMergeStrategy(String mergeStrategy)
-
-    void setEnforcerLevel(EnforcerLevel level)
-
-    void setEnforcerLevel(String level)
+enum EnforcerLevel {
+    /** Fail the build when a rule triggers. */
+    ERROR,
+    /** Do not fail the build when a rule triggers. */
+    WARN
 }

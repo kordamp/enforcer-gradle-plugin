@@ -26,6 +26,8 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerExtension
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerLevel
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.MergeStrategy
 
@@ -38,13 +40,14 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank
  */
 @CompileStatic
 @PackageScope
-abstract class AbstractEnforcerExtension {
+abstract class AbstractEnforcerExtension implements EnforcerExtension {
     @PackageScope
     static final Logger LOG = Logging.getLogger(Project)
 
     final Property<Boolean> enabled
     final Property<Boolean> failFast
     final Property<MergeStrategy> mergeStrategy
+    final Property<EnforcerLevel> enforcerLevel
     final Provider<Boolean> resolvedFailFast
 
     protected final ObjectFactory objects
@@ -59,8 +62,10 @@ abstract class AbstractEnforcerExtension {
         failFast = objects.property(Boolean).convention(true)
         resolvedFailFast = booleanProvider(providers, 'GRADLE_ENFORCER_FAIL_FAST', 'enforcer.fail.fast', failFast)
         mergeStrategy = objects.property(MergeStrategy).convention(MergeStrategy.OVERRIDE)
+        enforcerLevel = objects.property(EnforcerLevel).convention(EnforcerLevel.ERROR)
     }
 
+    @Override
     void setMergeStrategy(MergeStrategy mergeStrategy) {
         if (mergeStrategySet) {
             println "${prefix} enforcer.mergeStrategy has been set to '${this.mergeStrategy.get().name()}'. Cannot override value."
@@ -73,6 +78,7 @@ abstract class AbstractEnforcerExtension {
         }
     }
 
+    @Override
     void setMergeStrategy(String mergeStrategy) {
         if (mergeStrategySet) {
             println "${prefix} enforcer.mergeStrategy has been set to '${this.mergeStrategy.get().name()}'. Cannot override value."
@@ -82,6 +88,20 @@ abstract class AbstractEnforcerExtension {
         if (isNotBlank(mergeStrategy)) {
             this.mergeStrategy.set(MergeStrategy.valueOf(mergeStrategy.trim().toUpperCase()))
             mergeStrategySet = true
+        }
+    }
+
+    @Override
+    void setEnforcerLevel(EnforcerLevel enforcerLevel) {
+        if (enforcerLevel != null) {
+            this.enforcerLevel.set(enforcerLevel)
+        }
+    }
+
+    @Override
+    void setEnforcerLevel(String enforcerLevel) {
+        if (isNotBlank(enforcerLevel)) {
+            this.enforcerLevel.set(EnforcerLevel.valueOf(enforcerLevel.trim().toUpperCase()))
         }
     }
 

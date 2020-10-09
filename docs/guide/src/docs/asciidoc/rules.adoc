@@ -6,9 +6,10 @@ All rules share the following properties
 
 [%header, cols="<,<,<,^,<4"]
 |===
-| Name    | Type              | Default | Required     | Description
-| enabled | Property<Boolean> | `true`  | {icon_req_n} | Enables or disables the rule. Can be overridden using a `System` property whose key follows the pattern
+| Name          | Type                    | Default | Required     | Description
+| enabled       | Property<Boolean>       | `true`  | {icon_req_n} | Enables or disables the rule. Can be overridden using a `System` property whose key follows the pattern
 `<fullyQualifiedClassName>.enabled`.
+| enforcerLevel | Property<EnforcerLevel> | <unset> | {icon_req_n} | Fails the build if set to `EnforcerLevel.ERROR`.
 |===
 
 NOTE: The following icons indicate the required state of a property: +

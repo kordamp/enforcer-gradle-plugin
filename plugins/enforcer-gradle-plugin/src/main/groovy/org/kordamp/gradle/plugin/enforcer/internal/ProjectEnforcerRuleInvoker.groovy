@@ -27,7 +27,6 @@ import org.gradle.api.invocation.Gradle
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerExtension
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
-import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
 
 import static org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerContext.afterProject
 import static org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerContext.beforeProject
@@ -81,7 +80,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         createAndInvokeRules(extension().helpers,
             extension().mergeStrategy.get(),
             context,
@@ -98,7 +97,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         maybeCreateAndInvokeRules(context,
             extension().helpers,
             rules,

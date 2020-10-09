@@ -10,6 +10,7 @@ This rule checks that the specified list of files exist and are within the speci
 enforce {
     rule(enforcer.rules.RequireFilesSize) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.files
         r.includePatterns
@@ -18,6 +19,9 @@ enforce {
         r.minsize
         r.allowNulls
         r.phases
+        r.file()
+        r.include()
+        r.exclude()
     }
 }
 ----

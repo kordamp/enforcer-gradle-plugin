@@ -13,6 +13,7 @@ Checks file encodings to see if they match the given encoding.
 enforce {
     rule(enforcer.rules.RequireEncoding) { r ->
         r.enabled
+        r.enforcerLevel
         r.encoding
         r.includes
         r.excludes

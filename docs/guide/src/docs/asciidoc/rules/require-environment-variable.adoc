@@ -14,6 +14,7 @@ This rule checks that a specified environment variable is set.
 enforce {
     rule(enforcer.rules.RequireEnvironmentVariable) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.variableName
         r.regex

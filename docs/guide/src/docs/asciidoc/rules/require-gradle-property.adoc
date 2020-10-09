@@ -16,6 +16,7 @@ This rule checks that a specified Gradle property is set.
 enforce {
     rule(enforcer.rules.RequireGradleProperty) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.property
         r.regex

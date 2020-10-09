@@ -19,7 +19,8 @@ package org.kordamp.gradle.plugin.enforcer.internal
 
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
-import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerLevel
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
 
 /**
  * @author Andres Almiray
@@ -28,11 +29,24 @@ import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
 @PackageScope
 @CompileStatic
 class MultipleEnforcerRuleException extends Exception {
-    MultipleEnforcerRuleException(List<EnforcerRuleException> exceptions) {
+    final boolean error
+
+    MultipleEnforcerRuleException(List<AbstractEnforcerRuleInvoker.RuleExecutionFailure<? extends EnforcerRule>> exceptions) {
         super(format(exceptions))
+
+        boolean errorState = false
+        if (exceptions.size() > 0) {
+            for (AbstractEnforcerRuleInvoker.RuleExecutionFailure failure : exceptions) {
+                if (isFailOnError(failure.rule)) {
+                    errorState = true
+                    break
+                }
+            }
+        }
+        error = errorState
     }
 
-    static String format(List<EnforcerRuleException> exceptions) {
+    static String format(List<AbstractEnforcerRuleInvoker.RuleExecutionFailure<? extends EnforcerRule>> exceptions) {
         if (!exceptions) {
             throw new IllegalStateException('The exceptions list is empty!')
         }
@@ -42,8 +56,15 @@ class MultipleEnforcerRuleException extends Exception {
             if (i != 0) {
                 b.append(System.lineSeparator())
             }
-            b.append('\t').append(exceptions[i].message)
+            b.append('\t').append(exceptions[i].failure.message)
         }
         b.toString()
+    }
+
+    private static <RULE extends EnforcerRule> boolean isFailOnError(RULE rule) {
+        if (rule.enforcerLevel.isPresent()) {
+            return rule.enforcerLevel.get() == EnforcerLevel.ERROR
+        }
+        false
     }
 }

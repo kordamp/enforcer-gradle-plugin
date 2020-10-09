@@ -10,6 +10,7 @@ This rule checks that the specified list of files do not exist.
 enforce {
     rule(enforcer.rules.RequireFilesDontExist) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.files
         r.includePatterns
@@ -17,6 +18,8 @@ enforce {
         r.allowNulls
         r.phases
         r.file()
+        r.include()
+        r.exclude()
     }
 }
 ----

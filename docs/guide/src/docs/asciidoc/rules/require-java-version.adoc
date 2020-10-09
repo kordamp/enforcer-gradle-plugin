@@ -20,6 +20,7 @@ The JDK version is retrieved and the following processing occurs before being ch
 enforce {
     rule(enforcer.rules.RequireJavaVersion) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.version
     }

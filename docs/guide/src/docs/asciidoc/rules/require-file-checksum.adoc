@@ -10,6 +10,7 @@ This rule checks that the specified file has an given checksum.
 enforce {
     rule(enforcer.rules.RequireFileChecksum) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.file
         r.checksum

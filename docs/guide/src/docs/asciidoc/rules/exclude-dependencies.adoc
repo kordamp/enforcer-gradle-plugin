@@ -14,6 +14,7 @@ This rule excludes dependencies from all resolvable configurations.
 enforce {
     rule(enforcer.rules.ExcludeDependencies) { r ->
         r.enabled
+        r.enforcerLevel
         r.exclude()
     }
 }

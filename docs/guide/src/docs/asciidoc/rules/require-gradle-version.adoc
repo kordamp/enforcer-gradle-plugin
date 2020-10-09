@@ -13,6 +13,7 @@ This rule enforces certain Gradle versions. The rule uses the <<_version_range,v
 enforce {
     rule(enforcer.rules.RequireGradleVersion) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.version
     }

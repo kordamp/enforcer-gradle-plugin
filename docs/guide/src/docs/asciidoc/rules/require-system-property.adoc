@@ -16,6 +16,7 @@ This rule checks that a specified System property is set.
 enforce {
     rule(enforcer.rules.RequireSystemProperty) { r ->
         r.enabled
+        r.enforcerLevel
         r.message
         r.property
         r.regex

@@ -25,6 +25,7 @@ import org.gradle.api.invocation.Gradle
 import org.gradle.tooling.BuildException
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerExtension
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerLevel
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
 import org.kordamp.gradle.plugin.enforcer.api.MergeStrategy
@@ -51,7 +52,7 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
     protected void maybeCreateAndInvokeRules(EnforcerContext context,
                                              List<? extends EnforcerRuleHelper> helpers,
                                              List<? extends EnforcerRule> rules,
-                                             List<EnforcerRuleException> collector) {
+                                             List<RuleExecutionFailure<? extends EnforcerRule>> collector) {
         if (rules) {
             for (EnforcerRule rule : rules) {
                 invokeRule(context, rule, collector)
@@ -71,7 +72,7 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
                                         MergeStrategy mergeStrategy,
                                         EnforcerContext context,
                                         List<? extends EnforcerRule> rules,
-                                        List<EnforcerRuleException> collector) {
+                                        List<RuleExecutionFailure<? extends EnforcerRule>> collector) {
         for (EnforcerRuleHelper helper : helpers) {
             if (helper.match(context)) {
                 if (mergeStrategy == MergeStrategy.DUPLICATE) {
@@ -104,22 +105,29 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
         return "[${context.enforcerPhase.name()}]"
     }
 
-    protected void report(EnforcerContext context, List<EnforcerRuleException> collector) {
+    protected void report(EnforcerContext context, List<RuleExecutionFailure<? extends EnforcerRule>> collector) {
         if (collector) {
             if (collector.size() == 1) {
-                EnforcerRuleException x = collector[0]
-                throw new BuildException("${toPrefix(context)} An Enforcer rule has failed", x)
-
+                RuleExecutionFailure<? extends EnforcerRule> x = collector[0]
+                if (isFailOnError(x.rule)) {
+                    throw new BuildException("${toPrefix(context)} An Enforcer rule has failed", x.failure)
+                } else {
+                    context.logger.warn("${toPrefix(context)} An Enforcer rule has failed\n${x.failure}")
+                }
             } else {
                 MultipleEnforcerRuleException e = new MultipleEnforcerRuleException(collector)
-                throw new BuildException("${toPrefix(context)} ${collector.size()} Enforcer rules have failed", e)
+                if (e.error || isFailOnError()) {
+                    throw new BuildException("${toPrefix(context)} ${collector.size()} Enforcer rules have failed", e)
+                } else {
+                    context.logger.warn("${toPrefix(context)} ${collector.size()} Enforcer rules have failed\n${e}")
+                }
             }
         }
     }
 
     protected <RULE extends EnforcerRule> void invokeRule(EnforcerContext context,
                                                           RULE rule,
-                                                          List<EnforcerRuleException> collector) {
+                                                          List<RuleExecutionFailure<? extends EnforcerRule>> collector) {
         String ruleClassName = normalizeClassName(rule.class)
         try {
             if (!isRuleEnabled(rule)) return
@@ -127,9 +135,13 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
             rule.execute(context)
         } catch (EnforcerRuleException e) {
             if (extension.resolvedFailFast.get()) {
-                throw new BuildException("${toPrefix(context)} An Enforcer rule has failed", e)
+                if (isFailOnError(rule)) {
+                    throw new BuildException("${toPrefix(context)} An Enforcer rule has failed", e)
+                } else {
+                    context.logger.warn("${toPrefix(context)} An Enforcer rule has failed\n${e}")
+                }
             } else {
-                collector.add(e)
+                collector.add(new RuleExecutionFailure<EnforcerRule>(rule, e))
             }
         } catch (Exception e) {
             throw new BuildException("${toPrefix(context)} Unexpected error when evaluating enforcer rule '${ruleClassName}'", e)
@@ -174,5 +186,27 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
         boolean phaseEnabled = isEnforcerPhaseEnabled(context) && isExtensionEnabled()
         extension.LOG.info("${extension.prefix} phase=${context.enforcerPhase.name()}, enabled=${phaseEnabled}, failFast=${extension.resolvedFailFast.get()}")
         phaseEnabled
+    }
+
+    protected <RULE extends EnforcerRule> boolean isFailOnError(RULE rule) {
+        if (rule.enforcerLevel.isPresent()) {
+            return rule.enforcerLevel.get() == EnforcerLevel.ERROR
+        }
+        return extension.enforcerLevel.get() == EnforcerLevel.ERROR
+    }
+
+    protected boolean isFailOnError() {
+        return extension.enforcerLevel.get() == EnforcerLevel.ERROR
+    }
+
+    @CompileStatic
+    static class RuleExecutionFailure<RULE extends EnforcerRule> {
+        final RULE rule
+        final EnforcerRuleException failure
+
+        private RuleExecutionFailure(RULE rule, EnforcerRuleException failure) {
+            this.rule = rule
+            this.failure = failure
+        }
     }
 }

@@ -18,6 +18,8 @@ This rule will always fail. It is useful for testing proper plugin configuration
 enforce {
     rule(enforcer.rules.AlwaysFail) { r ->
         r.enabled
+        r.enforcerLevel
+        r.message
     }
 }
 ----

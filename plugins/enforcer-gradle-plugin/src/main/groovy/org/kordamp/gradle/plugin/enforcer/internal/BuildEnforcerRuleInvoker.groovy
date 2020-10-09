@@ -70,7 +70,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         createAndInvokeRules(extension().buildHelpers,
             extension().mergeStrategy.get(),
             context,
@@ -87,7 +87,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         maybeCreateAndInvokeRules(context,
             extension().buildHelpers,
             buildRules,
@@ -103,7 +103,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         maybeCreateAndInvokeRules(
             context,
             extension().buildHelpers,
@@ -137,7 +137,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         try {
             if (buildRules) {
-                List<EnforcerRuleException> collector = []
+                List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
 
                 for (EnforcerRule rule : buildRules) {
                     invokeRule(context, rule, collector)
@@ -164,7 +164,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         extension().LOG.debug("${extension().prefix} ${context}")
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         createAndInvokeRules(extension().projectHelpers,
             extension().mergeStrategy.get(),
             context,
@@ -183,7 +183,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
         List<? extends EnforcerRule> rules = projectRules.computeIfAbsent(project, { k -> [] })
 
-        List<EnforcerRuleException> collector = []
+        List<RuleExecutionFailure<? extends EnforcerRule>> collector = []
         maybeCreateAndInvokeRules(
             context,
             extension().projectHelpers,

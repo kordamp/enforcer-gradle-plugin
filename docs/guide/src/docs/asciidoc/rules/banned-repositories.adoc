@@ -14,6 +14,7 @@ This rule checks whether the build or project include a specified banned reposit
 enforce {
     rule(enforcer.rules.BannedRepositories) { r ->
         r.enabled
+        r.enforcerLevel
         r.mavenLocalAllowed
         r.bannedRepositories
         r.allowedRepositories
