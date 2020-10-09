@@ -23,6 +23,8 @@ dependencies {
         exclude group: 'org.apache.maven', module: 'maven-plugin-api'
         exclude group: 'org.codehaus.plexus', module: 'plexus-utils'
     }
+
+    compileOnly "org.kordamp.gradle:base-gradle-plugin:$kordampPluginVersion"
 }
 
 license {

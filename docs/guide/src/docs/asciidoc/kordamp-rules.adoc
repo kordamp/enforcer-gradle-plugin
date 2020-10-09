@@ -1,0 +1,28 @@
+
+= Kordamp Rules
+
+WARNING: The following rules require the target project to have applied the
+`link:https://kordamp.org/kordamp-gradle-plugins/#_org_kordamp_gradle_base[org.kordamp.gradle.base]` plugin.
+
+.Properties
+All rules share the following properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name          | Type                    | Default | Required     | Description
+| enabled       | Property<Boolean>       | `true`  | {icon_req_n} | Enables or disables the rule. Can be overridden using a `System` property whose key follows the pattern
+`<fullyQualifiedClassName>.enabled`.
+| enforcerLevel | Property<EnforcerLevel> | <unset> | {icon_req_n} | Fails the build if set to `EnforcerLevel.ERROR`.
+|===
+
+NOTE: The following icons indicate the required state of a property: +
+{icon_req_y} required +
+{icon_req_n} optional +
+{icon_req_c} conditionally required
+
+:leveloffset: 2
+
+include::{includedir}/rules/require-roles.adoc[]
+
+:leveloffset: 1
+

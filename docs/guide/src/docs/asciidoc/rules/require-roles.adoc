@@ -1,0 +1,84 @@
+
+= RequireRoles
+
+This rule checks there are roles covered by people found in `project.config.info.people`.
+
+Say you want to enforce a policy that in every project there is at least one person representing a specific role, e.g.
+at least one person has the role "lead engineer".
+
+== Trigger Phases
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r ->
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.requiredRoles
+        r.validRoles
+        r.required()
+        r.valid()
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| message
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to provide when the rule fails.
+
+| requiredRoles
+| ListProperty<String>
+| `[ ]`
+| {icon_req_y}
+| List of roles which must be represented by at least one person.
+
+| validRoles
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| List of roles which are additionally allowed. requiredRoles are always valid, so the union of `requiredRoles` and
+`validRoles` forms the set of all accepted roles. By default it has the value `\*`, which means every role is accepted.
+This rule does *not* support Ant-patterns.
+
+|===
+
+== Methods
+
+*require(String role)* +
+Adds a required role.
+
+*valid(String role)* +
+Adds a valid role.
+
+== Example
+
+In this example there must be at least *1* person with the `developer` role. Any person may have `developer` or `contributor`
+role but not `designer` for example.
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r ->
+        r.required('developer')
+        r.valid('contributor')
+    }
+}
+----
+

@@ -1,7 +1,7 @@
 = {project-title}
 :author: {project-author}
 :revnumber: {project-version}
-:toclevels: 4
+:toclevels: 5
 :docinfo1:
 ifndef::includedir[]
 :includedir: .
@@ -13,6 +13,7 @@ include::{includedir}/_links.adoc[]
 include::{includedir}/introduction.adoc[]
 include::{includedir}/usage.adoc[]
 include::{includedir}/rules.adoc[]
+include::{includedir}/kordamp-rules.adoc[]
 include::{includedir}/authoring.adoc[]
 
 = Links

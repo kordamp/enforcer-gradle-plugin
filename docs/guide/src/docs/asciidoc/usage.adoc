@@ -406,6 +406,10 @@ The following table shows rules available to both plugins
 | {icon_req_y}
 | {icon_req_n}
 
+| RequireRoles
+| {icon_req_n}
+| {icon_req_y}
+
 | RequireSnapshotVersion
 | {icon_req_y}
 | {icon_req_n}
