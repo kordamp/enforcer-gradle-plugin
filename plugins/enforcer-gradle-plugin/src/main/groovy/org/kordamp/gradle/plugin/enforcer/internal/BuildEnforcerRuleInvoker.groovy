@@ -46,9 +46,11 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
     private final List<? extends EnforcerRule> buildRules = []
     private final Map<Project, List<? extends EnforcerRule>> projectRules = [:]
     private final ObjectFactory objects
+    private final Settings settings
 
-    BuildEnforcerRuleInvoker(Gradle gradle, EnforcerExtension extension, ObjectFactory objects) {
-        super(gradle, extension)
+    BuildEnforcerRuleInvoker(Settings settings, EnforcerExtension extension, ObjectFactory objects) {
+        super(settings.gradle, extension)
+        this.settings = settings
         this.objects = objects
     }
 
@@ -63,7 +65,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void settingsEvaluated(Settings settings) {
-        EnforcerContext context = beforeBuild(gradle)
+        EnforcerContext context = beforeBuild(gradle, settings)
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -80,7 +82,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void projectsLoaded(Gradle gradle) {
-        EnforcerContext context = beforeProjects(gradle)
+        EnforcerContext context = beforeProjects(gradle, settings)
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -96,7 +98,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void projectsEvaluated(Gradle gradle) {
-        EnforcerContext context = afterProjects(gradle)
+        EnforcerContext context = afterProjects(gradle, settings)
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -113,7 +115,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void buildFinished(BuildResult buildResult) {
-        EnforcerContext context = afterBuild(gradle, buildResult)
+        EnforcerContext context = afterBuild(gradle, settings, buildResult)
         if (!isBuildPhaseEnabled(context)) {
             cleanup()
             return

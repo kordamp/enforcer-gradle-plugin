@@ -46,4 +46,9 @@ class RequireFilesDontExist extends AbstractRequireFiles {
     protected String getErrorMsg() {
         return 'Some files should not exist:' + System.lineSeparator()
     }
+
+    @Override
+    protected boolean failIfNoMatches() {
+        false
+    }
 }

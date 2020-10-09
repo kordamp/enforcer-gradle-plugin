@@ -18,6 +18,7 @@
 package enforcer.rules
 
 import groovy.transform.CompileStatic
+import org.codehaus.plexus.util.DirectoryScanner
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -43,6 +44,8 @@ abstract class AbstractRequireFiles extends AbstractEnforcerRule {
     final Property<String> message
     final Property<Boolean> allowNulls
     final ListProperty<File> files
+    final ListProperty<String> includePatterns
+    final ListProperty<String> excludePatterns
     final ListProperty<EnforcerPhase> phases
 
     AbstractRequireFiles(ObjectFactory objects) {
@@ -50,7 +53,21 @@ abstract class AbstractRequireFiles extends AbstractEnforcerRule {
         message = objects.property(String)
         allowNulls = objects.property(Boolean).convention(false)
         files = objects.listProperty(File).convention([])
+        includePatterns = objects.listProperty(String).convention([])
+        excludePatterns = objects.listProperty(String).convention([])
         phases = objects.listProperty(EnforcerPhase).convention([BEFORE_BUILD])
+    }
+
+    void include(String str) {
+        if (isNotBlank(str)) {
+            includePatterns.add(str)
+        }
+    }
+
+    void exclude(String str) {
+        if (isNotBlank(str)) {
+            excludePatterns.add(str)
+        }
     }
 
     void file(String str) {
@@ -74,16 +91,63 @@ abstract class AbstractRequireFiles extends AbstractEnforcerRule {
     }
 
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
-        if (!allowNulls.get() && files.get().size() == 0) {
-            throw fail('The file list is empty and Null files are disabled.')
+        if (!allowNulls.get() && files.get().isEmpty()) {
+            if (includePatterns.get().isEmpty() && excludePatterns.get().isEmpty()) {
+                throw fail('The file list is empty and Null files are disabled.')
+            }
         }
 
         List<File> failures = []
         for (File file : files.get()) {
-            if (!allowNulls && !file) {
+            if (!allowNulls.get() && !file) {
                 failures.add(file)
             } else if (!checkFile(context, file)) {
                 failures.add(file)
+            }
+        }
+
+        if (!includePatterns.get().isEmpty() || !excludePatterns.get().isEmpty()) {
+            DirectoryScanner ds = new DirectoryScanner()
+            ds.basedir = context.basedir
+
+            String[] include = includePatterns.get().toArray(new String[0])
+            ds.setIncludes(include)
+            String[] exclude = excludePatterns.get().toArray(new String[0])
+            ds.setExcludes(exclude)
+            ds.scan()
+
+            String[] includedFiles = ds.includedFiles
+            if (!allowNulls.get() && !includedFiles.length && failIfNoMatches()) {
+                // we didn't get any matches
+                String msg = message.orNull
+
+                StringBuilder buf = new StringBuilder()
+                if (isNotBlank(msg)) {
+                    buf.append(msg).append(System.lineSeparator())
+                }
+                buf.append(getErrorMsg()).append(System.lineSeparator())
+
+                if (include.length > 0) {
+                    buf.append('Including patterns are:').append(System.lineSeparator())
+                    for (String s : include) {
+                        buf.append(s).append(System.lineSeparator())
+                    }
+                }
+                if (exclude.length > 0) {
+                    buf.append('Excluding patterns are:').append(System.lineSeparator())
+                    for (String s : exclude) {
+                        buf.append(s).append(System.lineSeparator())
+                    }
+                }
+
+                throw fail(buf.toString())
+            }
+
+            for (String filename : includedFiles) {
+                File file = new File(ds.basedir, filename)
+                if (!checkFile(context, file)) {
+                    failures.add(file)
+                }
             }
         }
 
@@ -112,4 +176,8 @@ abstract class AbstractRequireFiles extends AbstractEnforcerRule {
     protected abstract boolean checkFile(EnforcerContext context, File file)
 
     protected abstract String getErrorMsg()
+
+    protected boolean failIfNoMatches() {
+        true
+    }
 }

@@ -50,6 +50,11 @@ final class ProjectEnforcerContext implements EnforcerContext {
         project
     }
 
+    @Override
+    File getBasedir() {
+        project.projectDir
+    }
+
     static ProjectEnforcerContext beforeProject(Project project) {
         return new ProjectEnforcerContext(EnforcerPhase.BEFORE_PROJECT, project, null)
     }

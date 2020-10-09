@@ -20,6 +20,7 @@ package org.kordamp.gradle.plugin.enforcer.api
 import groovy.transform.CompileStatic
 import org.gradle.BuildResult
 import org.gradle.api.Project
+import org.gradle.api.initialization.Settings
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
@@ -34,12 +35,14 @@ final class BuildEnforcerContext implements EnforcerContext {
 
     final EnforcerPhase enforcerPhase
     final Gradle gradle
+    final Settings settings
     final BuildResult buildResult
     final Logger logger
 
-    private BuildEnforcerContext(EnforcerPhase enforcerPhase, Gradle gradle, BuildResult buildResult) {
+    private BuildEnforcerContext(EnforcerPhase enforcerPhase, Gradle gradle, Settings settings, BuildResult buildResult) {
         this.enforcerPhase = enforcerPhase
         this.gradle = gradle
+        this.settings = settings
         this.buildResult = buildResult
         this.logger = new BuildEnforcerLogger(LOG)
     }
@@ -54,20 +57,25 @@ final class BuildEnforcerContext implements EnforcerContext {
         gradle.rootProject
     }
 
-    static BuildEnforcerContext beforeBuild(Gradle gradle) {
-        return new BuildEnforcerContext(EnforcerPhase.BEFORE_BUILD, gradle, null)
+    @Override
+    File getBasedir() {
+        settings.settingsDir
     }
 
-    static BuildEnforcerContext beforeProjects(Gradle gradle) {
-        return new BuildEnforcerContext(EnforcerPhase.BEFORE_PROJECTS, gradle, null)
+    static BuildEnforcerContext beforeBuild(Gradle gradle, Settings settings) {
+        return new BuildEnforcerContext(EnforcerPhase.BEFORE_BUILD, gradle, settings, null)
     }
 
-    static BuildEnforcerContext afterProjects(Gradle gradle) {
-        return new BuildEnforcerContext(EnforcerPhase.AFTER_PROJECTS, gradle, null)
+    static BuildEnforcerContext beforeProjects(Gradle gradle, Settings settings) {
+        return new BuildEnforcerContext(EnforcerPhase.BEFORE_PROJECTS, gradle, settings, null)
     }
 
-    static BuildEnforcerContext afterBuild(Gradle gradle, BuildResult buildResult) {
-        return new BuildEnforcerContext(EnforcerPhase.AFTER_BUILD, gradle, buildResult)
+    static BuildEnforcerContext afterProjects(Gradle gradle, Settings settings) {
+        return new BuildEnforcerContext(EnforcerPhase.AFTER_PROJECTS, gradle, settings, null)
+    }
+
+    static BuildEnforcerContext afterBuild(Gradle gradle, Settings settings, BuildResult buildResult) {
+        return new BuildEnforcerContext(EnforcerPhase.AFTER_BUILD, gradle, settings, buildResult)
     }
 
     private class BuildEnforcerLogger extends EnforcerContextLogger {

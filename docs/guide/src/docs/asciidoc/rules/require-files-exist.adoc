@@ -12,6 +12,8 @@ enforce {
         r.enabled
         r.message
         r.files
+        r.includePatterns
+        r.excludePatterns
         r.allowNulls
         r.phases
     }
@@ -43,8 +45,20 @@ enforce {
 | files
 | Property<String>
 |
-| {icon_req_y}
+| {icon_req_c}
 | A list of files to be checked.
+
+| includePatterns
+| ListProperty<String>
+| `[ ]`
+| {icon_req_c}
+| List of filename patterns to include.
+
+| excludePatterns
+| ListProperty<String>
+| `[ ]`
+| {icon_req_c}
+| List of filename patterns to exclude.
 
 | phases
 | ListProperty<EnforcerPhase>
@@ -59,6 +73,12 @@ enforce {
 *file(String str)* +
 *file(File file)* +
 Adds a file to the list of files to be checked. Path may be relative or absolute.
+
+*include(String str)* +
+Adds a patterns to the list of inclusion patterns to be checked. Path may be relative or absolute.
+
+*exclude(String str)* +
+Adds a patterns to the list of exclusion patterns to be checked. Path may be relative or absolute.
 
 == Example
 

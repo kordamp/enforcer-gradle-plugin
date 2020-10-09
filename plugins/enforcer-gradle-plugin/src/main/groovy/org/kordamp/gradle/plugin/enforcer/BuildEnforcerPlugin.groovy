@@ -50,6 +50,6 @@ class BuildEnforcerPlugin implements Plugin<Settings> {
             'enforce',
             DefaultBuildEnforcerExtension)
 
-        settings.gradle.addListener(new BuildEnforcerRuleInvoker(settings.gradle, extension, objects))
+        settings.gradle.addListener(new BuildEnforcerRuleInvoker(settings, extension, objects))
     }
 }

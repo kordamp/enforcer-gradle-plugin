@@ -33,4 +33,6 @@ interface EnforcerContext {
     Project getProject()
 
     Logger getLogger()
+
+    File getBasedir()
 }
