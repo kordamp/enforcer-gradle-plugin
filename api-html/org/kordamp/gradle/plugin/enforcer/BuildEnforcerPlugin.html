@@ -81,7 +81,7 @@ BuildEnforcerPlugin.groovy
 <a name="50"><font color="#808080">50</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#ff6100">'en</font><font color="#000000">force</font><font color="#ff6100">',</font><br />
 <a name="51"><font color="#808080">51</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">DefaultBuildEnforcerExtension</font><font color="#000000">)</font><br />
 <a name="52"><font color="#808080">52</font>&nbsp;</a><font color="#ffffff"></font><br />
-<a name="53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">settings.gradle.addListener</font><font color="#000000">(</font><font color="#0000c0"><b>new&nbsp;</b></font><font color="#000000">BuildEnforcerRuleInvoker</font><font color="#000000">(</font><font color="#000000">settings.gradle,&nbsp;extension,&nbsp;objects</font><font color="#000000">))</font><br />
+<a name="53"><font color="#808080">53</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">settings.gradle.addListener</font><font color="#000000">(</font><font color="#0000c0"><b>new&nbsp;</b></font><font color="#000000">BuildEnforcerRuleInvoker</font><font color="#000000">(</font><font color="#000000">settings,&nbsp;extension,&nbsp;objects</font><font color="#000000">))</font><br />
 <a name="54"><font color="#808080">54</font>&nbsp;</a><font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font><br />
 <a name="55"><font color="#808080">55</font>&nbsp;</a><font color="#000000">}</font></code>
     

@@ -92,7 +92,7 @@ $(addBlockSwitches);
 <h1>Enforcer Gradle Plugin</h1>
 <div class="details">
 <span id="author" class="author">Andres Almiray</span><br>
-<span id="revnumber">version 0.6.0</span>
+<span id="revnumber">version 0.7.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -105,9 +105,10 @@ $(addBlockSwitches);
 <li><a href="#_rule_dsl">2.3. Rule DSL</a></li>
 <li><a href="#_mergestrategy">2.4. MergeStrategy</a></li>
 <li><a href="#_enforcer_phase">2.5. Enforcer Phase</a></li>
-<li><a href="#_version_range">2.6. Version Ranges</a></li>
-<li><a href="#_system_properties">2.7. System Properties</a></li>
-<li><a href="#_comparison_to_maven">2.8. Comparison to Maven</a></li>
+<li><a href="#_enforcer_level">2.6. Enforcer Level</a></li>
+<li><a href="#_version_range">2.7. Version Ranges</a></li>
+<li><a href="#_system_properties">2.8. System Properties</a></li>
+<li><a href="#_comparison_to_maven">2.9. Comparison to Maven</a></li>
 </ul>
 </li>
 <li><a href="#_rules">3. Rules</a>
@@ -191,85 +192,112 @@ $(addBlockSwitches);
 <li><a href="#_example_8">3.10.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requirefilechecksum">3.11. RequireFileChecksum</a>
+<li><a href="#_requireencoding">3.11. RequireEncoding</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_11">3.11.1. Configuration</a></li>
-<li><a href="#_properties_8">3.11.2. Properties</a></li>
+<li><a href="#_trigger_phases_11">3.11.1. Trigger Phases</a></li>
+<li><a href="#_configuration_11">3.11.2. Configuration</a></li>
+<li><a href="#_properties_8">3.11.3. Properties</a></li>
 </ul>
 </li>
-<li><a href="#_requirefilesdontexist">3.12. RequireFilesDontExist</a>
+<li><a href="#_requirefilechecksum">3.12. RequireFileChecksum</a>
 <ul class="sectlevel3">
 <li><a href="#_configuration_12">3.12.1. Configuration</a></li>
 <li><a href="#_properties_9">3.12.2. Properties</a></li>
-<li><a href="#_methods_5">3.12.3. Methods</a></li>
-<li><a href="#_example_9">3.12.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requirefilesexist">3.13. RequireFilesExist</a>
+<li><a href="#_requirefilesdontexist">3.13. RequireFilesDontExist</a>
 <ul class="sectlevel3">
 <li><a href="#_configuration_13">3.13.1. Configuration</a></li>
 <li><a href="#_properties_10">3.13.2. Properties</a></li>
-<li><a href="#_methods_6">3.13.3. Methods</a></li>
-<li><a href="#_example_10">3.13.4. Example</a></li>
+<li><a href="#_methods_5">3.13.3. Methods</a></li>
+<li><a href="#_example_9">3.13.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requirefilessize">3.14. RequireFilesSize</a>
+<li><a href="#_requirefilesexist">3.14. RequireFilesExist</a>
 <ul class="sectlevel3">
 <li><a href="#_configuration_14">3.14.1. Configuration</a></li>
 <li><a href="#_properties_11">3.14.2. Properties</a></li>
-<li><a href="#_methods_7">3.14.3. Methods</a></li>
+<li><a href="#_methods_6">3.14.3. Methods</a></li>
+<li><a href="#_example_10">3.14.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requiregradleproperty">3.15. RequireGradleProperty</a>
+<li><a href="#_requirefilessize">3.15. RequireFilesSize</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_11">3.15.1. Trigger Phases</a></li>
-<li><a href="#_configuration_15">3.15.2. Configuration</a></li>
-<li><a href="#_properties_12">3.15.3. Properties</a></li>
-<li><a href="#_example_11">3.15.4. Example</a></li>
+<li><a href="#_configuration_15">3.15.1. Configuration</a></li>
+<li><a href="#_properties_12">3.15.2. Properties</a></li>
+<li><a href="#_methods_7">3.15.3. Methods</a></li>
 </ul>
 </li>
-<li><a href="#_requiregradleversion">3.16. RequireGradleVersion</a>
+<li><a href="#_requiregradleproperty">3.16. RequireGradleProperty</a>
 <ul class="sectlevel3">
 <li><a href="#_trigger_phases_12">3.16.1. Trigger Phases</a></li>
 <li><a href="#_configuration_16">3.16.2. Configuration</a></li>
 <li><a href="#_properties_13">3.16.3. Properties</a></li>
+<li><a href="#_example_11">3.16.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requirejavaversion">3.17. RequireJavaVersion</a>
+<li><a href="#_requiregradleversion">3.17. RequireGradleVersion</a>
 <ul class="sectlevel3">
 <li><a href="#_trigger_phases_13">3.17.1. Trigger Phases</a></li>
 <li><a href="#_configuration_17">3.17.2. Configuration</a></li>
 <li><a href="#_properties_14">3.17.3. Properties</a></li>
 </ul>
 </li>
-<li><a href="#_requireos">3.18. RequireOS</a>
+<li><a href="#_requirejavaversion">3.18. RequireJavaVersion</a>
 <ul class="sectlevel3">
 <li><a href="#_trigger_phases_14">3.18.1. Trigger Phases</a></li>
 <li><a href="#_configuration_18">3.18.2. Configuration</a></li>
 <li><a href="#_properties_15">3.18.3. Properties</a></li>
-<li><a href="#_example_12">3.18.4. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requiresystemproperty">3.19. RequireSystemProperty</a>
+<li><a href="#_requireos">3.19. RequireOS</a>
 <ul class="sectlevel3">
 <li><a href="#_trigger_phases_15">3.19.1. Trigger Phases</a></li>
 <li><a href="#_configuration_19">3.19.2. Configuration</a></li>
 <li><a href="#_properties_16">3.19.3. Properties</a></li>
-<li><a href="#_example_13">3.19.4. Example</a></li>
+<li><a href="#_example_12">3.19.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requiresystemproperty">3.20. RequireSystemProperty</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_16">3.20.1. Trigger Phases</a></li>
+<li><a href="#_configuration_20">3.20.2. Configuration</a></li>
+<li><a href="#_properties_17">3.20.3. Properties</a></li>
+<li><a href="#_example_13">3.20.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requireurl">3.21. RequireUrl</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_17">3.21.1. Trigger Phases</a></li>
+<li><a href="#_configuration_21">3.21.2. Configuration</a></li>
+<li><a href="#_properties_18">3.21.3. Properties</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_authoring">4. Authoring</a>
+<li><a href="#_kordamp_rules">4. Kordamp Rules</a>
 <ul class="sectlevel2">
-<li><a href="#_create_a_project">4.1. Create a project</a></li>
-<li><a href="#_create_a_rule_class">4.2. Create a Rule class</a></li>
-<li><a href="#_build">4.3. Build</a></li>
-<li><a href="#_configure_the_enforcer_plugin">4.4. Configure the Enforcer plugin</a></li>
-<li><a href="#_configure_the_rule">4.5. Configure the rule</a></li>
+<li><a href="#_requireroles">4.1. RequireRoles</a>
+<ul class="sectlevel3">
+<li><a href="#_trigger_phases_18">4.1.1. Trigger Phases</a></li>
+<li><a href="#_configuration_22">4.1.2. Configuration</a></li>
+<li><a href="#_properties_19">4.1.3. Properties</a></li>
+<li><a href="#_methods_8">4.1.4. Methods</a></li>
+<li><a href="#_example_14">4.1.5. Example</a></li>
 </ul>
 </li>
-<li><a href="#_links">5. Links</a></li>
+</ul>
+</li>
+<li><a href="#_authoring">5. Authoring</a>
+<ul class="sectlevel2">
+<li><a href="#_create_a_project">5.1. Create a project</a></li>
+<li><a href="#_create_a_rule_class">5.2. Create a Rule class</a></li>
+<li><a href="#_build">5.3. Build</a></li>
+<li><a href="#_configure_the_enforcer_plugin">5.4. Configure the Enforcer plugin</a></li>
+<li><a href="#_configure_the_rule">5.5. Configure the rule</a></li>
+</ul>
+</li>
+<li><a href="#_links">6. Links</a></li>
 </ul>
 </div>
 </div>
@@ -302,7 +330,7 @@ $(addBlockSwitches);
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -327,7 +355,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.project-enforcer'
@@ -343,7 +371,7 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.6.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.7.0'
 }
 
 enforce {
@@ -473,6 +501,13 @@ Configures rules for a group of projects. Rules will be executed in the followin
 <td class="tableblock halign-left valign-top"><p class="tableblock">MergeStrategy.OVERRIDE</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Controls how duplicate rule definitions should be handled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enforcerLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;EnforcerLevel&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EnforcerLevel.ERROR</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fails the build if set to <code>EnforcerLevel.ERROR</code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -605,7 +640,35 @@ If rules are configured using the <code>org.kordamp.gradle.project-enforcer</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="_version_range"><a class="anchor" href="#_version_range"></a>2.6. Version Ranges</h3>
+<h3 id="_enforcer_level"><a class="anchor" href="#_enforcer_level"></a>2.6. Enforcer Level</h3>
+<div class="paragraph">
+<p>The enforcer may configured to fail the build when a rule triggers if its <code>enforcerLevel</code> is set to <code>ERROR</code> or
+if any of the triggered rules has its <code>enforcerLevel</code> set to <code>ERROR</code>.</p>
+</div>
+<div class="hdlist">
+<div class="title">Values</div>
+<table>
+<tr>
+<td class="hdlist1">
+ERROR
+</td>
+<td class="hdlist2">
+<p>Fail the build when a rule triggers.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+WARN
+</td>
+<td class="hdlist2">
+<p>Do not fail the build when a rule triggers.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_version_range"><a class="anchor" href="#_version_range"></a>2.7. Version Ranges</h3>
 <div class="paragraph">
 <p>Some rules require a version range. The following table describes the supported formats and their meanings</p>
 </div>
@@ -665,7 +728,7 @@ If rules are configured using the <code>org.kordamp.gradle.project-enforcer</cod
 </table>
 </div>
 <div class="sect2">
-<h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>2.7. System Properties</h3>
+<h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>2.8. System Properties</h3>
 <div class="paragraph">
 <p>The behavior of the enforcer and configured rules can be changed with the following <code>System</code> properties</p>
 </div>
@@ -692,7 +755,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_comparison_to_maven"><a class="anchor" href="#_comparison_to_maven"></a>2.8. Comparison to Maven</h3>
+<h3 id="_comparison_to_maven"><a class="anchor" href="#_comparison_to_maven"></a>2.9. Comparison to Maven</h3>
 <div class="paragraph">
 <p>The following table shows rules available to both plugins</p>
 </div>
@@ -808,7 +871,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireEncoding</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireEnvironmentVariable</p></td>
@@ -881,6 +944,11 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireProjectUrl</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireProperty</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
@@ -901,6 +969,11 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireRoles</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireSnapshotVersion</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
@@ -919,6 +992,11 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireUpperBoundDeps</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequireUrl</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -960,6 +1038,13 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables the rule. Can be overridden using a <code>System</code> property whose key follows the pattern
 <code>&lt;fullyQualifiedClassName&gt;.enabled</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enforcerLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;EnforcerLevel&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;unset&gt;</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fails the build if set to <code>EnforcerLevel.ERROR</code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1015,6 +1100,8 @@ The following icons indicate the required state of a property:<br>
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.AlwaysFail) { r -&gt;
         r.enabled
+        r.enforcerLevel
+        r.message
     }
 }</code></pre>
 </div>
@@ -1088,6 +1175,8 @@ The following icons indicate the required state of a property:<br>
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.AlwaysPass) { r -&gt;
         r.enabled
+        r.enforcerLevel
+        r.message
     }
 }</code></pre>
 </div>
@@ -1173,6 +1262,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.BanDuplicateClasses) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.findAllDuplicates
         r.ignoreWhenIdentical
@@ -1229,7 +1319,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
   to all resolvable configurations if this property is left empty.</p></td>
@@ -1237,14 +1327,14 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ignoreClasses</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of classes to ignore duplicates of. Wildcards can be specified using the * character.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dependencies</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;Dependency&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of dependencies for which you want to ignore specific classes.</p></td>
 </tr>
@@ -1323,6 +1413,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.BannedDependencies) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.configurations
         r.excludes
         r.includes
@@ -1363,7 +1454,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
   to all resolvable configurations if this property is left empty.</p></td>
@@ -1371,7 +1462,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to ban. The format is <code>groupId[:artifactId][:version][:classifier]</code> where <code>artifactId</code>, <code>version</code>,<br>
   and <code>classifier</code> are optional. Wildcards may be used to replace an entire or just parts of a section.</p></td>
@@ -1379,7 +1470,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with<br>
   wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words,<br>
@@ -1473,6 +1564,7 @@ Add a dependency pattern to be included.</p>
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.BannedRepositories) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.mavenLocalAllowed
         r.bannedRepositories
         r.allowedRepositories
@@ -1508,14 +1600,14 @@ Add a dependency pattern to be included.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">bannedRepositories</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specify banned non-plugin repositories. This is a black list of http/https url patterns.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">allowedRepositories</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specify explicitly allowed non-plugin repositories. This is a white list of http/https url patterns.</p></td>
 </tr>
@@ -1587,6 +1679,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.DependencyConvergence) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.failOnDynamicVersions
         r.failOnChangingVersions
         r.failOnNonReproducibleResolution
@@ -1680,7 +1773,7 @@ This rule will resolve configurations eagerly, once the target project or projec
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1817,6 +1910,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.EnforceBytecodeVersion) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.maxJdkVersion
         r.maxJavaMajorVersionNumber
         r.maxJavaMinorVersionNumber
@@ -1884,7 +1978,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An optional list of artifacts to exclude. The format is <code>groupId[:artifactId][:version][:classifier]</code> where <code>artifactId</code>,<br>
   <code>version</code>, and <code>classifier</code> are optional. Wildcards may be used to replace an entire or just parts of a section.</p></td>
@@ -1892,7 +1986,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An optional list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with<br>
   wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words,<br>
@@ -1902,7 +1996,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
   to all resolvable configurations if this property is left empty.</p></td>
@@ -1910,7 +2004,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ignoreClasses</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of classes to ignore. Wildcards can be specified using the * character.</p></td>
 </tr>
@@ -1986,7 +2080,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2045,7 +2139,7 @@ dependencies {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2105,6 +2199,7 @@ FAILURE: Build failed with an exception.
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.ExcludeDependencies) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.exclude()
     }
 }</code></pre>
@@ -2134,7 +2229,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2192,7 +2287,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2232,6 +2327,7 @@ enforce {
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.ForceDependencies) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.dependencies
     }
 }</code></pre>
@@ -2261,7 +2357,7 @@ enforce {
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dependencies</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;Object&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of dependencies to be forced. Accepted formats are the same when declaring dependencies in a configuration.</p></td>
 </tr>
@@ -2281,7 +2377,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2339,7 +2435,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2401,6 +2497,7 @@ compileClasspath - Compile classpath for source set 'main'.
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireEnvironmentVariable) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.variableName
         r.regex
@@ -2494,17 +2591,172 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requirefilechecksum"><a class="anchor" href="#_requirefilechecksum"></a>3.11. RequireFileChecksum</h3>
+<h3 id="_requireencoding"><a class="anchor" href="#_requireencoding"></a>3.11. RequireEncoding</h3>
+<div class="paragraph">
+<p>Checks file encodings to see if they match the given encoding.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_11"><a class="anchor" href="#_trigger_phases_11"></a>3.11.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_11"><a class="anchor" href="#_configuration_11"></a>3.11.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireEncoding) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.encoding
+        r.includes
+        r.excludes
+        r.useDefaultExcludes
+        r.failFast
+        r.acceptAsciiSubset
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_8"><a class="anchor" href="#_properties_8"></a>3.11.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">encoding</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>System.getProperty('file.encoding')</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of globs to include.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of globs to exclude.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">useDefaultExcludes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables SCM files exclusions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">failFast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Should the rule fail after the first error or should the errors be aggregated.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">acceptAsciiSubset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Should the rule accept US-ASCII as an subset of UTF-8 and ISO-8859-1.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Default exclusions include the following patterns</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>// Miscellaneous typical temporary files
+'**/*~', '**/#*#', '**/.#*', '**/%*%', '**/._*'
+
+// CVS
+'**/CVS', '**/CVS/**', '**/.cvsignore'
+
+// RCS
+'**/RCS', '**/RCS/**'
+
+// SCCS
+'**/SCCS', '**/SCCS/**'
+
+// Visual SourceSafe
+'**/vssver.scc'
+
+// MKS
+'**/project.pj'
+
+// Subversion
+'**/.svn', '**/.svn/**'
+
+// Arch
+'**/.arch-ids', '**/.arch-ids/**'
+
+//Bazaar
+'**/.bzr', '**/.bzr/**'
+
+//SurroundSCM
+'**/.MySCMServerInfo'
+
+// Mac
+'**/.DS_Store'
+
+// Serena Dimensions Version 10
+'**/.metadata', '**/.metadata/**'
+
+// Mercurial
+'**/.hg', '**/.hg/**'
+
+// git
+'**/.git', '**/.gitignore', '**/.gitattributes', '**/.git/**'
+
+// BitKeeper
+'**/BitKeeper', '**/BitKeeper/**', '**/ChangeSet', '**/ChangeSet/**'
+
+// darcs
+'**/_darcs', '**/_darcs/**', '**/.darcsrepo', '**/.darcsrepo/**', '**/-darcs-backup*', '**/.darcs-temp-mail'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilechecksum"><a class="anchor" href="#_requirefilechecksum"></a>3.12. RequireFileChecksum</h3>
 <div class="paragraph">
 <p>This rule checks that the specified file has an given checksum.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_11"><a class="anchor" href="#_configuration_11"></a>3.11.1. Configuration</h4>
+<h4 id="_configuration_12"><a class="anchor" href="#_configuration_12"></a>3.12.1. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireFileChecksum) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.file
         r.checksum
@@ -2516,7 +2768,7 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_8"><a class="anchor" href="#_properties_8"></a>3.11.2. Properties</h4>
+<h4 id="_properties_9"><a class="anchor" href="#_properties_9"></a>3.12.2. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2575,160 +2827,27 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requirefilesdontexist"><a class="anchor" href="#_requirefilesdontexist"></a>3.12. RequireFilesDontExist</h3>
+<h3 id="_requirefilesdontexist"><a class="anchor" href="#_requirefilesdontexist"></a>3.13. RequireFilesDontExist</h3>
 <div class="paragraph">
 <p>This rule checks that the specified list of files do not exist.</p>
-</div>
-<div class="sect3">
-<h4 id="_configuration_12"><a class="anchor" href="#_configuration_12"></a>3.12.1. Configuration</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireFilesDontExist) { r -&gt;
-        r.enabled
-        r.message
-        r.files
-        r.allowNulls
-        r.phases
-        r.file()
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_properties_9"><a class="anchor" href="#_properties_9"></a>3.12.2. Properties</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-center valign-top">Required</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do not exist.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_methods_5"><a class="anchor" href="#_methods_5"></a>3.12.3. Methods</h4>
-<div class="paragraph">
-<p><strong>file(String str)</strong><br>
-<strong>file(File file)</strong><br>
-Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_example_9"><a class="anchor" href="#_example_9"></a>3.12.4. Example</h4>
-<div class="paragraph">
-<p>Given the following project structure</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code>.
-├── build.gradle
-├── gradle
-│   └── wrapper
-│       ├── gradle-wrapper.jar
-│       └── gradle-wrapper.properties
-├── gradlew
-├── gradlew.bat
-├── secrets.txt
-└── settings.gradle</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And the following enforcer configuration</p>
-</div>
-<div class="listingblock">
-<div class="title">settings.gradle</div>
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
-    }
-}
-apply plugin: 'org.kordamp.gradle.enforcer'
-
-enforce {
-    rule(enforcer.rules.RequireFilesDontExist) { r ->
-        r.file('secrets.txt')
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Running the build results in an error</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>* What went wrong:
-[BEFORE_BUILD] A Enforcer rule has failed
-&gt;
-  Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered.
-  Some files should not exist:
-
-  /Users/joe/projects/sample/secrets.txt</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_requirefilesexist"><a class="anchor" href="#_requirefilesexist"></a>3.13. RequireFilesExist</h3>
-<div class="paragraph">
-<p>This rule checks that the specified list of files exist.</p>
 </div>
 <div class="sect3">
 <h4 id="_configuration_13"><a class="anchor" href="#_configuration_13"></a>3.13.1. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireFilesExist) { r -&gt;
+    rule(enforcer.rules.RequireFilesDontExist) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.files
+        r.includePatterns
+        r.excludePatterns
         r.allowNulls
         r.phases
+        r.file()
+        r.include()
+        r.exclude()
     }
 }</code></pre>
 </div>
@@ -2766,14 +2885,28 @@ enforce {
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do exist.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do not exist.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to include.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to exclude.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
@@ -2786,15 +2919,23 @@ enforce {
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_6"><a class="anchor" href="#_methods_6"></a>3.13.3. Methods</h4>
+<h4 id="_methods_5"><a class="anchor" href="#_methods_5"></a>3.13.3. Methods</h4>
 <div class="paragraph">
 <p><strong>file(String str)</strong><br>
 <strong>file(File file)</strong><br>
 Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
 </div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+Adds a patterns to the list of inclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+Adds a patterns to the list of exclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_example_10"><a class="anchor" href="#_example_10"></a>3.13.4. Example</h4>
+<h4 id="_example_9"><a class="anchor" href="#_example_9"></a>3.13.4. Example</h4>
 <div class="paragraph">
 <p>Given the following project structure</p>
 </div>
@@ -2808,6 +2949,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 │       └── gradle-wrapper.properties
 ├── gradlew
 ├── gradlew.bat
+├── secrets.txt
 └── settings.gradle</code></pre>
 </div>
 </div>
@@ -2822,14 +2964,14 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
 
 enforce {
-    rule(enforcer.rules.RequireFilesExist) { r ->
-        r.file('gradle.properties')
+    rule(enforcer.rules.RequireFilesDontExist) { r ->
+        r.file('secrets.txt')
     }
 }</code></pre>
 </div>
@@ -2842,32 +2984,36 @@ enforce {
 <pre>* What went wrong:
 [BEFORE_BUILD] A Enforcer rule has failed
 &gt;
-  Enforcer rule 'enforcer.rules.RequireFilesExist' was triggered.
-  Some required files are missing:
+  Enforcer rule 'enforcer.rules.RequireFilesDontExist' was triggered.
+  Some files should not exist:
 
-  /Users/joe/projects/sample/gradle.properties</pre>
+  /Users/joe/projects/sample/secrets.txt</pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requirefilessize"><a class="anchor" href="#_requirefilessize"></a>3.14. RequireFilesSize</h3>
+<h3 id="_requirefilesexist"><a class="anchor" href="#_requirefilesexist"></a>3.14. RequireFilesExist</h3>
 <div class="paragraph">
-<p>This rule checks that the specified list of files exist and are within the specified size range.</p>
+<p>This rule checks that the specified list of files exist.</p>
 </div>
 <div class="sect3">
 <h4 id="_configuration_14"><a class="anchor" href="#_configuration_14"></a>3.14.1. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireFilesSize) { r -&gt;
+    rule(enforcer.rules.RequireFilesExist) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.files
-        r.maxsize
-        r.minsize
+        r.includePatterns
+        r.excludePatterns
         r.allowNulls
         r.phases
+        r.file()
+        r.include()
+        r.exclude()
     }
 }</code></pre>
 </div>
@@ -2911,8 +3057,189 @@ enforce {
 <td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to include.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to exclude.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods_6"><a class="anchor" href="#_methods_6"></a>3.14.3. Methods</h4>
+<div class="paragraph">
+<p><strong>file(String str)</strong><br>
+<strong>file(File file)</strong><br>
+Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
+</div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+Adds a patterns to the list of inclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+Adds a patterns to the list of exclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_10"><a class="anchor" href="#_example_10"></a>3.14.4. Example</h4>
+<div class="paragraph">
+<p>Given the following project structure</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the following enforcer configuration</p>
+</div>
+<div class="listingblock">
+<div class="title">settings.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+    }
+}
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+enforce {
+    rule(enforcer.rules.RequireFilesExist) { r ->
+        r.file('gradle.properties')
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the build results in an error</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>* What went wrong:
+[BEFORE_BUILD] A Enforcer rule has failed
+&gt;
+  Enforcer rule 'enforcer.rules.RequireFilesExist' was triggered.
+  Some required files are missing:
+
+  /Users/joe/projects/sample/gradle.properties</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requirefilessize"><a class="anchor" href="#_requirefilessize"></a>3.15. RequireFilesSize</h3>
+<div class="paragraph">
+<p>This rule checks that the specified list of files exist and are within the specified size range.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration_15"><a class="anchor" href="#_configuration_15"></a>3.15.1. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireFilesSize) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.files
+        r.includePatterns
+        r.excludePatterns
+        r.maxsize
+        r.minsize
+        r.allowNulls
+        r.phases
+        r.file()
+        r.include()
+        r.exclude()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_12"><a class="anchor" href="#_properties_12"></a>3.15.2. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If null files should be allowed. If allowed, they will be treated as if they do exist.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of files to be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to include.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludePatterns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to exclude.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">maxsize</p></td>
@@ -2939,21 +3266,29 @@ enforce {
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_7"><a class="anchor" href="#_methods_7"></a>3.14.3. Methods</h4>
+<h4 id="_methods_7"><a class="anchor" href="#_methods_7"></a>3.15.3. Methods</h4>
 <div class="paragraph">
 <p><strong>file(String str)</strong><br>
 <strong>file(File file)</strong><br>
 Adds a file to the list of files to be checked. Path may be relative or absolute.</p>
 </div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+Adds a patterns to the list of inclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+Adds a patterns to the list of exclusion patterns to be checked. Path may be relative or absolute.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requiregradleproperty"><a class="anchor" href="#_requiregradleproperty"></a>3.15. RequireGradleProperty</h3>
+<h3 id="_requiregradleproperty"><a class="anchor" href="#_requiregradleproperty"></a>3.16. RequireGradleProperty</h3>
 <div class="paragraph">
 <p>This rule checks that a specified Gradle property is set.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_11"><a class="anchor" href="#_trigger_phases_11"></a>3.15.1. Trigger Phases</h4>
+<h4 id="_trigger_phases_12"><a class="anchor" href="#_trigger_phases_12"></a>3.16.1. Trigger Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2972,12 +3307,13 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_15"><a class="anchor" href="#_configuration_15"></a>3.15.2. Configuration</h4>
+<h4 id="_configuration_16"><a class="anchor" href="#_configuration_16"></a>3.16.2. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireGradleProperty) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.property
         r.regex
@@ -2990,7 +3326,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_12"><a class="anchor" href="#_properties_12"></a>3.15.3. Properties</h4>
+<h4 id="_properties_13"><a class="anchor" href="#_properties_13"></a>3.16.3. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3057,7 +3393,7 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_11"><a class="anchor" href="#_example_11"></a>3.15.4. Example</h4>
+<h4 id="_example_11"><a class="anchor" href="#_example_11"></a>3.16.4. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3072,95 +3408,9 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requiregradleversion"><a class="anchor" href="#_requiregradleversion"></a>3.16. RequireGradleVersion</h3>
+<h3 id="_requiregradleversion"><a class="anchor" href="#_requiregradleversion"></a>3.17. RequireGradleVersion</h3>
 <div class="paragraph">
 <p>This rule enforces certain Gradle versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
-</div>
-<div class="sect3">
-<h4 id="_trigger_phases_12"><a class="anchor" href="#_trigger_phases_12"></a>3.16.1. Trigger Phases</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>BEFORE_BUILD</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_configuration_16"><a class="anchor" href="#_configuration_16"></a>3.16.2. Configuration</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireGradleVersion) { r -&gt;
-        r.enabled
-        r.message
-        r.version
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_properties_13"><a class="anchor" href="#_properties_13"></a>3.16.3. Properties</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-center valign-top">Required</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Gradle versions.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_requirejavaversion"><a class="anchor" href="#_requirejavaversion"></a>3.17. RequireJavaVersion</h3>
-<div class="paragraph">
-<p>This rule enforces certain Java versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
-</div>
-<div class="paragraph">
-<p>The JDK version is retrieved and the following processing occurs before being checked:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Drop all non-numeric characters preceeding the first number. (build 1.5.0_07-b03 becomes 1.5.0_07-b03)</p>
-</li>
-<li>
-<p>Replace all '_' and '-' with '.' (1.5.0_07-b03 becomes 1.5.0.07.b03)</p>
-</li>
-<li>
-<p>Remove all non digit characters "[^0-9] and convert each section using Integer.parseInt() (1.5.0_07-b03 becomes 1.5.0.7.3)</p>
-</li>
-<li>
-<p>Split the string on '.' and take the first 3 sections, separated by '.' and add '-' followed by the fourth section (1.5.0.7.3 becomes 1.5.0-7)</p>
-</li>
-</ol>
 </div>
 <div class="sect3">
 <h4 id="_trigger_phases_13"><a class="anchor" href="#_trigger_phases_13"></a>3.17.1. Trigger Phases</h4>
@@ -3177,8 +3427,9 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireJavaVersion) { r -&gt;
+    rule(enforcer.rules.RequireGradleVersion) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.version
     }
@@ -3218,17 +3469,35 @@ Adds a file to the list of files to be checked. Path may be relative or absolute
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Java versions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Gradle versions.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requireos"><a class="anchor" href="#_requireos"></a>3.18. RequireOS</h3>
+<h3 id="_requirejavaversion"><a class="anchor" href="#_requirejavaversion"></a>3.18. RequireJavaVersion</h3>
 <div class="paragraph">
-<p>This rule can enforce certain values about the Operating System and processor architecture.
-Detects the same values as the <a href="https://github.com/trustin/os-maven-plugin">os-maven-plugin</a>.</p>
+<p>This rule enforces certain Java versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
+</div>
+<div class="paragraph">
+<p>The JDK version is retrieved and the following processing occurs before being checked:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop all non-numeric characters preceeding the first number. (build 1.5.0_07-b03 becomes 1.5.0_07-b03)</p>
+</li>
+<li>
+<p>Replace all '_' and '-' with '.' (1.5.0_07-b03 becomes 1.5.0.07.b03)</p>
+</li>
+<li>
+<p>Remove all non digit characters "[^0-9] and convert each section using Integer.parseInt() (1.5.0_07-b03 becomes 1.5.0.7.3)</p>
+</li>
+<li>
+<p>Split the string on '.' and take the first 3 sections, separated by '.' and add '-' followed by the fourth section (1.5.0.7.3 becomes 1.5.0-7)</p>
+</li>
+</ol>
 </div>
 <div class="sect3">
 <h4 id="_trigger_phases_14"><a class="anchor" href="#_trigger_phases_14"></a>3.18.1. Trigger Phases</h4>
@@ -3245,8 +3514,78 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireJavaVersion) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.version
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_15"><a class="anchor" href="#_properties_15"></a>3.18.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Range of allowed Java versions.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requireos"><a class="anchor" href="#_requireos"></a>3.19. RequireOS</h3>
+<div class="paragraph">
+<p>This rule can enforce certain values about the Operating System and processor architecture.
+Detects the same values as the <a href="https://github.com/trustin/os-maven-plugin">os-maven-plugin</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_15"><a class="anchor" href="#_trigger_phases_15"></a>3.19.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_19"><a class="anchor" href="#_configuration_19"></a>3.19.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireOS) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.arch
         r.name
@@ -3261,7 +3600,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_15"><a class="anchor" href="#_properties_15"></a>3.18.3. Properties</h4>
+<h4 id="_properties_16"><a class="anchor" href="#_properties_16"></a>3.19.3. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3325,7 +3664,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">classifierWithLikes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Additional classifiers</p></td>
 </tr>
@@ -3340,7 +3679,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_12"><a class="anchor" href="#_example_12"></a>3.18.4. Example</h4>
+<h4 id="_example_12"><a class="anchor" href="#_example_12"></a>3.19.4. Example</h4>
 <div class="paragraph">
 <p>The following configuration only works when the build is run on a Windows OS</p>
 </div>
@@ -3373,12 +3712,12 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requiresystemproperty"><a class="anchor" href="#_requiresystemproperty"></a>3.19. RequireSystemProperty</h3>
+<h3 id="_requiresystemproperty"><a class="anchor" href="#_requiresystemproperty"></a>3.20. RequireSystemProperty</h3>
 <div class="paragraph">
 <p>This rule checks that a specified System property is set.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_15"><a class="anchor" href="#_trigger_phases_15"></a>3.19.1. Trigger Phases</h4>
+<h4 id="_trigger_phases_16"><a class="anchor" href="#_trigger_phases_16"></a>3.20.1. Trigger Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3397,12 +3736,13 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_19"><a class="anchor" href="#_configuration_19"></a>3.19.2. Configuration</h4>
+<h4 id="_configuration_20"><a class="anchor" href="#_configuration_20"></a>3.20.2. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireSystemProperty) { r -&gt;
         r.enabled
+        r.enforcerLevel
         r.message
         r.property
         r.regex
@@ -3415,7 +3755,7 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_16"><a class="anchor" href="#_properties_16"></a>3.19.3. Properties</h4>
+<h4 id="_properties_17"><a class="anchor" href="#_properties_17"></a>3.20.3. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3482,7 +3822,7 @@ FAILURE: Build failed with an exception.
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_13"><a class="anchor" href="#_example_13"></a>3.19.4. Example</h4>
+<h4 id="_example_13"><a class="anchor" href="#_example_13"></a>3.20.4. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3496,13 +3836,273 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_requireurl"><a class="anchor" href="#_requireurl"></a>3.21. RequireUrl</h3>
+<div class="paragraph">
+<p>This rule checks the given URL is present and optionally matches against a regex.</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_17"><a class="anchor" href="#_trigger_phases_17"></a>3.21.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_21"><a class="anchor" href="#_configuration_21"></a>3.21.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireUrl) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.regex
+        r.urlExtractor
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_18"><a class="anchor" href="#_properties_18"></a>3.21.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>^.+$</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The regex that the url must match. Default is a non-empty URL.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">urlExtractor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function&lt;Project, String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extracts an URL literal from the project.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_authoring"><a class="anchor" href="#_authoring"></a>4. Authoring</h2>
+<h2 id="_kordamp_rules"><a class="anchor" href="#_kordamp_rules"></a>4. Kordamp Rules</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The following rules require the target project to have applied the
+<code><a href="https://kordamp.org/kordamp-gradle-plugins/#_org_kordamp_gradle_base">org.kordamp.gradle.base</a></code> plugin.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<div class="title">Properties</div>
+<p>All rules share the following properties</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables or disables the rule. Can be overridden using a <code>System</code> property whose key follows the pattern
+<code>&lt;fullyQualifiedClassName&gt;.enabled</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enforcerLevel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;EnforcerLevel&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;unset&gt;</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fails the build if set to <code>EnforcerLevel.ERROR</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The following icons indicate the required state of a property:<br>
+<span class="icon green"><i class="fa fa-check"></i></span> required<br>
+<span class="icon red"><i class="fa fa-times"></i></span> optional<br>
+<span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span> conditionally required
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_requireroles"><a class="anchor" href="#_requireroles"></a>4.1. RequireRoles</h3>
+<div class="paragraph">
+<p>This rule checks there are roles covered by people found in <code>project.config.info.people</code>.</p>
+</div>
+<div class="paragraph">
+<p>Say you want to enforce a policy that in every project there is at least one person representing a specific role, e.g.
+at least one person has the role "lead engineer".</p>
+</div>
+<div class="sect3">
+<h4 id="_trigger_phases_18"><a class="anchor" href="#_trigger_phases_18"></a>4.1.1. Trigger Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_22"><a class="anchor" href="#_configuration_22"></a>4.1.2. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.requiredRoles
+        r.validRoles
+        r.required()
+        r.valid()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_19"><a class="anchor" href="#_properties_19"></a>4.1.3. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requiredRoles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of roles which must be represented by at least one person.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">validRoles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of roles which are additionally allowed. requiredRoles are always valid, so the union of <code>requiredRoles</code> and
+<code>validRoles</code> forms the set of all accepted roles. By default it has the value <code>*</code>, which means every role is accepted.
+This rule does *not* support Ant-patterns.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_methods_8"><a class="anchor" href="#_methods_8"></a>4.1.4. Methods</h4>
+<div class="paragraph">
+<p><strong>require(String role)</strong><br>
+Adds a required role.</p>
+</div>
+<div class="paragraph">
+<p><strong>valid(String role)</strong><br>
+Adds a valid role.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_14"><a class="anchor" href="#_example_14"></a>4.1.5. Example</h4>
+<div class="paragraph">
+<p>In this example there must be at least <strong>1</strong> person with the <code>developer</code> role. Any person may have <code>developer</code> or <code>contributor</code>
+role but not <code>designer</code> for example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r -&gt;
+        r.required('developer')
+        r.valid('contributor')
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_authoring"><a class="anchor" href="#_authoring"></a>5. Authoring</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_create_a_project"><a class="anchor" href="#_create_a_project"></a>4.1. Create a project</h3>
+<h3 id="_create_a_project"><a class="anchor" href="#_create_a_project"></a>5.1. Create a project</h3>
 <div class="paragraph">
 <p>First create a basic <code>java-library</code> project if you don&#8217;t have one already. Choose your preferred
 JVM language to implement your rules.</p>
@@ -3521,7 +4121,7 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.6.0'
+    api 'org.kordamp.gradle:enforcer-api:0.7.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -3539,14 +4139,14 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.6.0'
+    api 'org.kordamp.gradle:enforcer-api:0.7.0'
     implementation gradleApi()
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_a_rule_class"><a class="anchor" href="#_create_a_rule_class"></a>4.2. Create a Rule class</h3>
+<h3 id="_create_a_rule_class"><a class="anchor" href="#_create_a_rule_class"></a>5.2. Create a Rule class</h3>
 <div class="paragraph">
 <p>Create your rule class. The rule must implement the <a href="api/org/kordamp/gradle/plugin/enforcer/api/EnforcerRule.html">EnforcerRule</a> interface. You may rely on service injection
 as described at <a href="https://docs.gradle.org/current/userguide/custom_gradle_types.html">Developing Custom Gradle Types</a>.
@@ -3608,13 +4208,13 @@ public class MyCustomRule extends AbstractEnforcerRule {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build"><a class="anchor" href="#_build"></a>4.3. Build</h3>
+<h3 id="_build"><a class="anchor" href="#_build"></a>5.3. Build</h3>
 <div class="paragraph">
 <p>Build and Install, or Deploy your custom rule to a repository.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_the_enforcer_plugin"><a class="anchor" href="#_configure_the_enforcer_plugin"></a>4.4. Configure the Enforcer plugin</h3>
+<h3 id="_configure_the_enforcer_plugin"><a class="anchor" href="#_configure_the_enforcer_plugin"></a>5.4. Configure the Enforcer plugin</h3>
 <div class="paragraph">
 <p>On the consuming project, select which mode you want: <strong>build</strong> or <strong>project</strong></p>
 </div>
@@ -3630,7 +4230,7 @@ public class MyCustomRule extends AbstractEnforcerRule {
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3649,7 +4249,7 @@ apply plugin: 'org.kordamp.gradle.enforcer'</code></pre>
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.6.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -3672,13 +4272,13 @@ apply plugin: 'org.kordamp.gradle.project-enforcer'</code></pre>
 }
 
 plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.6.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.7.0'
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_the_rule"><a class="anchor" href="#_configure_the_rule"></a>4.5. Configure the rule</h3>
+<h3 id="_configure_the_rule"><a class="anchor" href="#_configure_the_rule"></a>5.5. Configure the rule</h3>
 <div class="paragraph">
 <p>Finally configure the rule as you need it</p>
 </div>
@@ -3693,7 +4293,7 @@ plugins {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_links"><a class="anchor" href="#_links"></a>5. Links</h2>
+<h2 id="_links"><a class="anchor" href="#_links"></a>6. Links</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="api/index.html" target="_blank" rel="noopener">Groovydoc</a></p>
@@ -3706,8 +4306,8 @@ plugins {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.6.0<br>
-Last updated 2020-05-09 12:39:28 +0200
+Version 0.7.0<br>
+Last updated 2020-10-10 01:32:44 +0200
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

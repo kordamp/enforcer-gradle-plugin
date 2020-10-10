@@ -1,5 +1,7 @@
 enforcer.rules
 enforcer.rules.internal
+enforcer.rules.kordamp
+org.freebsd.file
 org.kordamp.gradle.plugin.enforcer
 org.kordamp.gradle.plugin.enforcer.api
 org.kordamp.gradle.plugin.enforcer.internal
