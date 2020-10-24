@@ -126,10 +126,11 @@ abstract class AbstractBanDependencies extends AbstractStandardEnforcerRule {
         }
 
         context.logger.info("Resolving configuration ${configuration.name}.")
-        configuration.resolve()
+        Configuration cfg = configuration.copy()
+        cfg.resolve()
 
-        context.logger.info("Configuration ${configuration.name} contains ${configuration.resolvedConfiguration.resolvedArtifacts.size()} artifacts.")
-        artifacts.addAll(configuration.resolvedConfiguration.resolvedArtifacts)
+        context.logger.info("Configuration ${cfg.name} contains ${cfg.resolvedConfiguration.resolvedArtifacts.size()} artifacts.")
+        artifacts.addAll(cfg.resolvedConfiguration.resolvedArtifacts)
     }
 
     protected abstract Set<ResolvedArtifact> checkDependencies(EnforcerContext context, Set<ResolvedArtifact> artifacts)

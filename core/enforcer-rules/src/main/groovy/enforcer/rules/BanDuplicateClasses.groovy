@@ -154,11 +154,12 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
             ignorableDependencies.add(ignorableDependency)
         }
 
-        configuration.resolve()
+        Configuration cfg = configuration.copy()
+        cfg.resolve()
 
         Set<String> duplicates = []
 
-        for (ResolvedArtifact o : configuration.resolvedConfiguration.resolvedArtifacts) {
+        for (ResolvedArtifact o : cfg.resolvedConfiguration.resolvedArtifacts) {
             if (artifactsSeen.contains(o)) {
                 continue
             }

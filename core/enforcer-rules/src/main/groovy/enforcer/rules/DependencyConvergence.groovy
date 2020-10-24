@@ -74,17 +74,17 @@ class DependencyConvergence extends AbstractFilteringEnforcerRule {
             case AFTER_PROJECT:
                 // resolve
                 context.project.configurations.each { Configuration c ->
-                    if (c.canBeResolved) c.resolve()
+                    if (c.canBeResolved) c.copy().resolve()
                 }
                 break
             case AFTER_PROJECTS:
                 // resolve
                 context.project.configurations.each { Configuration c ->
-                    if (c.canBeResolved) c.resolve()
+                    if (c.canBeResolved) c.copy().resolve()
                 }
                 for (Project project : context.project.childProjects.values()) {
                     project.configurations.each { Configuration c ->
-                        if (c.canBeResolved) c.resolve()
+                        if (c.canBeResolved) c.copy().resolve()
                     }
                 }
                 break

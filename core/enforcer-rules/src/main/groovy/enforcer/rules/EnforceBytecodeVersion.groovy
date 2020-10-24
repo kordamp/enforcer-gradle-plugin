@@ -225,9 +225,10 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
             return
         }
 
-        configuration.resolve()
+        Configuration cfg = configuration.copy()
+        cfg.resolve()
 
-        Set<ResolvedArtifact> resolvedArtifacts = configuration.resolvedConfiguration.resolvedArtifacts
+        Set<ResolvedArtifact> resolvedArtifacts = cfg.resolvedConfiguration.resolvedArtifacts
         resolvedArtifacts.removeAll(artifactsSeen)
         artifactsSeen.addAll(resolvedArtifacts)
 
