@@ -109,11 +109,35 @@ enforce {
 
 [[_dsl_configure_build]]
 *void configure(Class<? extends Action<? extends BuildEnforcerExtension>> configurerClass)* +
-Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds.
+Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds. +
+Example: +
+[source,java]
+----
+import org.gradle.api.Action;
+
+public class MyEnforcerRulesConfigurer implements Action<BuildEnforcerExtension> {
+    @Override
+    public void execute(BuildEnforcerExtension extension) {
+        extension.rule(AlwaysPass.class);
+    }
+}
+----
 
 [[_dsl_configure_project]]
 *void configure(Class<? extends Action<? extends ProjectEnforcerExtension>> configurerClass)* +
-Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds.
+Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds. +
+Example: +
+[source,java]
+----
+import org.gradle.api.Action;
+
+public class MyEnforcerRulesConfigurer implements Action<ProjectEnforcerExtension> {
+    @Override
+    public void execute(ProjectEnforcerExtension extension) {
+        extension.rule(AlwaysPass.class);
+    }
+}
+----
 
 [[_dsl_rule_build]]
 *<R extends EnforcerRule> void rule(Class<R> ruleType)* +

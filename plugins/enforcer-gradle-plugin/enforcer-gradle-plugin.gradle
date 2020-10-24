@@ -34,7 +34,7 @@ processResources {
         expand(
             'version': project.version,
             'id': 'enforcer',
-            'name': 'Kordamp Enforcer Gradle plugins'
+            'name': 'Kordamp Enforcer Gradle plugin'
         )
     }
 }
