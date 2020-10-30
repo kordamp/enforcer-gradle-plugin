@@ -424,7 +424,7 @@ The following table shows rules available to both plugins
 
 | RequireReleaseDeps
 | {icon_req_y}
-| {icon_req_n}
+| {icon_req_y}
 
 | RequireReleaseVersion
 | {icon_req_y}

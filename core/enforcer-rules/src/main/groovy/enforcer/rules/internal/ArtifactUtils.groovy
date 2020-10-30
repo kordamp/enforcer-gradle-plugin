@@ -63,6 +63,32 @@ final class ArtifactUtils {
     }
 
     /**
+     * Filters the set of dependencies against the list of patterns.
+     *
+     * @param thePatterns the patterns
+     * @param dependencies the dependencies
+     * @return a set containing artifacts not matching one of the patterns.
+     */
+    static Set<ResolvedArtifact> filterDependencies(Set<ResolvedArtifact> dependencies, List<String> thePatterns) {
+        Set<ResolvedArtifact> filtered = new LinkedHashSet<>(dependencies)
+
+        if (thePatterns != null && thePatterns.size() > 0) {
+            for (String pattern : thePatterns) {
+                String[] subStrings = pattern.split(':')
+                subStrings = StringUtils.stripAll(subStrings)
+                String resultPattern = StringUtils.join(subStrings, ':')
+
+                for (ResolvedArtifact artifact : dependencies) {
+                    if (compareDependency(resultPattern, artifact)) {
+                        filtered.remove(artifact)
+                    }
+                }
+            }
+        }
+        return filtered
+    }
+
+    /**
      * Compares the given pattern against the given artifact. The pattern should follow the format
      * {@code groupId:artifactId:version:type:scope:classifier}.
      *
@@ -70,7 +96,7 @@ final class ArtifactUtils {
      * @param artifact the artifact
      * @return {@code true} if the artifact matches one of the patterns
      */
-    private static boolean compareDependency(String pattern, ResolvedArtifact artifact) {
+    static boolean compareDependency(String pattern, ResolvedArtifact artifact) {
         ArtifactMatcher.Pattern am = new ArtifactMatcher.Pattern(pattern)
         try {
             return am.match(artifact)

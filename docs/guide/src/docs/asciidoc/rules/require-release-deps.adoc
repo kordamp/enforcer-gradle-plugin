@@ -1,0 +1,111 @@
+
+= RequireReleaseDeps
+
+This rule checks that no snapshots are included.
+
+WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+
+== Allowed Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireReleaseDeps) { r ->
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.configurations
+        r.excludes
+        r.includes
+        r.onlyWhenRelease
+        r.exclude()
+        r.include()
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| configurations
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies +
+  to all resolvable configurations if this property is left empty.
+
+| excludes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_y}
+| A list of artifacts to ban. The format is `groupId[:artifactId][:version][:classifier]` where `artifactId`, `version`, +
+  and `classifier` are optional. Wildcards may be used to replace an entire or just parts of a section.
+
+| includes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| A list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with +
+  wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words, +
+  includes only subtract from artifacts that matched an exclude rule. +
+  For example, to ban all xerces except xerces-api you would exclude "xerces" (groupId) and include "xerces:xerces-api"
+
+| onlyWhenRelease
+| Property<Boolean>
+| `false`
+| {icon_req_n}
+| Allows this rule to execute only when this project is a release.
+
+|===
+
+Artifact pattern examples:
+
+* org.apache.maven
+* org.apache.maven:badArtifact
+* org.apache.maven:artifact:badVersion
+* org.apache.maven:*:1.2 (exclude version 1.2 and above, equivalent to [1.2,) )
+* org.apache.maven:*:[1.2] (explicit exclude of version 1.2)
+* org.apache.maven:*:*:test
+* org.apache.+*+:maven-+*+:*
+
+== Methods
+
+*exclude(String str)* +
+Add a dependency pattern to be excluded.
+
+*include(String str)* +
+Add a dependency pattern to be included.
+
+== Example
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireReleaseDeps) { r ->
+        // search only on compile and runtime classpaths
+        r.configurations.addAll(['compileClasspath', 'runtimeClasspath'])
+        // ignore all dependencies under the following package/artifacts
+        r.exclude('org.apache.maven')
+        r.exclude('org.apache.maven:badArtifact')
+        r.exclude('*:badArtifact')
+    }
+}
+----
+
