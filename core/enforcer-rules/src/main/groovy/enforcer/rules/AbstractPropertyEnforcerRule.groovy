@@ -55,8 +55,12 @@ abstract class AbstractPropertyEnforcerRule extends AbstractStandardEnforcerRule
 
         if (regex.present && !propValue.toString().matches(regex.get())) {
             if (!regexMessage.present) {
-                regexMessage.set(getName() + ' "' + getPropertyName() +
-                    '" does not match the regular expression "' + regex.get() + '".')
+                if (!message.present) {
+                    regexMessage.set(getName() + ' "' + getPropertyName() +
+                        '" does not match the regular expression "' + regex.get() + '".')
+                } else {
+                    regexMessage.set(message.get())
+                }
             }
             if (displayValue.get()) {
                 regexMessage.set(regexMessage.get() + ' Value is "' + propValue + '".')
