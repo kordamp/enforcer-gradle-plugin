@@ -24,6 +24,7 @@ import org.gradle.api.provider.ProviderFactory
 import org.kordamp.gradle.plugin.enforcer.api.BuildEnforcerExtension
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.MergeStrategy
+import org.kordamp.gradle.plugin.enforcer.api.RepeatableEnforcerRule
 
 import javax.inject.Inject
 
@@ -70,8 +71,13 @@ class DefaultBuildEnforcerExtension extends AbstractEnforcerExtension implements
                         LOG.debug("${prefix} Cannot override ${ruleType.name}")
                         throw deny(ruleType)
                     case MergeStrategy.OVERRIDE:
-                        LOG.debug("${prefix} Setting configuration to null on ${ruleType.name}")
-                        helper.setAction(null)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding ${ruleType.name}")
+                            buildHelpers.add(new DefaultEnforcerRuleHelper(ruleType))
+                        } else {
+                            LOG.debug("${prefix} Setting configuration to null on ${ruleType.name}")
+                            helper.setAction(null)
+                        }
                         break
                     case MergeStrategy.PREPEND:
                     case MergeStrategy.APPEND:
@@ -98,16 +104,31 @@ class DefaultBuildEnforcerExtension extends AbstractEnforcerExtension implements
                         LOG.debug("${prefix} Cannot override configuration of ${ruleType.name}")
                         throw deny(ruleType)
                     case MergeStrategy.OVERRIDE:
-                        LOG.debug("${prefix} Setting configuration on ${ruleType.name}")
-                        helper.setAction(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            buildHelpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Setting configuration on ${ruleType.name}")
+                            helper.setAction(configurer)
+                        }
                         break
                     case MergeStrategy.PREPEND:
-                        LOG.debug("${prefix} Prepending configuration to ${ruleType.name}")
-                        helper.prepend(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            buildHelpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Prepending configuration to ${ruleType.name}")
+                            helper.prepend(configurer)
+                        }
                         break
                     case MergeStrategy.APPEND:
-                        LOG.debug("${prefix} Appending configuration to ${ruleType.name}")
-                        helper.append(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            buildHelpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Appending configuration to ${ruleType.name}")
+                            helper.append(configurer)
+                        }
                         break
                     case MergeStrategy.DUPLICATE:
                         LOG.debug("${prefix} Adding configured ${ruleType.name}")
@@ -184,8 +205,13 @@ class DefaultBuildEnforcerExtension extends AbstractEnforcerExtension implements
                                     LOG.debug("${prefix} Cannot override configuration of ${ruleType.name} for project ${projectPath}")
                                     throw deny(ruleType)
                                 case MergeStrategy.OVERRIDE:
-                                    LOG.debug("${prefix} Setting configuration to null on ${ruleType.name} for project ${projectPath}")
-                                    helper.setAction(null)
+                                    if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                                        LOG.debug("${prefix} Adding ${ruleType.name} for project ${projectPath}")
+                                        helpers.add(new ProjectEnforcerRuleHelper(projectPath, ruleType))
+                                    } else {
+                                        LOG.debug("${prefix} Setting configuration to null on ${ruleType.name} for project ${projectPath}")
+                                        helper.setAction(null)
+                                    }
                                     break
                                 case MergeStrategy.PREPEND:
                                 case MergeStrategy.APPEND:
@@ -226,11 +252,19 @@ class DefaultBuildEnforcerExtension extends AbstractEnforcerExtension implements
                                     LOG.debug("${prefix} Cannot override configuration of ${ruleType.name} for project ${projectPath}")
                                     throw deny(ruleType)
                                 case MergeStrategy.OVERRIDE:
+                                    if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                                        LOG.debug("${prefix} Adding ${ruleType.name} for project ${projectPath}")
+                                        helpers.add(new ProjectEnforcerRuleHelper(projectPath, ruleType))
+                                    } else {
+                                        LOG.debug("${prefix} Setting configuration to null on ${ruleType.name} for project ${projectPath}")
+                                        helper.setAction(null)
+                                    }
+                                    break
                                     LOG.debug("${prefix} Setting configuration on ${ruleType.name} for project ${projectPath}")
                                     helper.setAction(configurer)
                                     break
                                 case MergeStrategy.PREPEND:
-                                    if (helper.isAny() && !helper.isAny(projectPath)) {
+                                    if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType) || (helper.isAny() && !helper.isAny(projectPath))) {
                                         LOG.debug("${prefix} Adding configured ${ruleType.name} for project ${projectPath}")
                                         projectHelpers.add(new ProjectEnforcerRuleHelper(projectPath, ruleType, configurer))
                                     } else {
@@ -240,7 +274,7 @@ class DefaultBuildEnforcerExtension extends AbstractEnforcerExtension implements
                                     break
                                 case MergeStrategy.APPEND:
                                 case MergeStrategy.DUPLICATE:
-                                    if (helper.isAny() && !helper.isAny(projectPath)) {
+                                    if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType) || (helper.isAny() && !helper.isAny(projectPath))) {
                                         LOG.debug("${prefix} Adding configured ${ruleType.name} for project ${projectPath}")
                                         projectHelpers.add(new ProjectEnforcerRuleHelper(projectPath, ruleType, configurer))
                                     } else {

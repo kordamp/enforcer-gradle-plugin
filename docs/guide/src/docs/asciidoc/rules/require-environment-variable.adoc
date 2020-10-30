@@ -3,6 +3,8 @@
 
 This rule checks that a specified environment variable is set.
 
+NOTE: This rule is repeatable. You may define multiple instances of this rule.
+
 == Allowed Phases
 * BEFORE_BUILD
 * AFTER_PROJECT

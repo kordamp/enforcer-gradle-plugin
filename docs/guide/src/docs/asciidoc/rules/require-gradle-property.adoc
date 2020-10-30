@@ -3,6 +3,8 @@
 
 This rule checks that a specified Gradle property is set.
 
+NOTE: This rule is repeatable. You may define multiple instances of this rule.
+
 == Allowed Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT

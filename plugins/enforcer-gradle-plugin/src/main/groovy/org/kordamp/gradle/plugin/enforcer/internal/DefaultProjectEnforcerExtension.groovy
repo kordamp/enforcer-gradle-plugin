@@ -26,6 +26,7 @@ import org.kordamp.gradle.plugin.enforcer.api.EnforcerExtension
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.MergeStrategy
 import org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerExtension
+import org.kordamp.gradle.plugin.enforcer.api.RepeatableEnforcerRule
 
 import javax.inject.Inject
 
@@ -71,8 +72,13 @@ class DefaultProjectEnforcerExtension extends AbstractEnforcerExtension implemen
                         LOG.debug("${prefix} Cannot override ${ruleType.name}")
                         throw deny(ruleType)
                     case MergeStrategy.OVERRIDE:
-                        LOG.debug("${prefix} Setting configuration to null on ${ruleType.name}")
-                        helper.setAction(null)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding ${ruleType.name}")
+                            helpers.add(new DefaultEnforcerRuleHelper(ruleType))
+                        } else {
+                            LOG.debug("${prefix} Setting configuration to null on ${ruleType.name}")
+                            helper.setAction(null)
+                        }
                         break
                     case MergeStrategy.PREPEND:
                     case MergeStrategy.APPEND:
@@ -99,16 +105,31 @@ class DefaultProjectEnforcerExtension extends AbstractEnforcerExtension implemen
                         LOG.debug("${prefix} Cannot override configuration of ${ruleType.name}")
                         throw deny(ruleType)
                     case MergeStrategy.OVERRIDE:
-                        LOG.debug("${prefix} Setting configuration on ${ruleType.name}")
-                        helper.setAction(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            helpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Setting configuration on ${ruleType.name}")
+                            helper.setAction(configurer)
+                        }
                         break
                     case MergeStrategy.PREPEND:
-                        LOG.debug("${prefix} Prepending configuration to ${ruleType.name}")
-                        helper.prepend(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            helpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Prepending configuration to ${ruleType.name}")
+                            helper.prepend(configurer)
+                        }
                         break
                     case MergeStrategy.APPEND:
-                        LOG.debug("${prefix} Appending configuration to ${ruleType.name}")
-                        helper.append(configurer)
+                        if (RepeatableEnforcerRule.class.isAssignableFrom(ruleType)) {
+                            LOG.debug("${prefix} Adding configured ${ruleType.name}")
+                            helpers.add(new DefaultEnforcerRuleHelper(ruleType, configurer))
+                        } else {
+                            LOG.debug("${prefix} Appending configuration to ${ruleType.name}")
+                            helper.append(configurer)
+                        }
                         break
                     case MergeStrategy.DUPLICATE:
                         LOG.debug("${prefix} Adding configured ${ruleType.name}")

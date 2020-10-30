@@ -3,6 +3,8 @@
 
 This rule checks the given URL is present and optionally matches against a regex.
 
+NOTE: This rule is repeatable. You may define multiple instances of this rule.
+
 == Allowed Phases
 * AFTER_PROJECT
 

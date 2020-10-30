@@ -24,6 +24,7 @@ import org.gradle.api.provider.Property
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
+import org.kordamp.gradle.plugin.enforcer.api.RepeatableEnforcerRule
 
 import javax.inject.Inject
 import java.util.function.Function
@@ -42,7 +43,7 @@ import static org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase.AFTER_PROJECT
  * @since 0.7.0
  */
 @CompileStatic
-class RequireUrl extends AbstractStandardEnforcerRule {
+class RequireUrl extends AbstractStandardEnforcerRule implements RepeatableEnforcerRule {
     final Property<String> regex
     final Function<Project, String> urlExtractor
 

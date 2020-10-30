@@ -22,13 +22,14 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
+import org.kordamp.gradle.plugin.enforcer.api.RepeatableEnforcerRule
 
 /**
  * @author Andres Almiray
  * @since 0.1.0
  */
 @CompileStatic
-abstract class AbstractPropertyEnforcerRule extends AbstractStandardEnforcerRule {
+abstract class AbstractPropertyEnforcerRule extends AbstractStandardEnforcerRule implements RepeatableEnforcerRule {
     final Property<String> regex
     final Property<String> regexMessage
     final Property<Boolean> displayValue
