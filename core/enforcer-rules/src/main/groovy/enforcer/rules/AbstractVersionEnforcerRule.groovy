@@ -63,6 +63,8 @@ abstract class AbstractVersionEnforcerRule extends AbstractStandardEnforcerRule 
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
         String requiredVersionRange = version.get()
 
         if (isBlank(requiredVersionRange)) {

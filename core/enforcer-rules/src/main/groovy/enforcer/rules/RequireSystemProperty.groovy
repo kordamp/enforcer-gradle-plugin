@@ -64,6 +64,8 @@ class RequireSystemProperty extends AbstractPropertyEnforcerRule {
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
         if (!property.present) {
             throw fail("Missing value for 'property'.")
         }

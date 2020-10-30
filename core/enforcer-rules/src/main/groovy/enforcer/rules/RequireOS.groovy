@@ -63,6 +63,8 @@ class RequireOS extends AbstractStandardEnforcerRule {
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
         if (allParamsEmpty()) {
             throw fail('All parameters can not be empty. ' +
                 'You must pick at least one of (name, arch, version, release, classifier)')

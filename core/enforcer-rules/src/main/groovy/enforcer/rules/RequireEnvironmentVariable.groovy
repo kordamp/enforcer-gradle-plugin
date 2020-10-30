@@ -54,11 +54,16 @@ class RequireEnvironmentVariable extends AbstractPropertyEnforcerRule {
     }
 
     @Override
-    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
-        if (variableName.present) {
-            enforceValue(System.getenv(variableName.get()))
-        } else {
-            throw illegalArgumentException("Missing value for 'variableName'.")
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
+        if (!variableName.present) {
+            throw fail("Missing value for 'variableName'.")
         }
+    }
+
+    @Override
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        enforceValue(System.getenv(variableName.get()))
     }
 }

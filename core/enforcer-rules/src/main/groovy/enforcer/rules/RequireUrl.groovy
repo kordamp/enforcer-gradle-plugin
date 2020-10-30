@@ -55,6 +55,8 @@ class RequireUrl extends AbstractStandardEnforcerRule implements RepeatableEnfor
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
         if (!urlExtractor) {
             throw fail('You must supply a value for urlExtractor')
         }

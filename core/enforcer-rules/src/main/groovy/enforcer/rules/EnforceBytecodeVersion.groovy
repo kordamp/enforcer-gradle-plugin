@@ -140,6 +140,8 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        super.doValidate(context);
+
         if (maxJdkVersion.present && maxJavaMajorVersionNumber.getOrElse(-1) != -1) {
             throw illegalArgumentException('Only maxJdkVersion or maxJavaMajorVersionNumber '
                 + 'configuration parameters should be set. Not both.')
