@@ -71,6 +71,7 @@ class BannedDependencies extends AbstractBanDependencies {
                 excluded.removeAll(included)
             }
         }
+
         return excluded
     }
 }

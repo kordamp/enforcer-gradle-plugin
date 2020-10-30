@@ -126,7 +126,7 @@ abstract class AbstractBanDependencies extends AbstractStandardEnforcerRule {
         }
 
         context.logger.info("Resolving configuration ${configuration.name}.")
-        Configuration cfg = configuration.copy()
+        Configuration cfg = configuration.copyRecursive()
         cfg.resolve()
 
         context.logger.info("Configuration ${cfg.name} contains ${cfg.resolvedConfiguration.resolvedArtifacts.size()} artifacts.")

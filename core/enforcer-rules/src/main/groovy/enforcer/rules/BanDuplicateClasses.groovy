@@ -150,7 +150,7 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
             ignorableDependencies.add(ignorableDependency)
         }
 
-        Configuration cfg = configuration.copy()
+        Configuration cfg = configuration.copyRecursive()
         cfg.resolve()
 
         Set<String> duplicates = []
