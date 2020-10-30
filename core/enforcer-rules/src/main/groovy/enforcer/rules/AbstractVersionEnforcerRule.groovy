@@ -62,38 +62,42 @@ abstract class AbstractVersionEnforcerRule extends AbstractStandardEnforcerRule 
     }
 
     @Override
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        String requiredVersionRange = version.get()
+
+        if (isBlank(requiredVersionRange)) {
+            throw fail(variableName + " version can't be empty.")
+        }
+    }
+
+    @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         ArtifactVersion detectedVersion = detectVersion(context)
         String requiredVersionRange = version.get()
 
-        if (isBlank(requiredVersionRange)) {
-            throw new EnforcerRuleException(this.class, variableName + " version can't be empty.")
+        String msg = 'Detected ' + variableName + ' Version: ' + detectedVersion
+
+        // short circuit check if the strings are exactly equal
+        if (detectedVersion.toString().equals(requiredVersionRange)) {
+            context.logger.info(msg + ' is allowed in the range ' + requiredVersionRange + '.')
         } else {
-            VersionRange vr = null
-            String msg = 'Detected ' + variableName + ' Version: ' + detectedVersion
+            try {
+                VersionRange vr = VersionRange.createFromVersionSpec(requiredVersionRange)
 
-            // short circuit check if the strings are exactly equal
-            if (detectedVersion.toString().equals(requiredVersionRange)) {
-                context.logger.info(msg + ' is allowed in the range ' + requiredVersionRange + '.')
-            } else {
-                try {
-                    vr = VersionRange.createFromVersionSpec(requiredVersionRange)
+                if (containsVersion(vr, detectedVersion)) {
+                    context.logger.info(msg + ' is allowed in the range ' + requiredVersionRange + '.')
+                } else {
+                    String m = message.orNull
 
-                    if (containsVersion(vr, detectedVersion)) {
-                        context.logger.info(msg + ' is allowed in the range ' + requiredVersionRange + '.')
-                    } else {
-                        String m = message.orNull
-
-                        if (isBlank(m)) {
-                            m = msg + ' is not in the allowed range ' + vr + '.'
-                        }
-
-                        throw fail(m)
+                    if (isBlank(m)) {
+                        m = msg + ' is not in the allowed range ' + vr + '.'
                     }
-                } catch (InvalidVersionSpecificationException e) {
-                    throw fail('The requested ' + variableName + ' version '
-                        + requiredVersionRange + ' is invalid.', e)
+
+                    throw fail(m)
                 }
+            } catch (InvalidVersionSpecificationException e) {
+                throw fail('The requested ' + variableName + ' version '
+                    + requiredVersionRange + ' is invalid.', e)
             }
         }
     }

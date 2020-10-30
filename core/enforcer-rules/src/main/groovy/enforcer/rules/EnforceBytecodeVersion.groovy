@@ -48,7 +48,7 @@ import static org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase.AFTER_PROJECT
  * Enforcer rule that will check the bytecode version of each class of each dependency.
  *
  * Adapted from {@code org.apache.maven.plugins.enforcer.EnforceBytecodeVersion}.
- * @see <a href="http://en.wikipedia.org/wiki/Java_class_file#General_layout">Java class file general layout</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Java_class_file#General_layout" >Java class file general layout</a>
  *
  * @author Andres Almiray
  * @since 0.1.0
@@ -139,48 +139,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
     }
 
     @Override
-    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
-        if (context.enforcerPhase == AFTER_PROJECTS) {
-            enforceAfterProjectsEvaluated(context)
-        } else {
-            enforceAfterProjectEvaluated(context)
-        }
-    }
-
-    private void enforceAfterProjectsEvaluated(EnforcerContext context) throws EnforcerRuleException {
-        computeParameters()
-
-        Set<ResolvedArtifact> artifactsSeen = []
-        Map<ResolvedArtifact, String> allProblems = [:]
-        context.project.configurations.each { Configuration c ->
-            Map<ResolvedArtifact, String> problemAccumulator = [:]
-            handleConfiguration(context, c, problemAccumulator, artifactsSeen)
-            allProblems.putAll(problemAccumulator)
-        }
-        for (Project project : context.project.childProjects.values()) {
-            project.configurations.each { Configuration c ->
-                Map<ResolvedArtifact, String> problemAccumulator = [:]
-                handleConfiguration(context, c, problemAccumulator, artifactsSeen)
-                allProblems.putAll(problemAccumulator)
-            }
-        }
-        reportProblems(context, allProblems)
-    }
-
-    private void enforceAfterProjectEvaluated(EnforcerContext context) throws EnforcerRuleException {
-        computeParameters()
-
-        Set<ResolvedArtifact> artifactsSeen = []
-        Map<ResolvedArtifact, String> allProblems = [:]
-        context.project.configurations.each { Configuration c ->
-            Map<ResolvedArtifact, String> problemAccumulator = [:]
-            handleConfiguration(context, c, problemAccumulator, artifactsSeen)
-            allProblems.putAll(problemAccumulator)
-        }
-        reportProblems(context, allProblems)
-    }
-
-    private void computeParameters() throws EnforcerRuleException {
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
         if (maxJdkVersion.present && maxJavaMajorVersionNumber.getOrElse(-1) != -1) {
             throw illegalArgumentException('Only maxJdkVersion or maxJavaMajorVersionNumber '
                 + 'configuration parameters should be set. Not both.')
@@ -210,6 +169,44 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
             ignorableDependency.applyIgnoreClasses((List<String>) ignoreClasses.get())
             ignorableDependencies.add(ignorableDependency)
         }
+    }
+
+    @Override
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+        if (context.enforcerPhase == AFTER_PROJECTS) {
+            enforceAfterProjectsEvaluated(context)
+        } else {
+            enforceAfterProjectEvaluated(context)
+        }
+    }
+
+    private void enforceAfterProjectsEvaluated(EnforcerContext context) throws EnforcerRuleException {
+        Set<ResolvedArtifact> artifactsSeen = []
+        Map<ResolvedArtifact, String> allProblems = [:]
+        context.project.configurations.each { Configuration c ->
+            Map<ResolvedArtifact, String> problemAccumulator = [:]
+            handleConfiguration(context, c, problemAccumulator, artifactsSeen)
+            allProblems.putAll(problemAccumulator)
+        }
+        for (Project project : context.project.childProjects.values()) {
+            project.configurations.each { Configuration c ->
+                Map<ResolvedArtifact, String> problemAccumulator = [:]
+                handleConfiguration(context, c, problemAccumulator, artifactsSeen)
+                allProblems.putAll(problemAccumulator)
+            }
+        }
+        reportProblems(context, allProblems)
+    }
+
+    private void enforceAfterProjectEvaluated(EnforcerContext context) throws EnforcerRuleException {
+        Set<ResolvedArtifact> artifactsSeen = []
+        Map<ResolvedArtifact, String> allProblems = [:]
+        context.project.configurations.each { Configuration c ->
+            Map<ResolvedArtifact, String> problemAccumulator = [:]
+            handleConfiguration(context, c, problemAccumulator, artifactsSeen)
+            allProblems.putAll(problemAccumulator)
+        }
+        reportProblems(context, allProblems)
     }
 
     private void handleConfiguration(EnforcerContext context,
@@ -450,7 +447,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
     }
 
     void ignore(String str) {
-        if(isNotBlank(str)) ignoreClasses.add(str)
+        if (isNotBlank(str)) ignoreClasses.add(str)
     }
 
     void include(String str) {

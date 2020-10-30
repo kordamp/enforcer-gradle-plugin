@@ -21,11 +21,8 @@ import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.codehaus.plexus.util.IOUtil
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
-import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
-import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
 
 import javax.inject.Inject
@@ -43,9 +40,7 @@ import static org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase.BEFORE_BUILD
  * @since 0.1.0
  */
 @CompileStatic
-class RequireFileChecksum extends AbstractEnforcerRule {
-    final Property<String> message
-    final ListProperty<EnforcerPhase> phases
+class RequireFileChecksum extends AbstractStandardEnforcerRule {
     final Property<File> file
     final Property<String> checksum
     final Property<String> type
@@ -53,8 +48,7 @@ class RequireFileChecksum extends AbstractEnforcerRule {
     @Inject
     RequireFileChecksum(ObjectFactory objects) {
         super(objects)
-        message = objects.property(String)
-        phases = objects.listProperty(EnforcerPhase).convention([BEFORE_BUILD])
+        phases.set([BEFORE_BUILD])
         checksum = objects.property(String)
         type = objects.property(String)
         file = objects.property(File)

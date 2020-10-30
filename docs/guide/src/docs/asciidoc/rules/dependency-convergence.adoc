@@ -10,7 +10,13 @@ that can be resolved.
 
 WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT
 * AFTER_PROJECT
@@ -24,6 +30,8 @@ enforce {
     rule(enforcer.rules.DependencyConvergence) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.failOnDynamicVersions
         r.failOnChangingVersions
         r.failOnNonReproducibleResolution

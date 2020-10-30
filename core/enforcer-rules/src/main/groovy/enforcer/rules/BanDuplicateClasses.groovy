@@ -81,11 +81,7 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
 
     @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
-        if (context.enforcerPhase == AFTER_PROJECTS) {
-            enforceBanDuplicates(context)
-        } else {
-            enforceBanDuplicates(context)
-        }
+        enforceBanDuplicates(context)
     }
 
     private void enforceBanDuplicates(EnforcerContext context) throws EnforcerRuleException {
@@ -303,7 +299,7 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
     }
 
     void ignore(String str) {
-        if(isNotBlank(str)) ignoreClasses.add(str)
+        if (isNotBlank(str)) ignoreClasses.add(str)
     }
 
     void dependency(String str, Action<? extends Dependency> configurer) {

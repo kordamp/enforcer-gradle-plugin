@@ -3,7 +3,15 @@
 
 This rule will always fail. It is useful for testing proper plugin configuration.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_BUILD
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+* AFTER_BUILD
+
+== Default Phases
 * BEFORE_BUILD
 * BEFORE_PROJECTS
 * BEFORE_PROJECT
@@ -20,25 +28,8 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
     }
 }
 ----
-
-== Properties
-
-[%header, cols="<,<,<,^,<4"]
-|===
-| Name
-| Type
-| Default
-| Required
-| Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
-
-|===
 

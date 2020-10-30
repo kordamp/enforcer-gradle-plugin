@@ -19,12 +19,11 @@ package enforcer.rules
 
 import groovy.transform.CompileStatic
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
-
-import static java.lang.System.arraycopy
 
 /**
  * @author Andres Almiray
@@ -32,7 +31,8 @@ import static java.lang.System.arraycopy
  */
 @CompileStatic
 abstract class AbstractFilteringEnforcerRule extends AbstractEnforcerRule {
-    final EnforcerPhase[] allowedPhases
+    final ListProperty<EnforcerPhase> phases
+    private final List<EnforcerPhase> allowedPhases = new ArrayList<>()
 
     AbstractFilteringEnforcerRule(ObjectFactory objects) {
         this(objects, EnforcerPhase.values())
@@ -41,17 +41,36 @@ abstract class AbstractFilteringEnforcerRule extends AbstractEnforcerRule {
     AbstractFilteringEnforcerRule(ObjectFactory objects, EnforcerPhase[] allowedPhases) {
         super(objects)
         if (allowedPhases == null || allowedPhases.length == 0) {
-            this.allowedPhases = EnforcerPhase.values()
+            this.allowedPhases.addAll(EnforcerPhase.values().toList())
         } else {
-            this.allowedPhases = new EnforcerPhase[allowedPhases.length]
-            arraycopy(allowedPhases, 0, this.allowedPhases, 0, allowedPhases.length)
+            this.allowedPhases.addAll(allowedPhases.toList())
         }
-        Arrays.sort(this.allowedPhases)
+
+        phases = objects.listProperty(EnforcerPhase).convention(this.allowedPhases)
+    }
+
+    void setPhases(List<String> list) {
+        if (!list) {
+            throw new IllegalArgumentException('Phase list must not be empty nor null')
+        }
+
+        for (String phase : list) {
+            phases.add(EnforcerPhase.valueOf(phase?.trim()?.toUpperCase()))
+        }
+    }
+
+    @Override
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        List<EnforcerPhase> list = new ArrayList<>(phases.get())
+        list.removeAll(allowedPhases)
+        if (!list.isEmpty()) {
+            throw fail("Phase${list.size() > 0 ? 's' : ''} not allowed: ${list*.name()}")
+        }
     }
 
     @Override
     void execute(EnforcerContext context) throws EnforcerRuleException {
-        if (Arrays.binarySearch(allowedPhases, context.enforcerPhase) > -1) {
+        if (phases.get().contains(context.enforcerPhase)) {
             context.logger.debug("Enforcing rule ${resolveClassName()} on ${context}")
 
             doExecute(context)

@@ -62,16 +62,19 @@ class RequireOS extends AbstractStandardEnforcerRule {
     }
 
     @Override
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        if (allParamsEmpty()) {
+            throw fail('All parameters can not be empty. ' +
+                'You must pick at least one of (name, arch, version, release, classifier)')
+        }
+    }
+
+    @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         MyDetector detector = new MyDetector(
             context.logger,
             failOnUnknownOS.get(),
             (List<String>) classifierWithLikes.get())
-
-        if (allParamsEmpty()) {
-            throw fail('All parameters can not be empty. ' +
-                'You must pick at least one of (name, arch, version, release, classifier)')
-        }
 
         if (!isAllowed(detector)) {
             String message = message.orNull

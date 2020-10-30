@@ -3,7 +3,13 @@
 
 This rule checks that a specified Gradle property is set.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT
 * AFTER_PROJECT
@@ -18,6 +24,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.property
         r.regex
         r.regexMessage
@@ -36,12 +43,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | property
 | Property<String>

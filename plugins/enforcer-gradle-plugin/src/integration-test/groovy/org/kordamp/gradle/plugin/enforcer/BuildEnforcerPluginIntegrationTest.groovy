@@ -170,4 +170,26 @@ class BuildEnforcerPluginIntegrationTest extends Specification {
         result.output.contains("Enforcer rule 'enforcer.rules.AlwaysFail' was triggered.")
         result.output.contains("Enforcer rule 'org.kordamp.gradle.plugin.enforcer.Fail' was triggered.")
     }
+
+    def "Verify rule phase configuration"() {
+        given:
+        settingsFile << """
+            enforce {
+                rule(enforcer.rules.BanDuplicateClasses) { r ->
+                    r.phases = ['BEFORE_PROJECT']
+                }
+            }
+        """
+
+        when:
+        BuildResult result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('clean')
+            .withPluginClasspath()
+            .buildAndFail()
+
+        then:
+        result.output.contains("[BEFORE_BUILD] An Enforcer rule has failed")
+        result.output.contains("Enforcer rule 'enforcer.rules.BanDuplicateClasses' was triggered.")
+    }
 }

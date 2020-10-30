@@ -3,7 +3,11 @@
 
 This rule forces dependency versions for all resolvable configurations.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+
+== Default Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT
 
@@ -15,6 +19,8 @@ enforce {
     rule(enforcer.rules.ForceDependencies) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.dependencies
     }
 }

@@ -3,7 +3,10 @@
 
 This rule enforces certain Gradle versions. The rule uses the <<_version_range,version range>> syntax to define allowed versions.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_BUILD
+
+== Default Phases
 * BEFORE_BUILD
 
 == Configuration
@@ -15,6 +18,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.version
     }
 }
@@ -29,12 +33,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | version
 | Property<String>

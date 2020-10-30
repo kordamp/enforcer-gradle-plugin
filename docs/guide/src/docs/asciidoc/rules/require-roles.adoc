@@ -6,7 +6,10 @@ This rule checks there are roles covered by people found in `project.config.info
 Say you want to enforce a policy that in every project there is at least one person representing a specific role, e.g.
 at least one person has the role "lead engineer".
 
-== Trigger Phases
+== Allowed Phases
+* AFTER_PROJECTS
+
+== Default Phases
 * AFTER_PROJECTS
 
 == Configuration
@@ -18,6 +21,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.requiredRoles
         r.validRoles
         r.required()
@@ -35,12 +39,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | requiredRoles
 | ListProperty<String>

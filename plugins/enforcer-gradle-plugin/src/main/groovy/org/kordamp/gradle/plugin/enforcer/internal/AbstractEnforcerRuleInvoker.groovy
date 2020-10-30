@@ -80,19 +80,25 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
                         for (Action<? extends EnforcerRule> action : helper.actions) {
                             EnforcerRule rule = instantiateRule(context, helper.ruleType)
                             action.execute(rule)
-                            rules.add(rule)
-                            invokeRule(context, rule, collector)
+                            if (validateRule(context, rule, collector)) {
+                                rules.add(rule)
+                                invokeRule(context, rule, collector)
+                            }
                         }
                     } else {
                         EnforcerRule rule = instantiateRule(context, helper.ruleType)
-                        rules.add(rule)
-                        invokeRule(context, rule, collector)
+                        if (validateRule(context, rule, collector)) {
+                            rules.add(rule)
+                            invokeRule(context, rule, collector)
+                        }
                     }
                 } else {
                     EnforcerRule rule = instantiateRule(context, helper.ruleType)
                     helper.actions.each { a -> a.execute(rule) }
-                    rules.add(rule)
-                    invokeRule(context, rule, collector)
+                    if (validateRule(context, rule, collector)) {
+                        rules.add(rule)
+                        invokeRule(context, rule, collector)
+                    }
                 }
             }
         }
@@ -122,6 +128,32 @@ abstract class AbstractEnforcerRuleInvoker extends BuildAdapter {
                     context.logger.warn("${toPrefix(context)} ${collector.size()} Enforcer rules have failed\n${e}")
                 }
             }
+        }
+    }
+
+    protected <RULE extends EnforcerRule> boolean validateRule(EnforcerContext context,
+                                                               RULE rule,
+                                                               List<RuleExecutionFailure<? extends EnforcerRule>> collector) {
+        String ruleClassName = normalizeClassName(rule.class)
+        try {
+            if (!isRuleEnabled(rule)) return
+            extension.LOG.debug("${extension.prefix} Validating rule ${ruleClassName}")
+            rule.validate(context)
+            return true
+        } catch (EnforcerRuleException e) {
+            if (extension.resolvedFailFast.get()) {
+                if (isFailOnError(rule)) {
+                    throw new BuildException("${toPrefix(context)} An Enforcer rule has failed", e)
+                } else {
+                    context.logger.warn("${toPrefix(context)} An Enforcer rule has failed\n${e}")
+                    return false
+                }
+            } else {
+                collector.add(new RuleExecutionFailure<EnforcerRule>(rule, e))
+                return false
+            }
+        } catch (Exception e) {
+            throw new BuildException("${toPrefix(context)} Unexpected error when validating enforcer rule '${ruleClassName}'", e)
         }
     }
 

@@ -22,9 +22,7 @@ import org.codehaus.plexus.util.DirectoryScanner
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
-import org.kordamp.gradle.plugin.enforcer.api.AbstractEnforcerRule
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
-import org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleException
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank
@@ -40,22 +38,19 @@ import static org.kordamp.gradle.plugin.enforcer.api.EnforcerPhase.BEFORE_BUILD
  * @since 0.1.0
  */
 @CompileStatic
-abstract class AbstractRequireFiles extends AbstractEnforcerRule {
-    final Property<String> message
+abstract class AbstractRequireFiles extends AbstractStandardEnforcerRule {
     final Property<Boolean> allowNulls
     final ListProperty<File> files
     final ListProperty<String> includePatterns
     final ListProperty<String> excludePatterns
-    final ListProperty<EnforcerPhase> phases
 
     AbstractRequireFiles(ObjectFactory objects) {
         super(objects)
-        message = objects.property(String)
         allowNulls = objects.property(Boolean).convention(false)
         files = objects.listProperty(File).convention([])
         includePatterns = objects.listProperty(String).convention([])
         excludePatterns = objects.listProperty(String).convention([])
-        phases = objects.listProperty(EnforcerPhase).convention([BEFORE_BUILD])
+        phases.set([BEFORE_BUILD])
     }
 
     void include(String str) {
@@ -83,20 +78,20 @@ abstract class AbstractRequireFiles extends AbstractEnforcerRule {
     }
 
     @Override
-    void execute(EnforcerContext context) throws EnforcerRuleException {
-        if (context.enforcerPhase in phases.get()) {
-            context.logger.debug("Enforcing rule ${resolveClassName()} on ${context}")
-            doExecute(context)
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        if (phases.get().isEmpty()) {
+            throw fail('No explicit phase(s) defined.')
         }
-    }
 
-    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         if (!allowNulls.get() && files.get().isEmpty()) {
             if (includePatterns.get().isEmpty() && excludePatterns.get().isEmpty()) {
                 throw fail('The file list is empty and Null files are disabled.')
             }
         }
+    }
 
+    @Override
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         List<File> failures = []
         for (File file : files.get()) {
             if (!allowNulls.get() && !file) {

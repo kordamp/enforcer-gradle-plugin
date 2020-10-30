@@ -48,10 +48,18 @@ abstract class AbstractEnforcerRule implements EnforcerRule {
     }
 
     @Override
+    void validate(EnforcerContext context) throws EnforcerRuleException {
+        context.logger.debug("Validating rule ${resolveClassName()} on ${context}")
+        doValidate(context)
+    }
+
+    @Override
     void execute(EnforcerContext context) throws EnforcerRuleException {
         context.logger.debug("Enforcing rule ${resolveClassName()} on ${context}")
         doExecute(context)
     }
+
+    protected abstract void doValidate(EnforcerContext context) throws EnforcerRuleException
 
     protected abstract void doExecute(EnforcerContext context) throws EnforcerRuleException
 

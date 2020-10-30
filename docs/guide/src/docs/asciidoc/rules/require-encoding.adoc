@@ -3,7 +3,10 @@
 
 Checks file encodings to see if they match the given encoding.
 
-== Trigger Phases
+== Allowed Phases
+* AFTER_PROJECT
+
+== Default Phases
 * AFTER_PROJECT
 
 == Configuration
@@ -14,6 +17,8 @@ enforce {
     rule(enforcer.rules.RequireEncoding) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.encoding
         r.includes
         r.excludes

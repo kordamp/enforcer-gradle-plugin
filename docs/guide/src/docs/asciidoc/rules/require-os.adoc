@@ -4,7 +4,10 @@
 This rule can enforce certain values about the Operating System and processor architecture.
 Detects the same values as the link:https://github.com/trustin/os-maven-plugin[os-maven-plugin].
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_BUILD
+
+== Default Phases
 * BEFORE_BUILD
 
 == Configuration
@@ -16,6 +19,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.arch
         r.name
         r.version
@@ -36,12 +40,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | arch
 | Property<String>

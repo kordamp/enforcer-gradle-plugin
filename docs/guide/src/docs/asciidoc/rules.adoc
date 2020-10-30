@@ -10,6 +10,8 @@ All rules share the following properties
 | enabled       | Property<Boolean>       | `true`  | {icon_req_n} | Enables or disables the rule. Can be overridden using a `System` property whose key follows the pattern
 `<fullyQualifiedClassName>.enabled`.
 | enforcerLevel | Property<EnforcerLevel> | <unset> | {icon_req_n} | Fails the build if set to `EnforcerLevel.ERROR`.
+| message       | Property<String>        |         | {icon_req_n} | An optional message to provide when the rule fails.
+| phases        | Property<EnforcerPhase> |         | {icon_req_n} | The list of phases where the check should be run.
 |===
 
 NOTE: The following icons indicate the required state of a property: +

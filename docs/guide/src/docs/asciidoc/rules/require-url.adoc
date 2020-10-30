@@ -3,7 +3,10 @@
 
 This rule checks the given URL is present and optionally matches against a regex.
 
-== Trigger Phases
+== Allowed Phases
+* AFTER_PROJECT
+
+== Default Phases
 * AFTER_PROJECT
 
 == Configuration
@@ -15,6 +18,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.regex
         r.urlExtractor
     }
@@ -30,12 +34,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | regex
 | Property<String>

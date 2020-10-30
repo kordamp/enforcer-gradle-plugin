@@ -5,7 +5,11 @@ This rule checks the dependencies and fails if any of the matching excludes are 
 
 WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
 
-== Trigger Phases
+== Allowed Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS
 
@@ -17,6 +21,8 @@ enforce {
     rule(enforcer.rules.BannedDependencies) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.configurations
         r.excludes
         r.includes
@@ -35,12 +41,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to the user if the rule fails.
 
 | configurations
 | ListProperty<String>

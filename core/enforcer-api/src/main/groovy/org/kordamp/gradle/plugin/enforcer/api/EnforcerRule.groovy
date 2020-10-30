@@ -38,5 +38,19 @@ interface EnforcerRule {
 
     void setEnforcerLevel(String level)
 
+    /**
+     * Validates this rule with the given context.
+     *
+     * @param context the context for this rule.
+     * @throws EnforcerRuleException if the rule's configuration is invalid for the given context
+     */
+    void validate(EnforcerContext context) throws EnforcerRuleException
+
+    /**
+     * Executes this rule with the given context.
+     *
+     * @param context the context for this rule.
+     * @throws EnforcerRuleException if the rule is triggered or if there is an evaluation failure.
+     */
     void execute(EnforcerContext context) throws EnforcerRuleException
 }

@@ -53,11 +53,14 @@ class RequireUrl extends AbstractStandardEnforcerRule {
     }
 
     @Override
-    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
         if (!urlExtractor) {
             throw fail('You must supply a value for urlExtractor')
         }
+    }
 
+    @Override
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         try {
             String url = urlExtractor.apply(context.project)
 

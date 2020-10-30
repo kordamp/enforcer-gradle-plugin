@@ -3,7 +3,11 @@
 
 This rule checks that a specified environment variable is set.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_BUILD
+* AFTER_PROJECT
+
+== Default Phases
 * BEFORE_BUILD
 * AFTER_PROJECT
 
@@ -16,6 +20,7 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.variableName
         r.regex
         r.regexMessage
@@ -33,12 +38,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | variableName
 | Property<String>

@@ -3,6 +3,17 @@
 
 This rule checks that the specified list of files exist and are within the specified size range.
 
+== Allowed Phases
+* BEFORE_BUILD
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+* AFTER_BUILD
+
+== Default Phases
+* BEFORE_BUILD
+
 == Configuration
 [source,groovy]
 [subs="+macros"]
@@ -12,13 +23,13 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.files
         r.includePatterns
         r.excludePatterns
         r.maxsize
         r.minsize
         r.allowNulls
-        r.phases
         r.file()
         r.include()
         r.exclude()
@@ -35,12 +46,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | allowNulls
 | Property<Boolean>
@@ -77,12 +82,6 @@ enforce {
 | `0L`
 | {icon_req_c}
 | Minimum size in bytes for this file.
-
-| phases
-| ListProperty<EnforcerPhase>
-| `[BEFORE_BUILD]`
-| {icon_req_n}
-| The list of phases where the check should be run.
 
 |===
 

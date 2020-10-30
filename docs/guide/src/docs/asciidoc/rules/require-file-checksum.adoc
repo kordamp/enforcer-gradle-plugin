@@ -3,6 +3,17 @@
 
 This rule checks that the specified file has an given checksum.
 
+== Allowed Phases
+* BEFORE_BUILD
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+* AFTER_PROJECT
+* AFTER_PROJECTS
+* AFTER_BUILD
+
+== Default Phases
+* BEFORE_BUILD
+
 == Configuration
 [source,groovy]
 [subs="+macros"]
@@ -12,10 +23,10 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.file
         r.checksum
         r.type
-        r.phases
     }
 }
 ----
@@ -29,12 +40,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | file
 | Property<File>
@@ -53,11 +58,5 @@ enforce {
 |
 | {icon_req_y}
 | Type of hashing algorithm used to calculate the checksum. May be one of ['md5', 'sha1', 'sha256', 'sha384', 'sha512'].
-
-| phases
-| ListProperty<EnforcerPhase>
-| `[BEFORE_BUILD]`
-| {icon_req_n}
-| The list of phases where the check should be run.
 
 |===

@@ -3,10 +3,13 @@
 
 This rule checks whether the build or project include a specified banned repository.
 
-== Trigger Phases
+== Allowed Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS
 
+== Default Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
 == Configuration
 [source,groovy]
 [subs="+macros"]
@@ -15,6 +18,8 @@ enforce {
     rule(enforcer.rules.BannedRepositories) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.mavenLocalAllowed
         r.bannedRepositories
         r.allowedRepositories

@@ -8,7 +8,11 @@ NOTE: The following exclusions are enabled by default: `module-info`, `META-INF/
 
 WARNING: This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
 
-== Trigger Phases
+== Allowed Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
 * AFTER_PROJECT
 * AFTER_PROJECTS
 
@@ -20,6 +24,8 @@ enforce {
     rule(enforcer.rules.EnforceBytecodeVersion) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.maxJdkVersion
         r.maxJavaMajorVersionNumber
         r.maxJavaMinorVersionNumber
@@ -44,12 +50,6 @@ enforce {
 | Default
 | Required
 | Description
-
-| message
-| Property<String>
-|
-| {icon_req_n}
-| An optional message to provide when the rule fails.
 
 | maxJdkVersion
 | Property<String>

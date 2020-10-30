@@ -3,7 +3,11 @@
 
 This rule excludes dependencies from all resolvable configurations.
 
-== Trigger Phases
+== Allowed Phases
+* BEFORE_PROJECTS
+* BEFORE_PROJECT
+
+== Default Phases
 * BEFORE_PROJECTS
 * BEFORE_PROJECT
 
@@ -15,6 +19,8 @@ enforce {
     rule(enforcer.rules.ExcludeDependencies) { r ->
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.exclude()
     }
 }

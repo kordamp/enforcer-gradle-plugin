@@ -63,11 +63,14 @@ class RequireSystemProperty extends AbstractPropertyEnforcerRule {
     }
 
     @Override
-    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
         if (!property.present) {
-            throw new IllegalStateException("Missing value for 'property'.")
+            throw fail("Missing value for 'property'.")
         }
+    }
 
+    @Override
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         switch (context.enforcerPhase) {
             case BEFORE_PROJECTS:
             case BEFORE_PROJECT:
