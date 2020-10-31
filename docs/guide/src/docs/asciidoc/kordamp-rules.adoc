@@ -22,6 +22,7 @@ NOTE: The following icons indicate the required state of a property: +
 
 :leveloffset: 2
 
+include::{includedir}/rules/require-kordamp-property.adoc[]
 include::{includedir}/rules/require-roles.adoc[]
 
 :leveloffset: 1

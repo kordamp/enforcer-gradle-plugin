@@ -44,7 +44,7 @@ abstract class AbstractKordampEnforcerRule extends AbstractStandardEnforcerRule 
     }
 
     @Override
-    protected final void doExecute(EnforcerContext context) throws EnforcerRuleException {
+    protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         ProjectConfigurationExtension config = PluginUtils.resolveConfig(context.project)
         check(context, config)
     }

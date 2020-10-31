@@ -1,0 +1,93 @@
+
+= RequireKordampProperty
+
+This rule checks properties found in `project.config` DSL extension.
+
+NOTE: This rule is repeatable. You may define multiple instances of this rule.
+
+== Allowed Phases
+* AFTER_PROJECTS
+
+== Default Phases
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r ->
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.targets
+        r.property
+        r.regex
+        r.regexMessage
+        r.displayValue
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| targets
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| List of project paths to include. +
+The value of each element must be any of +
+* A full project path, such as `:project1`. +
+* A regex that can be matched to a project path. +
+* A single '*' will match all paths. +
+If no targets are given then only the root project will be checked.
+
+| property
+| Property<String>
+|
+| {icon_req_y}
+| The name of the Gradle property to be checked for.
+
+| regex
+| Property<String>
+|
+| {icon_req_n}
+| A regular expression used to check the value of the property. +
+The regex is applied to the entire value of the property (i.e. using the regex "match" method), and not just a substring +
+of the property's value.
+
+| regexMessage
+| Property<String>
+|
+| {icon_req_n}
+| An optional message to the user if the regex check fails.
+
+| displayValue
+| Property<Boolean>
+| `true`
+| {icon_req_n}
+| Displays the value to the user if the regex check fails.
+
+|===
+
+== Example
+
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.kordamp.RequireKordampProperty) { r ->
+        r.property = 'info.vendor'
+    }
+}
+----
+
