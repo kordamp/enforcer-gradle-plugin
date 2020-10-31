@@ -104,32 +104,33 @@ abstract class AbstractBanDependencies extends AbstractStandardEnforcerRule {
         context.logger.info("Configurations to be checked (if empty then all resolvable configurations will be checked): ${configurations.get()}")
 
         context.project.configurations.each { Configuration c ->
-            handleConfiguration(context, c, artifacts)
+            handleConfiguration(context, context.project, c, artifacts)
         }
         for (Project project : context.project.childProjects.values()) {
             project.configurations.each { Configuration c ->
-                handleConfiguration(context, c, artifacts)
+                handleConfiguration(context, project, c, artifacts)
             }
         }
 
         artifacts
     }
 
-    protected void handleConfiguration(EnforcerContext context, Configuration configuration, Set<ResolvedArtifact> artifacts) {
+    protected void handleConfiguration(EnforcerContext context, Project project, Configuration configuration, Set<ResolvedArtifact> artifacts) {
         if (!(configurations.get().empty) && !(configurations.get().contains(configuration.name))) {
             return
         }
 
+        String prefix = project.path == ':' ? ':' : project.path + ':'
         if (!configuration.canBeResolved) {
-            context.logger.debug("Configuration '${configuration.name}' cannot be resolved. Skipping check.")
+            context.logger.debug("Configuration '${prefix}${configuration.name}' cannot be resolved. Skipping check.")
             return
         }
 
-        context.logger.info("Resolving configuration ${configuration.name}.")
         Configuration cfg = configuration.copyRecursive()
+        context.logger.info("Resolving configuration ${prefix}${cfg.name}.")
         cfg.resolve()
 
-        context.logger.info("Configuration ${cfg.name} contains ${cfg.resolvedConfiguration.resolvedArtifacts.size()} artifacts.")
+        context.logger.info("Configuration ${prefix}${cfg.name} contains ${cfg.resolvedConfiguration.resolvedArtifacts.size()} artifacts.")
         artifacts.addAll(cfg.resolvedConfiguration.resolvedArtifacts)
     }
 

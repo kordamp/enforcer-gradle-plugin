@@ -22,10 +22,12 @@ plugins{
 dependencies {
     api project(':enforcer-api')
     api project(':enforcer-rules')
+    compileOnly "org.kordamp.gradle:base-gradle-plugin:$kordampPluginVersion"
 
     testImplementation(localGroovy())
     testImplementation('org.spockframework:spock-core:1.3-groovy-2.5')
     testImplementation project(':enforcer-rules')
+    testImplementation "org.kordamp.gradle:base-gradle-plugin:$kordampPluginVersion"
 }
 
 processResources {

@@ -17,6 +17,7 @@
  */
 package org.kordamp.gradle.plugin.enforcer.internal
 
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import org.gradle.BuildResult
 import org.gradle.api.Project
@@ -98,6 +99,12 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void projectsEvaluated(Gradle gradle) {
+        if (!hasKordampBasePluginApplied(gradle.rootProject)) {
+            doProjectsEvaluated()
+        }
+    }
+
+    private void doProjectsEvaluated() {
         EnforcerContext context = afterProjects(gradle, settings)
         if (!isBuildPhaseEnabled(context)) return
 
@@ -191,5 +198,23 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
             collector)
 
         report(context, collector)
+
+        if (hasKordampBasePluginApplied(project)) {
+            registerAllProjectsEvaluatedListener(project)
+        }
+    }
+
+    private boolean hasKordampBasePluginApplied(Project project) {
+        project.rootProject == project && project.plugins.findPlugin('org.kordamp.gradle.base')
+    }
+
+    @CompileDynamic
+    private void registerAllProjectsEvaluatedListener(Project project) {
+        Class c = Class.forName('org.kordamp.gradle.plugin.enforcer.internal.BuildEnforcerAllProjectsEvaluatedListener')
+        def listener = c.getConstructor().newInstance()
+        listener.runnable = { -> doProjectsEvaluated() }
+
+        Class m = Class.forName('org.kordamp.gradle.listener.ProjectEvaluationListenerManager')
+        m.addAllProjectsEvaluatedListener(project, listener)
     }
 }
