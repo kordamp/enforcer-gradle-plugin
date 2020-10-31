@@ -92,7 +92,7 @@ $(addBlockSwitches);
 <h1>Enforcer Gradle Plugin</h1>
 <div class="details">
 <span id="author" class="author">Andres Almiray</span><br>
-<span id="revnumber">version 0.7.0</span>
+<span id="revnumber">version 0.8.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -115,175 +115,217 @@ $(addBlockSwitches);
 <ul class="sectlevel2">
 <li><a href="#_alwaysfail">3.1. AlwaysFail</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases">3.1.1. Trigger Phases</a></li>
-<li><a href="#_configuration">3.1.2. Configuration</a></li>
-<li><a href="#_properties">3.1.3. Properties</a></li>
+<li><a href="#_allowed_phases">3.1.1. Allowed Phases</a></li>
+<li><a href="#_default_phases">3.1.2. Default Phases</a></li>
+<li><a href="#_configuration">3.1.3. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#_alwayspass">3.2. AlwaysPass</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_2">3.2.1. Trigger Phases</a></li>
-<li><a href="#_configuration_2">3.2.2. Configuration</a></li>
-<li><a href="#_properties_2">3.2.3. Properties</a></li>
+<li><a href="#_allowed_phases_2">3.2.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_2">3.2.2. Default Phases</a></li>
+<li><a href="#_configuration_2">3.2.3. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#_banduplicateclasses">3.3. BanDuplicateClasses</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_3">3.3.1. Trigger Phases</a></li>
-<li><a href="#_configuration_3">3.3.2. Configuration</a></li>
-<li><a href="#_methods">3.3.3. Methods</a></li>
-<li><a href="#_example">3.3.4. Example</a></li>
+<li><a href="#_allowed_phases_3">3.3.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_3">3.3.2. Default Phases</a></li>
+<li><a href="#_configuration_3">3.3.3. Configuration</a></li>
+<li><a href="#_methods">3.3.4. Methods</a></li>
+<li><a href="#_example">3.3.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_banneddependencies">3.4. BannedDependencies</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_4">3.4.1. Trigger Phases</a></li>
-<li><a href="#_configuration_4">3.4.2. Configuration</a></li>
-<li><a href="#_properties_3">3.4.3. Properties</a></li>
-<li><a href="#_methods_2">3.4.4. Methods</a></li>
-<li><a href="#_example_2">3.4.5. Example</a></li>
+<li><a href="#_allowed_phases_4">3.4.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_4">3.4.2. Default Phases</a></li>
+<li><a href="#_configuration_4">3.4.3. Configuration</a></li>
+<li><a href="#_properties">3.4.4. Properties</a></li>
+<li><a href="#_methods_2">3.4.5. Methods</a></li>
+<li><a href="#_example_2">3.4.6. Example</a></li>
 </ul>
 </li>
 <li><a href="#_bannedrepositories">3.5. BannedRepositories</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_5">3.5.1. Trigger Phases</a></li>
-<li><a href="#_configuration_5">3.5.2. Configuration</a></li>
+<li><a href="#_allowed_phases_5">3.5.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_5">3.5.2. Default Phases</a></li>
 <li><a href="#_example_3">3.5.3. Example</a></li>
 </ul>
 </li>
 <li><a href="#_dependencyconvergence">3.6. DependencyConvergence</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_6">3.6.1. Trigger Phases</a></li>
-<li><a href="#_configuration_6">3.6.2. Configuration</a></li>
-<li><a href="#_properties_4">3.6.3. Properties</a></li>
-<li><a href="#_example_4">3.6.4. Example</a></li>
+<li><a href="#_allowed_phases_6">3.6.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_6">3.6.2. Default Phases</a></li>
+<li><a href="#_configuration_5">3.6.3. Configuration</a></li>
+<li><a href="#_properties_2">3.6.4. Properties</a></li>
+<li><a href="#_example_4">3.6.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_enforcebytecodeversion">3.7. EnforceBytecodeVersion</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_7">3.7.1. Trigger Phases</a></li>
-<li><a href="#_configuration_7">3.7.2. Configuration</a></li>
-<li><a href="#_properties_5">3.7.3. Properties</a></li>
-<li><a href="#_methods_3">3.7.4. Methods</a></li>
-<li><a href="#_example_5">3.7.5. Example</a></li>
+<li><a href="#_allowed_phases_7">3.7.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_7">3.7.2. Default Phases</a></li>
+<li><a href="#_configuration_6">3.7.3. Configuration</a></li>
+<li><a href="#_properties_3">3.7.4. Properties</a></li>
+<li><a href="#_methods_3">3.7.5. Methods</a></li>
+<li><a href="#_example_5">3.7.6. Example</a></li>
 </ul>
 </li>
 <li><a href="#_excludedependencies">3.8. ExcludeDependencies</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_8">3.8.1. Trigger Phases</a></li>
-<li><a href="#_configuration_8">3.8.2. Configuration</a></li>
-<li><a href="#_methods_4">3.8.3. Methods</a></li>
-<li><a href="#_example_6">3.8.4. Example</a></li>
+<li><a href="#_allowed_phases_8">3.8.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_8">3.8.2. Default Phases</a></li>
+<li><a href="#_configuration_7">3.8.3. Configuration</a></li>
+<li><a href="#_methods_4">3.8.4. Methods</a></li>
+<li><a href="#_example_6">3.8.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_forcedependencies">3.9. ForceDependencies</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_9">3.9.1. Trigger Phases</a></li>
-<li><a href="#_configuration_9">3.9.2. Configuration</a></li>
-<li><a href="#_properties_6">3.9.3. Properties</a></li>
-<li><a href="#_example_7">3.9.4. Example</a></li>
+<li><a href="#_allowed_phases_9">3.9.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_9">3.9.2. Default Phases</a></li>
+<li><a href="#_configuration_8">3.9.3. Configuration</a></li>
+<li><a href="#_properties_4">3.9.4. Properties</a></li>
+<li><a href="#_example_7">3.9.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_requireenvironmentvariable">3.10. RequireEnvironmentVariable</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_10">3.10.1. Trigger Phases</a></li>
-<li><a href="#_configuration_10">3.10.2. Configuration</a></li>
-<li><a href="#_properties_7">3.10.3. Properties</a></li>
-<li><a href="#_example_8">3.10.4. Example</a></li>
+<li><a href="#_allowed_phases_10">3.10.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_10">3.10.2. Default Phases</a></li>
+<li><a href="#_configuration_9">3.10.3. Configuration</a></li>
+<li><a href="#_properties_5">3.10.4. Properties</a></li>
+<li><a href="#_example_8">3.10.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_requireencoding">3.11. RequireEncoding</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_11">3.11.1. Trigger Phases</a></li>
-<li><a href="#_configuration_11">3.11.2. Configuration</a></li>
-<li><a href="#_properties_8">3.11.3. Properties</a></li>
+<li><a href="#_allowed_phases_11">3.11.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_11">3.11.2. Default Phases</a></li>
+<li><a href="#_configuration_10">3.11.3. Configuration</a></li>
+<li><a href="#_properties_6">3.11.4. Properties</a></li>
 </ul>
 </li>
 <li><a href="#_requirefilechecksum">3.12. RequireFileChecksum</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_12">3.12.1. Configuration</a></li>
-<li><a href="#_properties_9">3.12.2. Properties</a></li>
+<li><a href="#_allowed_phases_12">3.12.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_12">3.12.2. Default Phases</a></li>
+<li><a href="#_configuration_11">3.12.3. Configuration</a></li>
+<li><a href="#_properties_7">3.12.4. Properties</a></li>
 </ul>
 </li>
 <li><a href="#_requirefilesdontexist">3.13. RequireFilesDontExist</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_13">3.13.1. Configuration</a></li>
-<li><a href="#_properties_10">3.13.2. Properties</a></li>
-<li><a href="#_methods_5">3.13.3. Methods</a></li>
-<li><a href="#_example_9">3.13.4. Example</a></li>
+<li><a href="#_allowed_phases_13">3.13.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_13">3.13.2. Default Phases</a></li>
+<li><a href="#_configuration_12">3.13.3. Configuration</a></li>
+<li><a href="#_properties_8">3.13.4. Properties</a></li>
+<li><a href="#_methods_5">3.13.5. Methods</a></li>
+<li><a href="#_example_9">3.13.6. Example</a></li>
 </ul>
 </li>
 <li><a href="#_requirefilesexist">3.14. RequireFilesExist</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_14">3.14.1. Configuration</a></li>
-<li><a href="#_properties_11">3.14.2. Properties</a></li>
-<li><a href="#_methods_6">3.14.3. Methods</a></li>
-<li><a href="#_example_10">3.14.4. Example</a></li>
+<li><a href="#_allowed_phases_14">3.14.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_14">3.14.2. Default Phases</a></li>
+<li><a href="#_configuration_13">3.14.3. Configuration</a></li>
+<li><a href="#_properties_9">3.14.4. Properties</a></li>
+<li><a href="#_methods_6">3.14.5. Methods</a></li>
+<li><a href="#_example_10">3.14.6. Example</a></li>
 </ul>
 </li>
 <li><a href="#_requirefilessize">3.15. RequireFilesSize</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_15">3.15.1. Configuration</a></li>
-<li><a href="#_properties_12">3.15.2. Properties</a></li>
-<li><a href="#_methods_7">3.15.3. Methods</a></li>
+<li><a href="#_allowed_phases_15">3.15.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_15">3.15.2. Default Phases</a></li>
+<li><a href="#_configuration_14">3.15.3. Configuration</a></li>
+<li><a href="#_properties_10">3.15.4. Properties</a></li>
+<li><a href="#_methods_7">3.15.5. Methods</a></li>
 </ul>
 </li>
 <li><a href="#_requiregradleproperty">3.16. RequireGradleProperty</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_12">3.16.1. Trigger Phases</a></li>
-<li><a href="#_configuration_16">3.16.2. Configuration</a></li>
-<li><a href="#_properties_13">3.16.3. Properties</a></li>
-<li><a href="#_example_11">3.16.4. Example</a></li>
+<li><a href="#_allowed_phases_16">3.16.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_16">3.16.2. Default Phases</a></li>
+<li><a href="#_configuration_15">3.16.3. Configuration</a></li>
+<li><a href="#_properties_11">3.16.4. Properties</a></li>
+<li><a href="#_example_11">3.16.5. Example</a></li>
 </ul>
 </li>
 <li><a href="#_requiregradleversion">3.17. RequireGradleVersion</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_13">3.17.1. Trigger Phases</a></li>
-<li><a href="#_configuration_17">3.17.2. Configuration</a></li>
-<li><a href="#_properties_14">3.17.3. Properties</a></li>
+<li><a href="#_allowed_phases_17">3.17.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_17">3.17.2. Default Phases</a></li>
+<li><a href="#_configuration_16">3.17.3. Configuration</a></li>
+<li><a href="#_properties_12">3.17.4. Properties</a></li>
 </ul>
 </li>
 <li><a href="#_requirejavaversion">3.18. RequireJavaVersion</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_14">3.18.1. Trigger Phases</a></li>
-<li><a href="#_configuration_18">3.18.2. Configuration</a></li>
-<li><a href="#_properties_15">3.18.3. Properties</a></li>
+<li><a href="#_allowed_phases_18">3.18.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_18">3.18.2. Default Phases</a></li>
+<li><a href="#_configuration_17">3.18.3. Configuration</a></li>
+<li><a href="#_properties_13">3.18.4. Properties</a></li>
 </ul>
 </li>
 <li><a href="#_requireos">3.19. RequireOS</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_15">3.19.1. Trigger Phases</a></li>
-<li><a href="#_configuration_19">3.19.2. Configuration</a></li>
-<li><a href="#_properties_16">3.19.3. Properties</a></li>
-<li><a href="#_example_12">3.19.4. Example</a></li>
+<li><a href="#_allowed_phases_19">3.19.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_19">3.19.2. Default Phases</a></li>
+<li><a href="#_configuration_18">3.19.3. Configuration</a></li>
+<li><a href="#_properties_14">3.19.4. Properties</a></li>
+<li><a href="#_example_12">3.19.5. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requiresystemproperty">3.20. RequireSystemProperty</a>
+<li><a href="#_requirereleasedeps">3.20. RequireReleaseDeps</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_16">3.20.1. Trigger Phases</a></li>
-<li><a href="#_configuration_20">3.20.2. Configuration</a></li>
-<li><a href="#_properties_17">3.20.3. Properties</a></li>
-<li><a href="#_example_13">3.20.4. Example</a></li>
+<li><a href="#_allowed_phases_20">3.20.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_20">3.20.2. Default Phases</a></li>
+<li><a href="#_configuration_19">3.20.3. Configuration</a></li>
+<li><a href="#_properties_15">3.20.4. Properties</a></li>
+<li><a href="#_methods_8">3.20.5. Methods</a></li>
+<li><a href="#_example_13">3.20.6. Example</a></li>
 </ul>
 </li>
-<li><a href="#_requireurl">3.21. RequireUrl</a>
+<li><a href="#_requiresystemproperty">3.21. RequireSystemProperty</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_17">3.21.1. Trigger Phases</a></li>
-<li><a href="#_configuration_21">3.21.2. Configuration</a></li>
-<li><a href="#_properties_18">3.21.3. Properties</a></li>
+<li><a href="#_allowed_phases_21">3.21.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_21">3.21.2. Default Phases</a></li>
+<li><a href="#_configuration_20">3.21.3. Configuration</a></li>
+<li><a href="#_properties_16">3.21.4. Properties</a></li>
+<li><a href="#_example_14">3.21.5. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requireurl">3.22. RequireUrl</a>
+<ul class="sectlevel3">
+<li><a href="#_allowed_phases_22">3.22.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_22">3.22.2. Default Phases</a></li>
+<li><a href="#_configuration_21">3.22.3. Configuration</a></li>
+<li><a href="#_properties_17">3.22.4. Properties</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#_kordamp_rules">4. Kordamp Rules</a>
 <ul class="sectlevel2">
-<li><a href="#_requireroles">4.1. RequireRoles</a>
+<li><a href="#_requirekordampproperty">4.1. RequireKordampProperty</a>
 <ul class="sectlevel3">
-<li><a href="#_trigger_phases_18">4.1.1. Trigger Phases</a></li>
-<li><a href="#_configuration_22">4.1.2. Configuration</a></li>
-<li><a href="#_properties_19">4.1.3. Properties</a></li>
-<li><a href="#_methods_8">4.1.4. Methods</a></li>
-<li><a href="#_example_14">4.1.5. Example</a></li>
+<li><a href="#_allowed_phases_23">4.1.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_23">4.1.2. Default Phases</a></li>
+<li><a href="#_configuration_22">4.1.3. Configuration</a></li>
+<li><a href="#_properties_18">4.1.4. Properties</a></li>
+<li><a href="#_example_15">4.1.5. Example</a></li>
+</ul>
+</li>
+<li><a href="#_requireroles">4.2. RequireRoles</a>
+<ul class="sectlevel3">
+<li><a href="#_allowed_phases_24">4.2.1. Allowed Phases</a></li>
+<li><a href="#_default_phases_24">4.2.2. Default Phases</a></li>
+<li><a href="#_configuration_23">4.2.3. Configuration</a></li>
+<li><a href="#_properties_19">4.2.4. Properties</a></li>
+<li><a href="#_methods_9">4.2.5. Methods</a></li>
+<li><a href="#_example_16">4.2.6. Example</a></li>
 </ul>
 </li>
 </ul>
@@ -330,7 +372,7 @@ $(addBlockSwitches);
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -355,7 +397,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.project-enforcer'
@@ -371,7 +413,7 @@ enforce {
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.7.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.8.0'
 }
 
 enforce {
@@ -422,11 +464,37 @@ running the plugin</p>
 <div id="_dsl_configure_build" class="paragraph">
 <div class="title">Methods</div>
 <p><strong>void configure(Class&lt;? extends Action&lt;? extends BuildEnforcerExtension&gt;&gt; configurerClass)</strong><br>
-Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds.</p>
+Configures build rules based on a classpath resource. Useful for sharing rule definitions across different builds.<br>
+Example:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import org.gradle.api.Action;
+
+public class MyEnforcerRulesConfigurer implements Action&lt;BuildEnforcerExtension&gt; {
+    @Override
+    public void execute(BuildEnforcerExtension extension) {
+        extension.rule(AlwaysPass.class);
+    }
+}</code></pre>
+</div>
 </div>
 <div id="_dsl_configure_project" class="paragraph">
 <p><strong>void configure(Class&lt;? extends Action&lt;? extends ProjectEnforcerExtension&gt;&gt; configurerClass)</strong><br>
-Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds.</p>
+Configures project rules based on a classpath resource. Useful for sharing rule definitions across different builds.<br>
+Example:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">import org.gradle.api.Action;
+
+public class MyEnforcerRulesConfigurer implements Action&lt;ProjectEnforcerExtension&gt; {
+    @Override
+    public void execute(ProjectEnforcerExtension extension) {
+        extension.rule(AlwaysPass.class);
+    }
+}</code></pre>
+</div>
 </div>
 <div id="_dsl_rule_build" class="paragraph">
 <p><strong>&lt;R extends EnforcerRule&gt; void rule(Class&lt;R&gt; ruleType)</strong><br>
@@ -774,12 +842,12 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AlwaysFail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_alwaysfail">AlwaysFail</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AlwaysPass</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_alwayspass">AlwaysPass</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -794,7 +862,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BanDuplicateClasses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_banduplicateclasses">BanDuplicateClasses</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -804,7 +872,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BannedDependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_banneddependencies">BannedDependencies</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -814,7 +882,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BannedRepositories</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_bannedrepositories">BannedRepositories</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -824,12 +892,12 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DependencyConvergence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_dependencyconvergence">DependencyConvergence</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EnforceBytecodeVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_enforcebytecodeversion">EnforceBytecodeVersion</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -839,12 +907,12 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ExcludeDependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_excludedependencies">ExcludeDependencies</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ForceDependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_forcedependencies">ForceDependencies</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -869,48 +937,53 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireEncoding</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requireencoding">RequireEncoding</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireEnvironmentVariable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requireenvironmentvariable">RequireEnvironmentVariable</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFileChecksum</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirefilechecksum">RequireFileChecksum</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesDontExist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirefilesdontexist">RequireFilesDontExist</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesExist</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirefilesexist">RequireFilesExist</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireFilesSize</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirefilessize">RequireFilesSize</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireGradleProperty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requiregradleproperty">RequireGradleProperty</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireGradleVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requiregradleversion">RequireGradleVersion</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireJavaVersion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirejavaversion">RequireJavaVersion</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirekordampproperty">RequireKordampProperty</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
@@ -924,7 +997,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireOS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requireos">RequireOS</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -959,9 +1032,9 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireReleaseDeps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requirereleasedeps">RequireReleaseDeps</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RequireReleaseVersion</p></td>
@@ -969,7 +1042,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireRoles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requireroles">RequireRoles</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -984,7 +1057,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireSystemProperty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requiresystemproperty">RequireSystemProperty</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -994,7 +1067,7 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RequireUrl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_requireurl">RequireUrl</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 </tr>
@@ -1046,6 +1119,20 @@ in lower case; a <code>.</code> may be used instead of <code>_</code>.</p>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fails the build if set to <code>EnforcerLevel.ERROR</code>.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;EnforcerPhase&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="admonitionblock note">
@@ -1069,7 +1156,7 @@ The following icons indicate the required state of a property:<br>
 <p>This rule will always fail. It is useful for testing proper plugin configuration.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases"><a class="anchor" href="#_trigger_phases"></a>3.1.1. Trigger Phases</h4>
+<h4 id="_allowed_phases"><a class="anchor" href="#_allowed_phases"></a>3.1.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1094,7 +1181,32 @@ The following icons indicate the required state of a property:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration"><a class="anchor" href="#_configuration"></a>3.1.2. Configuration</h4>
+<h4 id="_default_phases"><a class="anchor" href="#_default_phases"></a>3.1.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration"><a class="anchor" href="#_configuration"></a>3.1.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -1102,40 +1214,11 @@ The following icons indicate the required state of a property:<br>
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
     }
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_properties"><a class="anchor" href="#_properties"></a>3.1.3. Properties</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-center valign-top">Required</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect2">
@@ -1144,7 +1227,7 @@ The following icons indicate the required state of a property:<br>
 <p>This rule will always succeed. It is useful for testing proper plugin configuration.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_2"><a class="anchor" href="#_trigger_phases_2"></a>3.2.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_2"><a class="anchor" href="#_allowed_phases_2"></a>3.2.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1169,7 +1252,32 @@ The following icons indicate the required state of a property:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>3.2.2. Configuration</h4>
+<h4 id="_default_phases_2"><a class="anchor" href="#_default_phases_2"></a>3.2.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_2"><a class="anchor" href="#_configuration_2"></a>3.2.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -1177,40 +1285,11 @@ The following icons indicate the required state of a property:<br>
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
     }
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_properties_2"><a class="anchor" href="#_properties_2"></a>3.2.3. Properties</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-center valign-top">Required</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect2">
@@ -1243,7 +1322,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_3"><a class="anchor" href="#_trigger_phases_3"></a>3.3.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_3"><a class="anchor" href="#_allowed_phases_3"></a>3.3.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1256,7 +1335,20 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>3.3.2. Configuration</h4>
+<h4 id="_default_phases_3"><a class="anchor" href="#_default_phases_3"></a>3.3.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_3"><a class="anchor" href="#_configuration_3"></a>3.3.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -1264,6 +1356,7 @@ This rule will resolve configurations eagerly, once the target project or projec
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.findAllDuplicates
         r.ignoreWhenIdentical
         r.configurations
@@ -1295,13 +1388,6 @@ This rule will resolve configurations eagerly, once the target project or projec
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">findAllDuplicates</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
@@ -1342,7 +1428,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods"><a class="anchor" href="#_methods"></a>3.3.3. Methods</h4>
+<h4 id="_methods"><a class="anchor" href="#_methods"></a>3.3.4. Methods</h4>
 <div class="paragraph">
 <p><strong>ignore(String str)</strong><br>
 Adds a class to ignore duplicates of. Wildcards can be specified using the * character.</p>
@@ -1356,7 +1442,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example"><a class="anchor" href="#_example"></a>3.3.4. Example</h4>
+<h4 id="_example"><a class="anchor" href="#_example"></a>3.3.5. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -1394,7 +1480,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_4"><a class="anchor" href="#_trigger_phases_4"></a>3.4.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_4"><a class="anchor" href="#_allowed_phases_4"></a>3.4.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1407,13 +1493,28 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>3.4.2. Configuration</h4>
+<h4 id="_default_phases_4"><a class="anchor" href="#_default_phases_4"></a>3.4.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_4"><a class="anchor" href="#_configuration_4"></a>3.4.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.BannedDependencies) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.configurations
         r.excludes
         r.includes
@@ -1425,7 +1526,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_3"><a class="anchor" href="#_properties_3"></a>3.4.3. Properties</h4>
+<h4 id="_properties"><a class="anchor" href="#_properties"></a>3.4.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -1444,13 +1545,6 @@ This rule will resolve configurations eagerly, once the target project or projec
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
@@ -1509,7 +1603,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_methods_2"><a class="anchor" href="#_methods_2"></a>3.4.4. Methods</h4>
+<h4 id="_methods_2"><a class="anchor" href="#_methods_2"></a>3.4.5. Methods</h4>
 <div class="paragraph">
 <p><strong>exclude(String str)</strong><br>
 Add a dependency pattern to be excluded.</p>
@@ -1520,7 +1614,7 @@ Add a dependency pattern to be included.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_2"><a class="anchor" href="#_example_2"></a>3.4.5. Example</h4>
+<h4 id="_example_2"><a class="anchor" href="#_example_2"></a>3.4.6. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -1545,7 +1639,7 @@ Add a dependency pattern to be included.</p>
 <p>This rule checks whether the build or project include a specified banned repository.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_5"><a class="anchor" href="#_trigger_phases_5"></a>3.5.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_5"><a class="anchor" href="#_allowed_phases_5"></a>3.5.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1558,18 +1652,31 @@ Add a dependency pattern to be included.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>3.5.2. Configuration</h4>
+<h4 id="_default_phases_5"><a class="anchor" href="#_default_phases_5"></a>3.5.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS
+== Configuration</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+<pre>enforce {
     rule(enforcer.rules.BannedRepositories) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.mavenLocalAllowed
         r.bannedRepositories
         r.allowedRepositories
     }
-}</code></pre>
+}</pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1654,7 +1761,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_6"><a class="anchor" href="#_trigger_phases_6"></a>3.6.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_6"><a class="anchor" href="#_allowed_phases_6"></a>3.6.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1673,13 +1780,34 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>3.6.2. Configuration</h4>
+<h4 id="_default_phases_6"><a class="anchor" href="#_default_phases_6"></a>3.6.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_5"><a class="anchor" href="#_configuration_5"></a>3.6.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.DependencyConvergence) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.failOnDynamicVersions
         r.failOnChangingVersions
         r.failOnNonReproducibleResolution
@@ -1691,7 +1819,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_4"><a class="anchor" href="#_properties_4"></a>3.6.3. Properties</h4>
+<h4 id="_properties_2"><a class="anchor" href="#_properties_2"></a>3.6.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -1761,7 +1889,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_4"><a class="anchor" href="#_example_4"></a>3.6.4. Example</h4>
+<h4 id="_example_4"><a class="anchor" href="#_example_4"></a>3.6.5. Example</h4>
 <div class="paragraph">
 <p>Given the following configuration found in <code>settings.gradle</code></p>
 </div>
@@ -1773,7 +1901,7 @@ This rule will resolve configurations eagerly, once the target project or projec
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -1891,7 +2019,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_7"><a class="anchor" href="#_trigger_phases_7"></a>3.7.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_7"><a class="anchor" href="#_allowed_phases_7"></a>3.7.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1904,13 +2032,28 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_7"><a class="anchor" href="#_configuration_7"></a>3.7.2. Configuration</h4>
+<h4 id="_default_phases_7"><a class="anchor" href="#_default_phases_7"></a>3.7.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_6"><a class="anchor" href="#_configuration_6"></a>3.7.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.EnforceBytecodeVersion) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.maxJdkVersion
         r.maxJavaMajorVersionNumber
         r.maxJavaMinorVersionNumber
@@ -1928,7 +2071,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_5"><a class="anchor" href="#_properties_5"></a>3.7.3. Properties</h4>
+<h4 id="_properties_3"><a class="anchor" href="#_properties_3"></a>3.7.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -1947,13 +2090,6 @@ This rule will resolve configurations eagerly, once the target project or projec
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">maxJdkVersion</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -2047,7 +2183,7 @@ This rule will resolve configurations eagerly, once the target project or projec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_methods_3"><a class="anchor" href="#_methods_3"></a>3.7.4. Methods</h4>
+<h4 id="_methods_3"><a class="anchor" href="#_methods_3"></a>3.7.5. Methods</h4>
 <div class="paragraph">
 <p><strong>ignore(String str)</strong><br>
 Adds a class to ignore for verification. Wildcards can be specified using the * character.</p>
@@ -2068,7 +2204,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_5"><a class="anchor" href="#_example_5"></a>3.7.5. Example</h4>
+<h4 id="_example_5"><a class="anchor" href="#_example_5"></a>3.7.6. Example</h4>
 <div class="paragraph">
 <p>Given the following configuration found in <code>settings.gradle</code></p>
 </div>
@@ -2080,7 +2216,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2139,7 +2275,7 @@ dependencies {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2180,7 +2316,7 @@ FAILURE: Build failed with an exception.
 <p>This rule excludes dependencies from all resolvable configurations.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_8"><a class="anchor" href="#_trigger_phases_8"></a>3.8.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_8"><a class="anchor" href="#_allowed_phases_8"></a>3.8.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2193,13 +2329,28 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_8"><a class="anchor" href="#_configuration_8"></a>3.8.2. Configuration</h4>
+<h4 id="_default_phases_8"><a class="anchor" href="#_default_phases_8"></a>3.8.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_7"><a class="anchor" href="#_configuration_7"></a>3.8.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.ExcludeDependencies) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.exclude()
     }
 }</code></pre>
@@ -2207,7 +2358,7 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_methods_4"><a class="anchor" href="#_methods_4"></a>3.8.3. Methods</h4>
+<h4 id="_methods_4"><a class="anchor" href="#_methods_4"></a>3.8.4. Methods</h4>
 <div class="paragraph">
 <p><strong>exclude(String str)</strong><br>
 <strong>exclude(Map&lt;String, String&gt; map)</strong><br>
@@ -2217,7 +2368,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_6"><a class="anchor" href="#_example_6"></a>3.8.4. Example</h4>
+<h4 id="_example_6"><a class="anchor" href="#_example_6"></a>3.8.5. Example</h4>
 <div class="paragraph">
 <p>Given the following configuration found in <code>settings.gradle</code></p>
 </div>
@@ -2229,7 +2380,7 @@ Accepted keys for <code>map</code> are <code>groupId</code>, <code>artifactId</c
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2287,7 +2438,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2308,7 +2459,7 @@ enforce {
 <p>This rule forces dependency versions for all resolvable configurations.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_9"><a class="anchor" href="#_trigger_phases_9"></a>3.9.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_9"><a class="anchor" href="#_allowed_phases_9"></a>3.9.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2321,13 +2472,28 @@ enforce {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_9"><a class="anchor" href="#_configuration_9"></a>3.9.2. Configuration</h4>
+<h4 id="_default_phases_9"><a class="anchor" href="#_default_phases_9"></a>3.9.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_8"><a class="anchor" href="#_configuration_8"></a>3.9.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.ForceDependencies) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.dependencies
     }
 }</code></pre>
@@ -2335,7 +2501,7 @@ enforce {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_6"><a class="anchor" href="#_properties_6"></a>3.9.3. Properties</h4>
+<h4 id="_properties_4"><a class="anchor" href="#_properties_4"></a>3.9.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2365,7 +2531,7 @@ enforce {
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_7"><a class="anchor" href="#_example_7"></a>3.9.4. Example</h4>
+<h4 id="_example_7"><a class="anchor" href="#_example_7"></a>3.9.5. Example</h4>
 <div class="paragraph">
 <p>Given the following configuration found in <code>settings.gradle</code></p>
 </div>
@@ -2377,7 +2543,7 @@ enforce {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2435,7 +2601,7 @@ Could not resolve all dependencies for configuration ':compileClasspath'.
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2477,8 +2643,20 @@ compileClasspath - Compile classpath for source set 'main'.
 <div class="paragraph">
 <p>This rule checks that a specified environment variable is set.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This rule is repeatable. You may define multiple instances of this rule.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
-<h4 id="_trigger_phases_10"><a class="anchor" href="#_trigger_phases_10"></a>3.10.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_10"><a class="anchor" href="#_allowed_phases_10"></a>3.10.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2491,7 +2669,20 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_10"><a class="anchor" href="#_configuration_10"></a>3.10.2. Configuration</h4>
+<h4 id="_default_phases_10"><a class="anchor" href="#_default_phases_10"></a>3.10.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_9"><a class="anchor" href="#_configuration_9"></a>3.10.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -2499,6 +2690,7 @@ compileClasspath - Compile classpath for source set 'main'.
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.variableName
         r.regex
         r.regexMessage
@@ -2509,7 +2701,7 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_7"><a class="anchor" href="#_properties_7"></a>3.10.3. Properties</h4>
+<h4 id="_properties_5"><a class="anchor" href="#_properties_5"></a>3.10.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2528,13 +2720,6 @@ compileClasspath - Compile classpath for source set 'main'.
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">variableName</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -2576,7 +2761,7 @@ compileClasspath - Compile classpath for source set 'main'.
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_8"><a class="anchor" href="#_example_8"></a>3.10.4. Example</h4>
+<h4 id="_example_8"><a class="anchor" href="#_example_8"></a>3.10.5. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -2596,7 +2781,7 @@ compileClasspath - Compile classpath for source set 'main'.
 <p>Checks file encodings to see if they match the given encoding.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_11"><a class="anchor" href="#_trigger_phases_11"></a>3.11.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_11"><a class="anchor" href="#_allowed_phases_11"></a>3.11.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2606,13 +2791,25 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_11"><a class="anchor" href="#_configuration_11"></a>3.11.2. Configuration</h4>
+<h4 id="_default_phases_11"><a class="anchor" href="#_default_phases_11"></a>3.11.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_10"><a class="anchor" href="#_configuration_10"></a>3.11.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
     rule(enforcer.rules.RequireEncoding) { r -&gt;
         r.enabled
         r.enforcerLevel
+        r.message
+        r.phases
         r.encoding
         r.includes
         r.excludes
@@ -2625,7 +2822,7 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_8"><a class="anchor" href="#_properties_8"></a>3.11.3. Properties</h4>
+<h4 id="_properties_6"><a class="anchor" href="#_properties_6"></a>3.11.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2750,7 +2947,42 @@ compileClasspath - Compile classpath for source set 'main'.
 <p>This rule checks that the specified file has an given checksum.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_12"><a class="anchor" href="#_configuration_12"></a>3.12.1. Configuration</h4>
+<h4 id="_allowed_phases_12"><a class="anchor" href="#_allowed_phases_12"></a>3.12.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_12"><a class="anchor" href="#_default_phases_12"></a>3.12.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_11"><a class="anchor" href="#_configuration_11"></a>3.12.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -2758,17 +2990,17 @@ compileClasspath - Compile classpath for source set 'main'.
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.file
         r.checksum
         r.type
-        r.phases
     }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_9"><a class="anchor" href="#_properties_9"></a>3.12.2. Properties</h4>
+<h4 id="_properties_7"><a class="anchor" href="#_properties_7"></a>3.12.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2787,13 +3019,6 @@ compileClasspath - Compile classpath for source set 'main'.
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;File&gt;</p></td>
@@ -2815,13 +3040,6 @@ compileClasspath - Compile classpath for source set 'main'.
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Type of hashing algorithm used to calculate the checksum. May be one of ['md5', 'sha1', 'sha256', 'sha384', 'sha512'].</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -2832,7 +3050,42 @@ compileClasspath - Compile classpath for source set 'main'.
 <p>This rule checks that the specified list of files do not exist.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_13"><a class="anchor" href="#_configuration_13"></a>3.13.1. Configuration</h4>
+<h4 id="_allowed_phases_13"><a class="anchor" href="#_allowed_phases_13"></a>3.13.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_13"><a class="anchor" href="#_default_phases_13"></a>3.13.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_12"><a class="anchor" href="#_configuration_12"></a>3.13.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -2840,11 +3093,11 @@ compileClasspath - Compile classpath for source set 'main'.
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.files
         r.includePatterns
         r.excludePatterns
         r.allowNulls
-        r.phases
         r.file()
         r.include()
         r.exclude()
@@ -2854,7 +3107,7 @@ compileClasspath - Compile classpath for source set 'main'.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_10"><a class="anchor" href="#_properties_10"></a>3.13.2. Properties</h4>
+<h4 id="_properties_8"><a class="anchor" href="#_properties_8"></a>3.13.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -2873,13 +3126,6 @@ compileClasspath - Compile classpath for source set 'main'.
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
@@ -2908,18 +3154,11 @@ compileClasspath - Compile classpath for source set 'main'.
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to exclude.</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_5"><a class="anchor" href="#_methods_5"></a>3.13.3. Methods</h4>
+<h4 id="_methods_5"><a class="anchor" href="#_methods_5"></a>3.13.5. Methods</h4>
 <div class="paragraph">
 <p><strong>file(String str)</strong><br>
 <strong>file(File file)</strong><br>
@@ -2935,7 +3174,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_9"><a class="anchor" href="#_example_9"></a>3.13.4. Example</h4>
+<h4 id="_example_9"><a class="anchor" href="#_example_9"></a>3.13.6. Example</h4>
 <div class="paragraph">
 <p>Given the following project structure</p>
 </div>
@@ -2964,7 +3203,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -2998,7 +3237,42 @@ enforce {
 <p>This rule checks that the specified list of files exist.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_14"><a class="anchor" href="#_configuration_14"></a>3.14.1. Configuration</h4>
+<h4 id="_allowed_phases_14"><a class="anchor" href="#_allowed_phases_14"></a>3.14.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_14"><a class="anchor" href="#_default_phases_14"></a>3.14.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_13"><a class="anchor" href="#_configuration_13"></a>3.14.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3006,11 +3280,11 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.files
         r.includePatterns
         r.excludePatterns
         r.allowNulls
-        r.phases
         r.file()
         r.include()
         r.exclude()
@@ -3020,7 +3294,7 @@ enforce {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_11"><a class="anchor" href="#_properties_11"></a>3.14.2. Properties</h4>
+<h4 id="_properties_9"><a class="anchor" href="#_properties_9"></a>3.14.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3039,13 +3313,6 @@ enforce {
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
@@ -3074,18 +3341,11 @@ enforce {
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">List of filename patterns to exclude.</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_6"><a class="anchor" href="#_methods_6"></a>3.14.3. Methods</h4>
+<h4 id="_methods_6"><a class="anchor" href="#_methods_6"></a>3.14.5. Methods</h4>
 <div class="paragraph">
 <p><strong>file(String str)</strong><br>
 <strong>file(File file)</strong><br>
@@ -3101,7 +3361,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_10"><a class="anchor" href="#_example_10"></a>3.14.4. Example</h4>
+<h4 id="_example_10"><a class="anchor" href="#_example_10"></a>3.14.6. Example</h4>
 <div class="paragraph">
 <p>Given the following project structure</p>
 </div>
@@ -3129,7 +3389,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
     }
 }
 apply plugin: 'org.kordamp.gradle.enforcer'
@@ -3163,7 +3423,42 @@ enforce {
 <p>This rule checks that the specified list of files exist and are within the specified size range.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration_15"><a class="anchor" href="#_configuration_15"></a>3.15.1. Configuration</h4>
+<h4 id="_allowed_phases_15"><a class="anchor" href="#_allowed_phases_15"></a>3.15.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+<li>
+<p>AFTER_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_15"><a class="anchor" href="#_default_phases_15"></a>3.15.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_14"><a class="anchor" href="#_configuration_14"></a>3.15.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3171,13 +3466,13 @@ enforce {
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.files
         r.includePatterns
         r.excludePatterns
         r.maxsize
         r.minsize
         r.allowNulls
-        r.phases
         r.file()
         r.include()
         r.exclude()
@@ -3187,7 +3482,7 @@ enforce {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_12"><a class="anchor" href="#_properties_12"></a>3.15.2. Properties</h4>
+<h4 id="_properties_10"><a class="anchor" href="#_properties_10"></a>3.15.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3206,13 +3501,6 @@ enforce {
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">allowNulls</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
@@ -3255,18 +3543,11 @@ enforce {
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon yellow"><i class="fa fa-exclamation-triangle"></i></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Minimum size in bytes for this file.</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">phases</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;EnforcerPhase&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[BEFORE_BUILD]</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The list of phases where the check should be run.</p></td>
-</tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_7"><a class="anchor" href="#_methods_7"></a>3.15.3. Methods</h4>
+<h4 id="_methods_7"><a class="anchor" href="#_methods_7"></a>3.15.5. Methods</h4>
 <div class="paragraph">
 <p><strong>file(String str)</strong><br>
 <strong>file(File file)</strong><br>
@@ -3287,8 +3568,20 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 <div class="paragraph">
 <p>This rule checks that a specified Gradle property is set.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This rule is repeatable. You may define multiple instances of this rule.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
-<h4 id="_trigger_phases_12"><a class="anchor" href="#_trigger_phases_12"></a>3.16.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_16"><a class="anchor" href="#_allowed_phases_16"></a>3.16.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3307,7 +3600,26 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_16"><a class="anchor" href="#_configuration_16"></a>3.16.2. Configuration</h4>
+<h4 id="_default_phases_16"><a class="anchor" href="#_default_phases_16"></a>3.16.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_15"><a class="anchor" href="#_configuration_15"></a>3.16.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3315,6 +3627,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.property
         r.regex
         r.regexMessage
@@ -3326,7 +3639,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_13"><a class="anchor" href="#_properties_13"></a>3.16.3. Properties</h4>
+<h4 id="_properties_11"><a class="anchor" href="#_properties_11"></a>3.16.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3345,13 +3658,6 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3393,7 +3699,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_11"><a class="anchor" href="#_example_11"></a>3.16.4. Example</h4>
+<h4 id="_example_11"><a class="anchor" href="#_example_11"></a>3.16.5. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3413,7 +3719,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 <p>This rule enforces certain Gradle versions. The rule uses the <a href="#_version_range">version range</a> syntax to define allowed versions.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_13"><a class="anchor" href="#_trigger_phases_13"></a>3.17.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_17"><a class="anchor" href="#_allowed_phases_17"></a>3.17.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3423,7 +3729,17 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_17"><a class="anchor" href="#_configuration_17"></a>3.17.2. Configuration</h4>
+<h4 id="_default_phases_17"><a class="anchor" href="#_default_phases_17"></a>3.17.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_16"><a class="anchor" href="#_configuration_16"></a>3.17.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3431,6 +3747,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.version
     }
 }</code></pre>
@@ -3438,7 +3755,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_14"><a class="anchor" href="#_properties_14"></a>3.17.3. Properties</h4>
+<h4 id="_properties_12"><a class="anchor" href="#_properties_12"></a>3.17.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3457,13 +3774,6 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3500,7 +3810,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </ol>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_14"><a class="anchor" href="#_trigger_phases_14"></a>3.18.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_18"><a class="anchor" href="#_allowed_phases_18"></a>3.18.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3510,7 +3820,17 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_18"><a class="anchor" href="#_configuration_18"></a>3.18.2. Configuration</h4>
+<h4 id="_default_phases_18"><a class="anchor" href="#_default_phases_18"></a>3.18.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_17"><a class="anchor" href="#_configuration_17"></a>3.18.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3518,6 +3838,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.version
     }
 }</code></pre>
@@ -3525,7 +3846,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_15"><a class="anchor" href="#_properties_15"></a>3.18.3. Properties</h4>
+<h4 id="_properties_13"><a class="anchor" href="#_properties_13"></a>3.18.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3544,13 +3865,6 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3569,7 +3883,7 @@ Adds a patterns to the list of exclusion patterns to be checked. Path may be rel
 Detects the same values as the <a href="https://github.com/trustin/os-maven-plugin">os-maven-plugin</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_15"><a class="anchor" href="#_trigger_phases_15"></a>3.19.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_19"><a class="anchor" href="#_allowed_phases_19"></a>3.19.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3579,7 +3893,17 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_19"><a class="anchor" href="#_configuration_19"></a>3.19.2. Configuration</h4>
+<h4 id="_default_phases_19"><a class="anchor" href="#_default_phases_19"></a>3.19.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_BUILD</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_18"><a class="anchor" href="#_configuration_18"></a>3.19.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3587,6 +3911,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.arch
         r.name
         r.version
@@ -3600,7 +3925,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_16"><a class="anchor" href="#_properties_16"></a>3.19.3. Properties</h4>
+<h4 id="_properties_14"><a class="anchor" href="#_properties_14"></a>3.19.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3619,13 +3944,6 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">arch</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3679,7 +3997,7 @@ Detects the same values as the <a href="https://github.com/trustin/os-maven-plug
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_12"><a class="anchor" href="#_example_12"></a>3.19.4. Example</h4>
+<h4 id="_example_12"><a class="anchor" href="#_example_12"></a>3.19.5. Example</h4>
 <div class="paragraph">
 <p>The following configuration only works when the build is run on a Windows OS</p>
 </div>
@@ -3712,20 +4030,26 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requiresystemproperty"><a class="anchor" href="#_requiresystemproperty"></a>3.20. RequireSystemProperty</h3>
+<h3 id="_requirereleasedeps"><a class="anchor" href="#_requirereleasedeps"></a>3.20. RequireReleaseDeps</h3>
 <div class="paragraph">
-<p>This rule checks that a specified System property is set.</p>
+<p>This rule checks that no snapshots are included.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This rule will resolve configurations eagerly, once the target project or projects have been evaluated.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_16"><a class="anchor" href="#_trigger_phases_16"></a>3.20.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_20"><a class="anchor" href="#_allowed_phases_20"></a>3.20.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
-<li>
-<p>BEFORE_PROJECTS</p>
-</li>
-<li>
-<p>BEFORE_PROJECT</p>
-</li>
 <li>
 <p>AFTER_PROJECT</p>
 </li>
@@ -3736,26 +4060,41 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_20"><a class="anchor" href="#_configuration_20"></a>3.20.2. Configuration</h4>
+<h4 id="_default_phases_20"><a class="anchor" href="#_default_phases_20"></a>3.20.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_19"><a class="anchor" href="#_configuration_19"></a>3.20.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
-    rule(enforcer.rules.RequireSystemProperty) { r -&gt;
+    rule(enforcer.rules.RequireReleaseDeps) { r -&gt;
         r.enabled
         r.enforcerLevel
         r.message
-        r.property
-        r.regex
-        r.regexMessage
-        r.displayValue
-        r.after
+        r.phases
+        r.configurations
+        r.excludes
+        r.includes
+        r.onlyWhenRelease
+        r.exclude()
+        r.include()
     }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_17"><a class="anchor" href="#_properties_17"></a>3.20.3. Properties</h4>
+<h4 id="_properties_15"><a class="anchor" href="#_properties_15"></a>3.20.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3775,12 +4114,193 @@ FAILURE: Build failed with an exception.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only verify dependencies within these configurations. Unresolvable configurations will be ignored. This rule applies<br>
+  to all resolvable configurations if this property is left empty.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">excludes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to ban. The format is <code>groupId[:artifactId][:version][:classifier]</code> where <code>artifactId</code>, <code>version</code>,<br>
+  and <code>classifier</code> are optional. Wildcards may be used to replace an entire or just parts of a section.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">includes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of artifacts to include. These are exceptions to the excludes. It is meant to allow wide exclusion rules with<br>
+  wildcards and fine tune using includes. If nothing has been excluded, then the includes have no effect. In other words,<br>
+  includes only subtract from artifacts that matched an exclude rule.<br>
+  For example, to ban all xerces except xerces-api you would exclude "xerces" (groupId) and include "xerces:xerces-api"</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">onlyWhenRelease</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows this rule to execute only when this project is a release.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Artifact pattern examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>org.apache.maven</p>
+</li>
+<li>
+<p>org.apache.maven:badArtifact</p>
+</li>
+<li>
+<p>org.apache.maven:artifact:badVersion</p>
+</li>
+<li>
+<p>org.apache.maven:*:1.2 (exclude version 1.2 and above, equivalent to [1.2,) )</p>
+</li>
+<li>
+<p>org.apache.maven:*:[1.2] (explicit exclude of version 1.2)</p>
+</li>
+<li>
+<p>org.apache.maven:*:*:test</p>
+</li>
+<li>
+<p>org.apache.*:maven-*:*</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_methods_8"><a class="anchor" href="#_methods_8"></a>3.20.5. Methods</h4>
+<div class="paragraph">
+<p><strong>exclude(String str)</strong><br>
+Add a dependency pattern to be excluded.</p>
+</div>
+<div class="paragraph">
+<p><strong>include(String str)</strong><br>
+Add a dependency pattern to be included.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_13"><a class="anchor" href="#_example_13"></a>3.20.6. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireReleaseDeps) { r -&gt;
+        // search only on compile and runtime classpaths
+        r.configurations.addAll(['compileClasspath', 'runtimeClasspath'])
+        // ignore all dependencies under the following package/artifacts
+        r.exclude('org.apache.maven')
+        r.exclude('org.apache.maven:badArtifact')
+        r.exclude('*:badArtifact')
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requiresystemproperty"><a class="anchor" href="#_requiresystemproperty"></a>3.21. RequireSystemProperty</h3>
+<div class="paragraph">
+<p>This rule checks that a specified System property is set.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This rule is repeatable. You may define multiple instances of this rule.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_allowed_phases_21"><a class="anchor" href="#_allowed_phases_21"></a>3.21.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_21"><a class="anchor" href="#_default_phases_21"></a>3.21.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>BEFORE_PROJECTS</p>
+</li>
+<li>
+<p>BEFORE_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_20"><a class="anchor" href="#_configuration_20"></a>3.21.3. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.RequireSystemProperty) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.property
+        r.regex
+        r.regexMessage
+        r.displayValue
+        r.after
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_16"><a class="anchor" href="#_properties_16"></a>3.21.4. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3822,7 +4342,7 @@ FAILURE: Build failed with an exception.
 </table>
 </div>
 <div class="sect3">
-<h4 id="_example_13"><a class="anchor" href="#_example_13"></a>3.20.4. Example</h4>
+<h4 id="_example_14"><a class="anchor" href="#_example_14"></a>3.21.5. Example</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3837,12 +4357,24 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requireurl"><a class="anchor" href="#_requireurl"></a>3.21. RequireUrl</h3>
+<h3 id="_requireurl"><a class="anchor" href="#_requireurl"></a>3.22. RequireUrl</h3>
 <div class="paragraph">
 <p>This rule checks the given URL is present and optionally matches against a regex.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This rule is repeatable. You may define multiple instances of this rule.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
-<h4 id="_trigger_phases_17"><a class="anchor" href="#_trigger_phases_17"></a>3.21.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_22"><a class="anchor" href="#_allowed_phases_22"></a>3.22.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3852,7 +4384,17 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_21"><a class="anchor" href="#_configuration_21"></a>3.21.2. Configuration</h4>
+<h4 id="_default_phases_22"><a class="anchor" href="#_default_phases_22"></a>3.22.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECT</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_21"><a class="anchor" href="#_configuration_21"></a>3.22.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -3860,6 +4402,7 @@ FAILURE: Build failed with an exception.
         r.enabled
         r.enforcerLevel
         r.message
+        r.phases
         r.regex
         r.urlExtractor
     }
@@ -3868,7 +4411,7 @@ FAILURE: Build failed with an exception.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_18"><a class="anchor" href="#_properties_18"></a>3.21.3. Properties</h4>
+<h4 id="_properties_17"><a class="anchor" href="#_properties_17"></a>3.22.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -3887,13 +4430,6 @@ FAILURE: Build failed with an exception.
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
-</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
@@ -3985,16 +4521,24 @@ The following icons indicate the required state of a property:<br>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_requireroles"><a class="anchor" href="#_requireroles"></a>4.1. RequireRoles</h3>
+<h3 id="_requirekordampproperty"><a class="anchor" href="#_requirekordampproperty"></a>4.1. RequireKordampProperty</h3>
 <div class="paragraph">
-<p>This rule checks there are roles covered by people found in <code>project.config.info.people</code>.</p>
+<p>This rule checks properties found in <code>project.config</code> DSL extension.</p>
 </div>
-<div class="paragraph">
-<p>Say you want to enforce a policy that in every project there is at least one person representing a specific role, e.g.
-at least one person has the role "lead engineer".</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This rule is repeatable. You may define multiple instances of this rule.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_trigger_phases_18"><a class="anchor" href="#_trigger_phases_18"></a>4.1.1. Trigger Phases</h4>
+<h4 id="_allowed_phases_23"><a class="anchor" href="#_allowed_phases_23"></a>4.1.1. Allowed Phases</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -4004,7 +4548,17 @@ at least one person has the role "lead engineer".</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_configuration_22"><a class="anchor" href="#_configuration_22"></a>4.1.2. Configuration</h4>
+<h4 id="_default_phases_23"><a class="anchor" href="#_default_phases_23"></a>4.1.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_22"><a class="anchor" href="#_configuration_22"></a>4.1.3. Configuration</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">enforce {
@@ -4012,17 +4566,19 @@ at least one person has the role "lead engineer".</p>
         r.enabled
         r.enforcerLevel
         r.message
-        r.requiredRoles
-        r.validRoles
-        r.required()
-        r.valid()
+        r.phases
+        r.targets
+        r.property
+        r.regex
+        r.regexMessage
+        r.displayValue
     }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_properties_19"><a class="anchor" href="#_properties_19"></a>4.1.3. Properties</h4>
+<h4 id="_properties_18"><a class="anchor" href="#_properties_18"></a>4.1.4. Properties</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12.5%;">
@@ -4042,12 +4598,131 @@ at least one person has the role "lead engineer".</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">targets</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of project paths to include.<br>
+The value of each element must be any of<br>
+* A full project path, such as <code>:project1</code>.<br>
+* A regex that can be matched to a project path.<br>
+* A single '*' will match all paths.<br>
+If no targets are given then only the root project will be checked.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">property</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon green"><i class="fa fa-check"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the Gradle property to be checked for.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regex</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to provide when the rule fails.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A regular expression used to check the value of the property.<br>
+The regex is applied to the entire value of the property (i.e. using the regex "match" method), and not just a substring<br>
+of the property&#8217;s value.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">regexMessage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;String&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional message to the user if the regex check fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">displayValue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Property&lt;Boolean&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="icon red"><i class="fa fa-times"></i></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays the value to the user if the regex check fails.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_example_15"><a class="anchor" href="#_example_15"></a>4.1.5. Example</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.kordamp.RequireKordampProperty) { r -&gt;
+        r.property = 'info.vendor'
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requireroles"><a class="anchor" href="#_requireroles"></a>4.2. RequireRoles</h3>
+<div class="paragraph">
+<p>This rule checks there are roles covered by people found in <code>project.config.info.people</code>.</p>
+</div>
+<div class="paragraph">
+<p>Say you want to enforce a policy that in every project there is at least one person representing a specific role, e.g.
+at least one person has the role "lead engineer".</p>
+</div>
+<div class="sect3">
+<h4 id="_allowed_phases_24"><a class="anchor" href="#_allowed_phases_24"></a>4.2.1. Allowed Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_phases_24"><a class="anchor" href="#_default_phases_24"></a>4.2.2. Default Phases</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>AFTER_PROJECTS</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_23"><a class="anchor" href="#_configuration_23"></a>4.2.3. Configuration</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">enforce {
+    rule(enforcer.rules.kordamp.RequireRoles) { r -&gt;
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.requiredRoles
+        r.validRoles
+        r.required()
+        r.valid()
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_properties_19"><a class="anchor" href="#_properties_19"></a>4.2.4. Properties</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-center valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">requiredRoles</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ListProperty&lt;String&gt;</p></td>
@@ -4068,7 +4743,7 @@ This rule does *not* support Ant-patterns.</p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_methods_8"><a class="anchor" href="#_methods_8"></a>4.1.4. Methods</h4>
+<h4 id="_methods_9"><a class="anchor" href="#_methods_9"></a>4.2.5. Methods</h4>
 <div class="paragraph">
 <p><strong>require(String role)</strong><br>
 Adds a required role.</p>
@@ -4079,7 +4754,7 @@ Adds a valid role.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_14"><a class="anchor" href="#_example_14"></a>4.1.5. Example</h4>
+<h4 id="_example_16"><a class="anchor" href="#_example_16"></a>4.2.6. Example</h4>
 <div class="paragraph">
 <p>In this example there must be at least <strong>1</strong> person with the <code>developer</code> role. Any person may have <code>developer</code> or <code>contributor</code>
 role but not <code>designer</code> for example.</p>
@@ -4121,7 +4796,7 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.7.0'
+    api 'org.kordamp.gradle:enforcer-api:0.8.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -4139,7 +4814,7 @@ repositories {
 }
 
 dependencies {
-    api 'org.kordamp.gradle:enforcer-api:0.7.0'
+    api 'org.kordamp.gradle:enforcer-api:0.8.0'
     implementation gradleApi()
 }</code></pre>
 </div>
@@ -4174,6 +4849,12 @@ class MyCustomRule extends AbstractEnforcerRule {
         super(objects)
     }
 
+    @Override
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        // noop
+    }
+
+    @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         if (context.enforcerPhase == EnforcerPhase.AFTER_BUILD) {
             println "Everything went OK!"
@@ -4198,6 +4879,12 @@ public class MyCustomRule extends AbstractEnforcerRule {
         super(objects);
     }
 
+    @Override
+    protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
+        // noop
+    }
+
+    @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         if (context.getEnforcerPhase().equals(EnforcerPhase.AFTER_BUILD)) {
             System.out.println("Everything went OK!");
@@ -4230,7 +4917,7 @@ public class MyCustomRule extends AbstractEnforcerRule {
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -4249,7 +4936,7 @@ apply plugin: 'org.kordamp.gradle.enforcer'</code></pre>
         // add the repository where the rule artifact is located
     }
     dependencies {
-        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.7.0'
+        classpath 'org.kordamp.gradle:enforcer-gradle-plugin:0.8.0'
         classpath 'com.acme:my-enforcer-rules:1.2.3'
     }
 }
@@ -4272,7 +4959,7 @@ apply plugin: 'org.kordamp.gradle.project-enforcer'</code></pre>
 }
 
 plugins {
-    id 'org.kordamp.gradle.project-enforcer' version '0.7.0'
+    id 'org.kordamp.gradle.project-enforcer' version '0.8.0'
 }</code></pre>
 </div>
 </div>
@@ -4306,8 +4993,8 @@ plugins {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.7.0<br>
-Last updated 2020-10-10 01:32:44 +0200
+Version 0.8.0<br>
+Last updated 2020-10-30 20:20:20 +0100
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
