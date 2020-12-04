@@ -17,17 +17,15 @@
  */
 package org.kordamp.gradle.plugin.enforcer
 
-import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
+import spock.lang.*
 
-import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.*
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 
-import spock.lang.IgnoreRest
-import spock.lang.Specification
+import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 
-class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
+class ProjectEnforcerPluginKotlinIntegrationTest extends Specification {
     @Rule
     TemporaryFolder testProjectDir = new TemporaryFolder()
 
@@ -36,16 +34,20 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle.kts')
-        buildFile << """            
+        buildFile << """
+            import org.kordamp.gradle.plugin.enforcer.rule
+            import org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerExtension
+            
             plugins {
                 id ("base")
+               // id ("org.kordamp.gradle.project-enforcer")
             }
+            
+            apply(plugin= "org.kordamp.gradle.project-enforcer")
         """
 
         settingsFile = testProjectDir.newFile('settings.gradle.kts')
         settingsFile << """
-            import org.kordamp.gradle.plugin.enforcer.rule
-            import org.kordamp.gradle.plugin.enforcer.api.BuildEnforcerExtension
 
             buildscript {
                 repositories {
@@ -63,14 +65,13 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
                     classpath ("kr.motd.maven:os-maven-plugin:${System.getProperty('osMavenPluginVersion')}")
                 }
             }
-            apply(plugin= "org.kordamp.gradle.enforcer")
         """
     }
 
     def "Can disable all enforcer rules"() {
         given:
-        settingsFile << """
-            configure<BuildEnforcerExtension> {
+        buildFile << """
+            configure<ProjectEnforcerExtension> {
                 enabled.set(false)
                 rule<enforcer.rules.AlwaysFail>()
 //                allprojects {
@@ -92,12 +93,12 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
 
     def "Can disable a single enforcer rule"() {
         given:
-        settingsFile << """
-            configure<BuildEnforcerExtension> {
+        buildFile << """
+            configure<ProjectEnforcerExtension> {
                 rule<enforcer.rules.AlwaysFail> {
                     enabled.set(false)
                 }
-            }   
+            }
         """
 
         when:
@@ -113,10 +114,10 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
 
     def "Can fail a build"() {
         given:
-        settingsFile << """
-            configure<BuildEnforcerExtension> {
-                rule<enforcer.rules.AlwaysFail> ()
-            }   
+        buildFile << """
+             configure<ProjectEnforcerExtension> {
+                rule<enforcer.rules.AlwaysFail>()
+            }
         """
 
         when:
@@ -127,14 +128,14 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
             .buildAndFail()
 
         then:
-        result.output.contains("[BEFORE_BUILD] An Enforcer rule has failed")
+        result.output.contains("[AFTER_PROJECT :] An Enforcer rule has failed")
         result.output.contains("Enforcer rule 'enforcer.rules.AlwaysFail' was triggered.")
     }
 
     def "Can fail a build fast"() {
         given:
-        settingsFile << """
-            configure<BuildEnforcerExtension> {
+        buildFile << """
+            configure<ProjectEnforcerExtension> {
                 failFast.set(true)
                 rule<enforcer.rules.AlwaysFail>()
                 rule<org.kordamp.gradle.plugin.enforcer.Fail>()
@@ -149,14 +150,14 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
             .buildAndFail()
 
         then:
-        result.output.contains("[BEFORE_BUILD] An Enforcer rule has failed")
+        result.output.contains("[AFTER_PROJECT :] An Enforcer rule has failed")
         result.output.contains("Enforcer rule 'enforcer.rules.AlwaysFail' was triggered.")
     }
 
     def "Can fail multiple rules in the same phase"() {
         given:
-        settingsFile << """
-            configure<BuildEnforcerExtension> {
+        buildFile << """
+            configure<ProjectEnforcerExtension> {
                 failFast.set(false)
                 rule<enforcer.rules.AlwaysFail>()
                 rule<org.kordamp.gradle.plugin.enforcer.Fail>()
@@ -171,7 +172,7 @@ class BuildEnforcerPluginKotlinIntegrationTest extends Specification {
             .buildAndFail()
 
         then:
-        result.output.contains('[BEFORE_BUILD] 2 Enforcer rules have failed')
+        result.output.contains('[AFTER_PROJECT :] 2 Enforcer rules have failed')
         result.output.contains("Enforcer rule 'enforcer.rules.AlwaysFail' was triggered.")
         result.output.contains("Enforcer rule 'org.kordamp.gradle.plugin.enforcer.Fail' was triggered.")
     }
