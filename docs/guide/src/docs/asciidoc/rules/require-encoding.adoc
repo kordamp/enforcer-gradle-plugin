@@ -43,7 +43,7 @@ enforce {
 | Property<String>
 | `System.getProperty('file.encoding')`
 | {icon_req_n}
-| An optional message to provide when the rule fails.
+| The file encoding to use.
 
 | includes
 | ListProperty<String>

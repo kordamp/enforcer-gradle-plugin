@@ -18,6 +18,7 @@
 dependencies {
     api project(':enforcer-api')
     api "commons-codec:commons-codec:$commonsCodecVersion"
+    api "commons-io:commons-io:$commonsIoVersion"
     api "org.apache.maven:maven-artifact:$mavenVersion"
     api("kr.motd.maven:os-maven-plugin:$osMavenPluginVersion") {
         exclude group: 'org.apache.maven', module: 'maven-plugin-api'

@@ -106,23 +106,27 @@ class RequireFileChecksum extends AbstractStandardEnforcerRule {
         }
     }
 
-    private String calculateChecksum() throws EnforcerRuleException {
+    protected String calculateChecksum(InputStream inputStream) throws EnforcerRuleException {
+        if ('md5'.equals(type.get())) {
+            return DigestUtils.md5Hex(inputStream)
+        } else if ('sha1'.equals(type.get())) {
+            return DigestUtils.shaHex(inputStream)
+        } else if ('sha256'.equals(type.get())) {
+            return DigestUtils.sha256Hex(inputStream)
+        } else if ('sha384'.equals(type.get())) {
+            return DigestUtils.sha384Hex(inputStream)
+        } else if ('sha512'.equals(type.get())) {
+            return DigestUtils.sha512Hex(inputStream)
+        } else {
+            throw fail('Unsupported hash type: ' + type.get())
+        }
+    }
+
+    protected String calculateChecksum() throws EnforcerRuleException {
         InputStream inputStream = null
         try {
             inputStream = new FileInputStream(file.get())
-            if ('md5'.equals(type.get())) {
-                return DigestUtils.md5Hex(inputStream)
-            } else if ('sha1'.equals(type.get())) {
-                return DigestUtils.shaHex(inputStream)
-            } else if ('sha256'.equals(type.get())) {
-                return DigestUtils.sha256Hex(inputStream)
-            } else if ('sha384'.equals(type.get())) {
-                return DigestUtils.sha384Hex(inputStream)
-            } else if ('sha512'.equals(type.get())) {
-                return DigestUtils.sha512Hex(inputStream)
-            } else {
-                throw fail('Unsupported hash type: ' + type.get())
-            }
+            calculateChecksum(inputStream)
         } catch (IOException e) {
             throw fail('Unable to calculate checksum', e)
         } finally {

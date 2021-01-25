@@ -1,7 +1,8 @@
 
-= RequireFileChecksum
+= RequireTextFileChecksum
 
-This rule checks that the specified file has a given checksum.
+This rule checks that the specified text file to match the specified checksum. +
+This rule differs from <<RequireFileChecksum>> in that it will normalize line separators to a given value.
 
 == Allowed Phases
 * BEFORE_BUILD
@@ -19,7 +20,7 @@ This rule checks that the specified file has a given checksum.
 [subs="+macros"]
 ----
 enforce {
-    rule(enforcer.rules.RequireFileChecksum) { r ->
+    rule(enforcer.rules.RequireTextFileChecksum) { r ->
         r.enabled
         r.enforcerLevel
         r.message
@@ -27,6 +28,8 @@ enforce {
         r.file
         r.checksum
         r.type
+        r.encoding
+        r.lineSeparator
     }
 }
 ----
@@ -58,5 +61,17 @@ enforce {
 |
 | {icon_req_y}
 | Type of hashing algorithm used to calculate the checksum. May be one of ['md5', 'sha1', 'sha256', 'sha384', 'sha512'].
+
+| encoding
+| Property<String>
+| `System.getProperty('file.encoding')`
+| {icon_req_n}
+| The file encoding to use.
+
+| lineSeparator
+| Property<String>
+| `UNIX`
+| {icon_req_n}
+| The line separator to use. Valid values are [`UNIX`, `WINDOWS`].
 
 |===

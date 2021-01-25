@@ -450,6 +450,10 @@ The following table shows rules available to both plugins
 | {icon_req_n}
 | {icon_req_y}
 
+| <<RequireTextFileChecksum>>
+| {icon_req_y}
+| {icon_req_y}
+
 | RequireUpperBoundDeps
 | {icon_req_y}
 | {icon_req_n}
