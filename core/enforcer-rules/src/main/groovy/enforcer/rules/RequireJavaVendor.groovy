@@ -80,7 +80,7 @@ class RequireJavaVendor extends AbstractStandardEnforcerRule {
             sb.append(message.get())
                 .append(System.lineSeparator())
         }
-        sb.append("Vendor ${javaVendor} is in a list of banned vendors: ${excludes.get()}")
+        sb.append("Vendor \"${javaVendor}\" is in a list of banned vendors: ${excludes.get()}")
 
         fail(sb.toString())
     }

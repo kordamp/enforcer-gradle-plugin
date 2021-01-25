@@ -51,3 +51,11 @@ enforce {
 
 |===
 
+== Methods
+
+*exclude(String str)* +
+Add a vendor name to be excluded.
+
+*include(String str)* +
+Add a vendor name to be included as an exception to the exclusions.
+
