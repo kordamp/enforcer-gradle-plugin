@@ -1,0 +1,53 @@
+
+= RequireJavaVendor
+
+This rule enforces that the Java vendor is allowed.
+
+== Allowed Phases
+* BEFORE_BUILD
+* AFTER_PROJECT
+
+== Default Phases
+* BEFORE_BUILD
+* AFTER_PROJECT
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.RequireJavaVendor) { r ->
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.excludes
+        r.includes
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| excludes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| Specify the banned vendors. This should be an exact match of the System Property `java.vendor`.
+
+| includes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| Specify the allowed vendor names. This should be an exact match of the System Property `java.vendor`.
+
+|===
+

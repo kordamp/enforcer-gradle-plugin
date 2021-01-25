@@ -382,6 +382,10 @@ The following table shows rules available to both plugins
 | {icon_req_n}
 | {icon_req_y}
 
+| <<RequireJavaVendor>>
+| {icon_req_y}
+| {icon_req_y}
+
 | <<RequireJavaVersion>>
 | {icon_req_y}
 | {icon_req_y}
