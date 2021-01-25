@@ -45,13 +45,13 @@ enforce {
 | ListProperty<String>
 | `[ ]`
 | {icon_req_c}
-| Specify banned non-plugin repositories. This is a black list of http/https url patterns.
+| Specify banned non-plugin repositories. This is an exclusion list of http/https url patterns.
 
 | allowedRepositories
 | ListProperty<String>
 | `[ ]`
 | {icon_req_c}
-| Specify explicitly allowed non-plugin repositories. This is a white list of http/https url patterns.
+| Specify explicitly allowed non-plugin repositories. This is an inclusion list of http/https url patterns.
 
 |===
 
@@ -64,7 +64,7 @@ enforce {
     rule(enforcer.rules.BannedRepositories) { r ->
         // ban the following repository
         r.bannedRepositories.add('http://repo1/*')
-        // for some cases, white list is more effective
+        // for some cases, allowing is more effective
         r.allowedRepositories.add('http://repo2/*')
     }
 }

@@ -1,0 +1,68 @@
+
+= BannedPlugins
+
+This rule checks the set of plugins used during the build and enforces that specific excluded plugins are not used.
+
+== Allowed Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Default Phases
+* AFTER_PROJECT
+* AFTER_PROJECTS
+
+== Configuration
+[source,groovy]
+[subs="+macros"]
+----
+enforce {
+    rule(enforcer.rules.BannedPlugins) { r ->
+        r.enabled
+        r.enforcerLevel
+        r.message
+        r.phases
+        r.excludes
+        r.includes
+        r.failFast
+    }
+}
+----
+
+== Properties
+
+[%header, cols="<,<,<,^,<4"]
+|===
+| Name
+| Type
+| Default
+| Required
+| Description
+
+| excludes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_n}
+| Specify the plugin ids to be excluded.
+
+| includes
+| ListProperty<String>
+| `[ ]`
+| {icon_req_c}
+| Specify the plugin ids to be included as exceptions to the exclusions.
+
+| failFast
+| Property<Boolean>
+| `true`
+| {icon_req_c}
+| Should the rule fail after the first error or should the errors be aggregated.
+
+|===
+
+== Methods
+
+*exclude(String str)* +
+Add a plugin id to be excluded.
+
+*include(String str)* +
+Add a plugin id to be included as an exception to the exclusions.
+

@@ -95,14 +95,14 @@ class RequireEncoding extends AbstractFilteringEnforcerRule {
                     filesInMsg.append(file)
                     filesInMsg.append('==>')
                     filesInMsg.append(fileEncoding)
-                    filesInMsg.append('\n')
+                    filesInMsg.append(System.lineSeparator())
                     if (failFast.get()) {
                         throw fail(filesInMsg.toString())
                     }
                 }
             }
             if (filesInMsg.length() > 0) {
-                throw fail('Files not encoded in ' + encoding + ':\n' + filesInMsg)
+                throw fail('Files not encoded in ' + encoding + ':' + System.lineSeparator() + filesInMsg)
             }
         } catch (EnforcerRuleException ere) {
             throw ere
