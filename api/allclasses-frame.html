@@ -37,6 +37,9 @@
 <li><a href="org/kordamp/gradle/plugin/enforcer/internal/AbstractEnforcerRuleInvoker.RuleExecutionFailure.html" title="class in org.kordamp.gradle.plugin.enforcer.internal.AbstractEnforcerRuleInvoker" target="classFrame">AbstractEnforcerRuleInvoker.RuleExecutionFailure</a></li>
 <li><a href="enforcer/rules/AbstractFilteringEnforcerRule.html" title="class in enforcer.rules" target="classFrame">AbstractFilteringEnforcerRule</a></li>
 <li><a href="enforcer/rules/kordamp/AbstractKordampEnforcerRule.html" title="class in enforcer.rules.kordamp" target="classFrame">AbstractKordampEnforcerRule</a></li>
+<li><a href="enforcer/rules/AbstractPluginsRule.html" title="class in enforcer.rules" target="classFrame">AbstractPluginsRule</a></li>
+<li><a href="enforcer/rules/AbstractPluginsRule.PluginInfo.html" title="class in enforcer.rules.AbstractPluginsRule" target="classFrame">AbstractPluginsRule.PluginInfo</a></li>
+<li><a href="enforcer/rules/AbstractPluginsRule.PluginMetadata.html" title="class in enforcer.rules.AbstractPluginsRule" target="classFrame">AbstractPluginsRule.PluginMetadata</a></li>
 <li><a href="enforcer/rules/AbstractPropertyEnforcerRule.html" title="class in enforcer.rules" target="classFrame">AbstractPropertyEnforcerRule</a></li>
 <li><a href="enforcer/rules/AbstractRequireFiles.html" title="class in enforcer.rules" target="classFrame">AbstractRequireFiles</a></li>
 <li><a href="enforcer/rules/AbstractResolveDependencies.html" title="class in enforcer.rules" target="classFrame">AbstractResolveDependencies</a></li>
@@ -51,6 +54,7 @@
 <li><a href="enforcer/rules/BanDuplicateClasses.html" title="class in enforcer.rules" target="classFrame">BanDuplicateClasses</a></li>
 <li><a href="enforcer/rules/BanDuplicateClasses.Dependency.html" title="class in enforcer.rules.BanDuplicateClasses" target="classFrame">BanDuplicateClasses.Dependency</a></li>
 <li><a href="enforcer/rules/BannedDependencies.html" title="class in enforcer.rules" target="classFrame">BannedDependencies</a></li>
+<li><a href="enforcer/rules/BannedPlugins.html" title="class in enforcer.rules" target="classFrame">BannedPlugins</a></li>
 <li><a href="enforcer/rules/BannedRepositories.html" title="class in enforcer.rules" target="classFrame">BannedRepositories</a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/internal/Banner.html" title="class in org.kordamp.gradle.plugin.enforcer.internal" target="classFrame">Banner</a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/internal/BuildEnforcerAllProjectsEvaluatedListener.html" title="class in org.kordamp.gradle.plugin.enforcer.internal" target="classFrame">BuildEnforcerAllProjectsEvaluatedListener</a></li>
@@ -80,6 +84,9 @@
 <li><a href="enforcer/rules/internal/Hasher.html" title="class in enforcer.rules.internal" target="classFrame">Hasher</a></li>
 <li><a href="enforcer/rules/internal/JarUtils.html" title="class in enforcer.rules.internal" target="classFrame">JarUtils</a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/api/MergeStrategy.html" title="enum in org.kordamp.gradle.plugin.enforcer.api" target="classFrame">MergeStrategy</a></li>
+<li><a href="enforcer/rules/internal/NormalizeLineSeparatorReader.html" title="class in enforcer.rules.internal" target="classFrame">NormalizeLineSeparatorReader</a></li>
+<li><a href="enforcer/rules/internal/NormalizeLineSeparatorReader.LineSeparator.html" title="enum in enforcer.rules.internal.NormalizeLineSeparatorReader" target="classFrame">NormalizeLineSeparatorReader.LineSeparator</a></li>
+<li><a href="enforcer/rules/internal/NormalizeLineSeparatorReader.LineSeparator.MatchResult.html" title="enum in enforcer.rules.internal.NormalizeLineSeparatorReader.LineSeparator" target="classFrame">NormalizeLineSeparatorReader.LineSeparator.MatchResult</a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/api/ProjectEnforcerContext.html" title="class in org.kordamp.gradle.plugin.enforcer.api" target="classFrame">ProjectEnforcerContext</a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/api/ProjectEnforcerExtension.html" title="interface in org.kordamp.gradle.plugin.enforcer.api" target="classFrame"><I>ProjectEnforcerExtension</I></a></li>
 <li><a href="org/kordamp/gradle/plugin/enforcer/ProjectEnforcerPlugin.html" title="class in org.kordamp.gradle.plugin.enforcer" target="classFrame">ProjectEnforcerPlugin</a></li>
@@ -93,12 +100,14 @@
 <li><a href="enforcer/rules/RequireFilesSize.html" title="class in enforcer.rules" target="classFrame">RequireFilesSize</a></li>
 <li><a href="enforcer/rules/RequireGradleProperty.html" title="class in enforcer.rules" target="classFrame">RequireGradleProperty</a></li>
 <li><a href="enforcer/rules/RequireGradleVersion.html" title="class in enforcer.rules" target="classFrame">RequireGradleVersion</a></li>
+<li><a href="enforcer/rules/RequireJavaVendor.html" title="class in enforcer.rules" target="classFrame">RequireJavaVendor</a></li>
 <li><a href="enforcer/rules/RequireJavaVersion.html" title="class in enforcer.rules" target="classFrame">RequireJavaVersion</a></li>
 <li><a href="enforcer/rules/kordamp/RequireKordampProperty.html" title="class in enforcer.rules.kordamp" target="classFrame">RequireKordampProperty</a></li>
 <li><a href="enforcer/rules/RequireOS.html" title="class in enforcer.rules" target="classFrame">RequireOS</a></li>
 <li><a href="enforcer/rules/RequireReleaseDeps.html" title="class in enforcer.rules" target="classFrame">RequireReleaseDeps</a></li>
 <li><a href="enforcer/rules/kordamp/RequireRoles.html" title="class in enforcer.rules.kordamp" target="classFrame">RequireRoles</a></li>
 <li><a href="enforcer/rules/RequireSystemProperty.html" title="class in enforcer.rules" target="classFrame">RequireSystemProperty</a></li>
+<li><a href="enforcer/rules/RequireTextFileChecksum.html" title="class in enforcer.rules" target="classFrame">RequireTextFileChecksum</a></li>
 <li><a href="enforcer/rules/RequireUrl.html" title="class in enforcer.rules" target="classFrame">RequireUrl</a></li>
 
         </ul>
