@@ -57,16 +57,4 @@ interface BuildEnforcerExtension extends EnforcerExtension {
      * Configure rules for all matching projects.
      */
     void projects(List<String> projectPaths, Action<? extends EnforcerRuleConfiguration> configurer)
-
-    interface EnforcerRuleConfiguration {
-        /**
-         * Define a rule.
-         */
-        public <R extends EnforcerRule> void rule(Class<R> ruleType)
-
-        /**
-         * Define and con figure a rule.
-         */
-        public <R extends EnforcerRule> void rule(Class<R> ruleType, Action<R> configurer)
-    }
 }

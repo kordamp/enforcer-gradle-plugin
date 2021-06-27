@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2020-2021 The author and/or original authors.
+ * Copyright 2020 The author and/or original authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,20 @@
  */
 package org.kordamp.gradle.plugin.enforcer.api
 
+import org.gradle.api.Action
+
 import groovy.transform.CompileStatic
-import org.gradle.api.provider.Property
 
-/**
- * @author Andres Almiray
- * @since 0.1.0
- */
+
 @CompileStatic
-interface EnforcerExtension extends EnforcerRuleConfiguration {
+interface EnforcerRuleConfiguration {
     /**
-     * Whether enforcer behavior is enabled or not. Defaults to {@code true}.
+     * Define a rule.
      */
-    Property<Boolean> getEnabled()
+    public <R extends EnforcerRule> void rule(Class<R> ruleType)
 
     /**
-     * Whether the enforce should fail the build on the first rule violation. Defaults to {@code true}.
+     * Define and configure a rule.
      */
-    Property<Boolean> getFailFast()
-
-    void setMergeStrategy(MergeStrategy mergeStrategy)
-
-    void setMergeStrategy(String mergeStrategy)
-
-    void setEnforcerLevel(EnforcerLevel level)
-
-    void setEnforcerLevel(String level)
+    public <R extends EnforcerRule> void rule(Class<R> ruleType, Action<R> configurer)
 }
