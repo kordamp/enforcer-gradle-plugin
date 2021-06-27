@@ -17,15 +17,14 @@
  */
 pluginManagement {
     repositories {
-        jcenter()
         gradlePluginPortal()
+        mavenCentral()
         mavenLocal()
     }
     plugins {
         id 'org.kordamp.gradle.kordamp-parentpom'  version kordampPomVersion
         id 'org.kordamp.gradle.groovy-project'     version kordampPluginVersion
         id 'org.kordamp.gradle.integration-test'   version kordampPluginVersion
-        id 'org.kordamp.gradle.bintray'            version kordampPluginVersion
         id 'org.kordamp.gradle.plugin'             version kordampPluginVersion
         id 'org.kordamp.gradle.guide'              version kordampPluginVersion
         id 'org.ajoberstar.git-publish'            version gitPluginVersion
@@ -35,13 +34,18 @@ pluginManagement {
 buildscript {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
         mavenLocal()
     }
     dependencies {
         classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
+        classpath "org.kordamp.gradle:inline-gradle-plugin:$kordampPluginVersion"
+        classpath "org.kordamp.gradle:insight-gradle-plugin:$kordampPluginVersion"
     }
 }
 apply plugin: 'org.kordamp.gradle.settings'
+apply plugin: 'org.kordamp.gradle.inline'
+apply plugin: 'org.kordamp.gradle.insight'
 
 rootProject.name = 'enforcer-gradle-plugin'
 

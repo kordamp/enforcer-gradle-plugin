@@ -18,9 +18,14 @@
 plugins {
     id 'org.kordamp.gradle.kordamp-parentpom'
     id 'org.kordamp.gradle.groovy-project'
-    id 'org.kordamp.gradle.bintray'
     id 'org.kordamp.gradle.plugin' apply false
     id 'org.kordamp.gradle.integration-test' apply false
+}
+
+project.rootProject.ext.theVersion = file('VERSION').text.trim()
+
+allprojects { p ->
+    p.version = p.rootProject.ext.theVersion
 }
 
 config {
@@ -52,10 +57,6 @@ config {
             }
         }
     }
-
-    bintray {
-        skipMavenSync = true
-    }
 }
 
 allprojects {
@@ -73,11 +74,6 @@ subprojects {
         config {
             info {
                 description = project.project_description
-            }
-
-            bintray {
-                enabled = true
-                name    = project.name
             }
         }
 

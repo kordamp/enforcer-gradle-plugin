@@ -6,11 +6,10 @@
 :project-name:    enforcer-gradle-plugin
 :project-group:   org.kordamp.gradle
 :project-version: 0.9.0
+:plugin-id:       {project-group}.enforcer
 
 image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
-image:https://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="https://opensource.org/licenses/Apache-2.0"]
-image:https://api.bintray.com/packages/{project-owner}/{project-repo}/{project-name}/images/download.svg[link="https://bintray.com/{project-owner}/{project-repo}/{project-name}/_latestVersion"]
-image:https://img.shields.io/badge/donations-Patreon-orange.svg[link="https://www.patreon.com/user?u=6609318"]
+image:https://img.shields.io/maven-metadata/v?label=Plugin%20Portal&metadataUrl=https://plugins.gradle.org/m2/org/kordamp/gradle/enforcer/{plugin-id}.gradle.plugin/maven-metadata.xml["Gradle Plugin Portal, link="https://plugins.gradle.org/plugin/{plugin-id}"]
 
 ---
 
@@ -24,8 +23,8 @@ Enforce build and project settings. A port of the popular link:https://maven.apa
 ----
 buildscript {
     repositories {
-        jcenter()
         gradlePluginPortal()
+        mavenCentral()
     }
     dependencies {
         classpath '{project-group}:{project-name}:{project-version}'
