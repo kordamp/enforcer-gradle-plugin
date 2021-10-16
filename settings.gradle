@@ -17,9 +17,9 @@
  */
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
         mavenCentral()
-        mavenLocal()
     }
     plugins {
         id 'org.kordamp.gradle.kordamp-parentpom'  version kordampPomVersion
@@ -33,9 +33,9 @@ pluginManagement {
 
 buildscript {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
         mavenCentral()
-        mavenLocal()
     }
     dependencies {
         classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
