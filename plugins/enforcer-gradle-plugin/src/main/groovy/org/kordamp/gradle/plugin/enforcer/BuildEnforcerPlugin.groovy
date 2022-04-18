@@ -20,6 +20,7 @@ package org.kordamp.gradle.plugin.enforcer
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.model.ObjectFactory
 import org.kordamp.gradle.plugin.enforcer.api.BuildEnforcerExtension
 import org.kordamp.gradle.plugin.enforcer.internal.Banner
@@ -43,7 +44,9 @@ class BuildEnforcerPlugin implements Plugin<Settings> {
 
     @Override
     void apply(Settings settings) {
-        Banner.display(settings)
+        if (settings.gradle.startParameter.logLevel != LogLevel.QUIET) {
+            Banner.display(settings)
+        }
 
         BuildEnforcerExtension extension = settings.extensions.create(
             BuildEnforcerExtension,

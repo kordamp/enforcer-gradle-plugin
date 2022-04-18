@@ -15,6 +15,7 @@ jobs:
       branch: master
       version: ${{ github.event.inputs.version }}
     secrets:
+      maven-central: true
       github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
       gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
