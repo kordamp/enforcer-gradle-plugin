@@ -20,6 +20,7 @@ package enforcer.rules
 import groovy.transform.Canonical
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import org.codehaus.plexus.util.IOUtil
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -70,7 +71,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
         JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put('1.4', 48)
         JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put('1.5', 49)
 
-        for (int i = 6; i < 18; i++) {
+        for (int i = 6; i < 35; i++) {
             JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put(String.valueOf(i), 44 + i)
             JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put('1.' + String.valueOf(i), 44 + i)
         }
@@ -140,7 +141,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
 
     @Override
     protected void doValidate(EnforcerContext context) throws EnforcerRuleException {
-        super.doValidate(context);
+        super.doValidate(context)
 
         if (maxJdkVersion.present && maxJavaMajorVersionNumber.getOrElse(-1) != -1) {
             throw illegalArgumentException('Only maxJdkVersion or maxJavaMajorVersionNumber '
@@ -393,7 +394,11 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
             problems.each { artifact, error ->
                 buf.append('Found Banned Dependency: ')
                     .append(formatArtifact(artifact))
-                    .append(System.lineSeparator())
+                if (context.project) {
+                    buf.append(' in project ')
+                        .append(context.project.path)
+                }
+                buf.append(System.lineSeparator())
                 if (showErrors.get()) {
                     context.logger.warn(error)
                 }
@@ -441,10 +446,10 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
         }
 
         boolean matchesArtifact(Dependency dependency) {
-            return (artifactId == null || artifactId.matcher(dependency.artifactId).matches()) &&
-                (groupId == null || groupId.matcher(dependency.groupId).matches()) &&
-                (version == null || version.matcher(dependency.version).matches()) &&
-                (classifier == null || classifier.matcher(dependency.classifier).matches())
+            return groupId.matcher(dependency.groupId).matches() &&
+                (dependency.artifactId == null || artifactId.matcher(dependency.artifactId).matches()) &&
+                (dependency.version == null || version.matcher(dependency.version).matches()) &&
+                (dependency.classifier == null || classifier.matcher(dependency.classifier).matches())
         }
     }
 
@@ -469,6 +474,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
     }
 
     @Canonical
+    @ToString(includeNames = true, ignoreNulls = true)
     static class Dependency {
         final String groupId
         final String artifactId
@@ -482,7 +488,20 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
         }
 
         String[] parts = str.split(':')
-        if (parts.length == 3) {
+        if (parts.length == 1) {
+            if (isBlank(parts[0])) {
+                throw illegalArgumentException('Invalid dependency definition: empty groupId. ' + str)
+            }
+            return new Dependency(parts[0].trim(),)
+        } else if (parts.length == 2) {
+            if (isBlank(parts[0])) {
+                throw illegalArgumentException('Invalid dependency definition: empty groupId. ' + str)
+            }
+            if (isBlank(parts[1])) {
+                throw illegalArgumentException('Invalid dependency definition: empty artifactId. ' + str)
+            }
+            return new Dependency(parts[0].trim(), parts[1].trim())
+        } else if (parts.length == 3) {
             if (isBlank(parts[0])) {
                 throw illegalArgumentException('Invalid dependency definition: empty groupId. ' + str)
             }

@@ -71,7 +71,13 @@ abstract class AbstractBanDependencies extends AbstractStandardEnforcerRule {
                 buf.append(message).append(System.lineSeparator())
             }
             for (ResolvedArtifact artifact : foundExcludes) {
-                buf.append(getErrorMessage(artifact))
+                buf.append('Found Banned Dependency: ')
+                    .append(toString(artifact))
+                if (context.project) {
+                    buf.append(' in project ')
+                        .append(context.project.path)
+                }
+                buf.append(System.lineSeparator())
             }
             message = buf.append("Disable this rule temporarily with -D${resolveClassName()}.enabled=false and")
                 .append(System.lineSeparator())
@@ -79,10 +85,6 @@ abstract class AbstractBanDependencies extends AbstractStandardEnforcerRule {
 
             throw fail(message)
         }
-    }
-
-    protected CharSequence getErrorMessage(ResolvedArtifact artifact) {
-        return 'Found Banned Dependency: ' + toString(artifact) + System.lineSeparator()
     }
 
     protected String toString(ResolvedArtifact artifact) {
