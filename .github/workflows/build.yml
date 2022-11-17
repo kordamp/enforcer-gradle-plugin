@@ -3,6 +3,11 @@ name: Build
 on:
   pull_request:
 
+env:
+  JAVA_VERSION: '11'
+
 jobs:
   build:
     uses: kordamp/kordamp-gradle-plugin-workflow/.github/workflows/build.yml@main
+    with:
+      java-version: 11

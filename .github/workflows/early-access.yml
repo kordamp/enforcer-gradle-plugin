@@ -4,11 +4,17 @@ on:
   push:
     branches: [ master ]
 
+env:
+  JAVA_VERSION: '11'
+
 jobs:
   earlyaccess:
     name: 'Early Access'
     if: github.repository == 'kordamp/enforcer-gradle-plugin' && startsWith(github.event.head_commit.message, 'Releasing version') != true
     uses: kordamp/kordamp-gradle-plugin-workflow/.github/workflows/early-access.yml@main
+    with:
+      java-version: 11
+      jreleaser-version: latest
     secrets:
       github-token: ${{ secrets.GIT_ACCESS_TOKEN }}
       gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
