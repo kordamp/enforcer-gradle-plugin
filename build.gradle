@@ -61,8 +61,8 @@ config {
 
 allprojects {
     repositories {
-        gradlePluginPortal()
         mavenLocal()
+        gradlePluginPortal()
     }
 }
 

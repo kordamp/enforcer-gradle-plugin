@@ -16,9 +16,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: n1hility/cancel-previous-runs@v2
+      - uses: styfle/cancel-workflow-action@0.11.0
         with:
-          token: ${{ secrets.GIT_ACCESS_TOKEN }}
+          access_token: ${{ secrets.GIT_ACCESS_TOKEN }}
 
       - uses: actions/checkout@v3
         with:

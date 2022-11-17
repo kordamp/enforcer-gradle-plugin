@@ -18,24 +18,24 @@
 pluginManagement {
     repositories {
         mavenLocal()
-        gradlePluginPortal()
         mavenCentral()
+        gradlePluginPortal()
     }
     plugins {
-        id 'org.kordamp.gradle.kordamp-parentpom'  version kordampPomVersion
-        id 'org.kordamp.gradle.groovy-project'     version kordampPluginVersion
-        id 'org.kordamp.gradle.integration-test'   version kordampPluginVersion
-        id 'org.kordamp.gradle.plugin'             version kordampPluginVersion
-        id 'org.kordamp.gradle.guide'              version kordampPluginVersion
-        id 'org.ajoberstar.git-publish'            version gitPluginVersion
+        id 'org.kordamp.gradle.kordamp-parentpom' version kordampPomVersion
+        id 'org.kordamp.gradle.groovy-project'    version kordampPluginVersion
+        id 'org.kordamp.gradle.integration-test'  version kordampPluginVersion
+        id 'org.kordamp.gradle.plugin'            version kordampPluginVersion
+        id 'org.kordamp.gradle.guide'             version kordampPluginVersion
+        id 'org.ajoberstar.git-publish'           version gitPluginVersion
     }
 }
 
 buildscript {
     repositories {
         mavenLocal()
-        gradlePluginPortal()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
