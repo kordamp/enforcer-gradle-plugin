@@ -28,8 +28,10 @@ project:
   authors:
     - Andres Almiray
   license: Apache-2.0
-  extraProperties:
-    inceptionYear: 2020
+  inceptionYear: 2020
+  java:
+    groupId: org.kordamp.gradle
+    version: 1.8
 
 release:
   github:
@@ -62,11 +64,26 @@ release:
       replacers:
         - search: 'deps: '
 
+signing:
+  active: ALWAYS
+  armored: true
+
+deploy:
+  maven:
+    nexus2:
+      maven-central:
+        active: RELEASE
+        url: https://s01.oss.sonatype.org/service/local
+        closeRepository: true
+        releaseRepository: true
+        stagingRepositories:
+          - build/repos/local/release
+
 announce:
   twitter:
-    active: release
+    active: RELEASE
     status: 🚀 {{projectName}} {{projectVersion}} has been released! {{releaseNotesUrl}}
   mastodon:
-    active: release
+    active: RELEASE
     host: https://mastodon.social
     status: 🚀 {{projectName}} {{projectVersion}} has been released! {{releaseNotesUrl}}

@@ -100,3 +100,14 @@ subprojects {
         resolutionStrategy.force "org.apache.commons:commons-lang3:$commonsLang3Version"
     }
 }
+
+// Delete Gradle artifacts not suitable for publication to Maven Central
+tasks.register('cleanupStagedRepository') {
+    doLast {
+        def repoDir = project.layout.buildDirectory.dir('repos/local/release/org/kordamp/gradle').get()
+        repoDir.dir('enforcer-gradle-plugin').asFile.deleteDir()
+        repoDir.dir('enforcer').asFile.deleteDir()
+        repoDir.dir('project-enforcer').asFile.deleteDir()
+        repoDir.dir('org.kordamp.gradle.enforcer.gradle.plugin').asFile.deleteDir()
+    }
+}
