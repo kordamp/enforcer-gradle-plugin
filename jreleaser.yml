@@ -40,6 +40,8 @@ release:
     overwrite: true
     milestone:
       name: '{{projectVersion}}'
+    issues:
+      enabled: true
     changelog:
       formatted: ALWAYS
       preset: conventional-commits
