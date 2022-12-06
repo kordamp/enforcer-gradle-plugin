@@ -1,14 +1,12 @@
 = enforcer-gradle-plugin
 :linkattrs:
 :project-owner:   kordamp
-:project-repo:    maven
-:project-name:    kordamp-parentpom
 :project-name:    enforcer-gradle-plugin
 :project-group:   org.kordamp.gradle
 :project-version: 0.11.0
 :plugin-id:       {project-group}.enforcer
 
-image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
+image:https://img.shields.io/github/workflow/status/{project-owner}/{project-name}/Early%20Access?logo=github["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
 image:https://img.shields.io/maven-metadata/v?label=Plugin%20Portal&metadataUrl=https://plugins.gradle.org/m2/org/kordamp/gradle/enforcer/{plugin-id}.gradle.plugin/maven-metadata.xml["Gradle Plugin Portal, link="https://plugins.gradle.org/plugin/{plugin-id}"]
 
 ---
