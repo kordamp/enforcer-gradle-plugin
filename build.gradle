@@ -15,15 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath "org.ajoberstar.grgit:grgit-core:$grgitVersion"
-    }
-}
 
 plugins {
     id 'org.kordamp.gradle.kordamp-parentpom'
@@ -44,6 +35,7 @@ config {
         description = 'Enforcer Gradle Plugin'
         inceptionYear = '2020'
         tags = ['project', 'enforcer']
+        bytecodeVersion = 8
 
         specification {
             enabled = false
@@ -52,6 +44,7 @@ config {
         implementation {
             enabled = false
         }
+
     }
 
     docs {
