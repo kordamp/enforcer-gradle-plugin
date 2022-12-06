@@ -62,7 +62,8 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
      * Default ignores when validating against jdk < 9 because <code>module-info.class</code> will always have level 1.9.
      */
     private static final List<String> DEFAULT_CLASSES_IGNORE_BEFORE_JDK_9 = ['module-info']
-    private final Pattern MULTIRELEASE = Pattern.compile('META-INF/versions/(\\d+)/.*')
+    private final String MULTIRELEASE_PREFIX = 'META-INF/versions/'
+    private final Pattern MULTIRELEASE = Pattern.compile(MULTIRELEASE_PREFIX + '(\\d+)/.*')
 
     static {
         JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put('1.1', 45)
@@ -312,6 +313,9 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
             for (Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements();) {
                 JarEntry entry = e.nextElement()
                 if (!entry.directory && entry.name.endsWith('.class')) {
+                    // skip versioned classes
+                    if (entry.name.startsWith(MULTIRELEASE_PREFIX)) continue JAR
+
                     for (IgnorableDependency i : ignorableDependencies) {
                         if (i.matches(entry.name)) {
                             continue JAR
