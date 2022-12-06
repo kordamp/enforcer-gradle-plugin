@@ -64,6 +64,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
     private static final List<String> DEFAULT_CLASSES_IGNORE_BEFORE_JDK_9 = ['module-info']
     private final String MULTIRELEASE_PREFIX = 'META-INF/versions/'
     private final Pattern MULTIRELEASE = Pattern.compile(MULTIRELEASE_PREFIX + '(\\d+)/.*')
+    private final Pattern PACKAGE_NAME = Pattern.compile('^[a-zA-Z][a-zA-Z0-9_]*(\\.[a-zA-Z][a-zA-Z0-9_]*)*$')
 
     static {
         JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.put('1.1', 45)
@@ -322,6 +323,23 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
                         }
                     }
 
+                    String entryPackageName = entry.name
+                    int lastSlash = entryPackageName.lastIndexOf('/')
+                    // default package
+                    if (lastSlash < 0) {
+                        entryPackageName = ''
+                    } else {
+                        entryPackageName = entryPackageName[0..(lastSlash-1)]
+                        entryPackageName = entryPackageName.replace('/', '.')
+                    }
+
+                    Matcher matcher = PACKAGE_NAME.matcher(entryPackageName)
+                    if (entryPackageName && !matcher.matches()) {
+                        // entry name is invalid
+                        context.logger.warn('Skipping ' + entry.name + ' as it has an invalid package name')
+                        continue JAR
+                    }
+
                     InputStream is = null
                     try {
                         is = jarFile.getInputStream(entry)
@@ -350,7 +368,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
                     if ((major > maxJavaMajorVersionNumber.get())
                         || (major == maxJavaMajorVersionNumber.get() && minor > maxJavaMinorVersionNumber.getOrElse(0))) {
 
-                        Matcher matcher = MULTIRELEASE.matcher(entry.getName())
+                        matcher = MULTIRELEASE.matcher(entry.getName())
 
                         if (matcher.matches()) {
                             int expectedMajor = JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.get(matcher.group(1))
