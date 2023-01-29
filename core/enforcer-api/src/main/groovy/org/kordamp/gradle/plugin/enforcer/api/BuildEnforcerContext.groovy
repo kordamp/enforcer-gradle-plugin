@@ -38,13 +38,15 @@ final class BuildEnforcerContext implements EnforcerContext {
     final Settings settings
     final BuildResult buildResult
     final Logger logger
+    final boolean warnings
 
-    private BuildEnforcerContext(EnforcerPhase enforcerPhase, Gradle gradle, Settings settings, BuildResult buildResult) {
+    private BuildEnforcerContext(EnforcerPhase enforcerPhase, Gradle gradle, Settings settings, BuildResult buildResult, boolean warnings) {
         this.enforcerPhase = enforcerPhase
         this.gradle = gradle
         this.settings = settings
         this.buildResult = buildResult
         this.logger = new BuildEnforcerLogger(LOG)
+        this.warnings = warnings
     }
 
     @Override
@@ -62,20 +64,25 @@ final class BuildEnforcerContext implements EnforcerContext {
         settings.settingsDir
     }
 
-    static BuildEnforcerContext beforeBuild(Gradle gradle, Settings settings) {
-        return new BuildEnforcerContext(EnforcerPhase.BEFORE_BUILD, gradle, settings, null)
+    @Override
+    boolean isWarnings() {
+        warnings
     }
 
-    static BuildEnforcerContext beforeProjects(Gradle gradle, Settings settings) {
-        return new BuildEnforcerContext(EnforcerPhase.BEFORE_PROJECTS, gradle, settings, null)
+    static BuildEnforcerContext beforeBuild(Gradle gradle, Settings settings, boolean warnings) {
+        return new BuildEnforcerContext(EnforcerPhase.BEFORE_BUILD, gradle, settings, null, warnings)
     }
 
-    static BuildEnforcerContext afterProjects(Gradle gradle, Settings settings) {
-        return new BuildEnforcerContext(EnforcerPhase.AFTER_PROJECTS, gradle, settings, null)
+    static BuildEnforcerContext beforeProjects(Gradle gradle, Settings settings, boolean warnings) {
+        return new BuildEnforcerContext(EnforcerPhase.BEFORE_PROJECTS, gradle, settings, null, warnings)
     }
 
-    static BuildEnforcerContext afterBuild(Gradle gradle, Settings settings, BuildResult buildResult) {
-        return new BuildEnforcerContext(EnforcerPhase.AFTER_BUILD, gradle, settings, buildResult)
+    static BuildEnforcerContext afterProjects(Gradle gradle, Settings settings, boolean warnings) {
+        return new BuildEnforcerContext(EnforcerPhase.AFTER_PROJECTS, gradle, settings, null, warnings)
+    }
+
+    static BuildEnforcerContext afterBuild(Gradle gradle, Settings settings, BuildResult buildResult, boolean warnings) {
+        return new BuildEnforcerContext(EnforcerPhase.AFTER_BUILD, gradle, settings, buildResult, warnings)
     }
 
     private class BuildEnforcerLogger extends EnforcerContextLogger {

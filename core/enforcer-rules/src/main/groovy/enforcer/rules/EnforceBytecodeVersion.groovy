@@ -336,7 +336,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
                     Matcher matcher = PACKAGE_NAME.matcher(entryPackageName)
                     if (entryPackageName && !matcher.matches()) {
                         // entry name is invalid
-                        context.logger.warn('Skipping ' + entry.name + ' as it has an invalid package name')
+                        if (context.warnings) context.logger.warn('Skipping ' + entry.name + ' as it has an invalid package name')
                         continue JAR
                     }
 
@@ -374,8 +374,10 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
                             int expectedMajor = JDK_TO_MAJOR_VERSION_NUMBER_MAPPING.get(matcher.group(1))
 
                             if (major != expectedMajor) {
-                                context.logger.warn('Invalid bytecodeVersion for ' + a + ' : '
-                                    + entry.name + ': expected ' + expectedMajor + ', but was ' + major)
+                                if (context.warnings) {
+                                    context.logger.warn('Invalid bytecodeVersion for ' + a + ' : '
+                                        + entry.name + ': expected ' + expectedMajor + ', but was ' + major)
+                                }
                             }
                         } else {
                             return 'Restricted to ' + renderVersion(maxJavaMajorVersionNumber.get(), maxJavaMinorVersionNumber.getOrElse(0)) +
@@ -400,7 +402,7 @@ class EnforceBytecodeVersion extends AbstractResolveDependencies {
             try {
                 jarFile.close()
             } catch (IOException ioe) {
-                context.logger.warn('Exception caught while closing ' + jarFile.getName(), ioe)
+                if (context.warnings) context.logger.warn('Exception caught while closing ' + jarFile.getName(), ioe)
             }
         }
     }

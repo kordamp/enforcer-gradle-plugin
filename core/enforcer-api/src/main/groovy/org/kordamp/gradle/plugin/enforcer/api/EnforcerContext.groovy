@@ -28,6 +28,8 @@ import org.gradle.api.logging.Logger
  */
 @CompileStatic
 interface EnforcerContext {
+    boolean isWarnings()
+
     EnforcerPhase getEnforcerPhase()
 
     Project getProject()

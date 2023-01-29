@@ -32,12 +32,14 @@ final class ProjectEnforcerContext implements EnforcerContext {
     final Project project
     final ProjectState projectState
     final Logger logger
+    final boolean warnings
 
-    private ProjectEnforcerContext(EnforcerPhase enforcerPhase, Project project, ProjectState projectState) {
+    private ProjectEnforcerContext(EnforcerPhase enforcerPhase, Project project, ProjectState projectState, boolean warnings) {
         this.enforcerPhase = enforcerPhase
         this.project = project
         this.projectState = projectState
         this.logger = new ProjectEnforcerLogger(project.logger)
+        this.warnings = warnings
     }
 
     @Override
@@ -55,12 +57,17 @@ final class ProjectEnforcerContext implements EnforcerContext {
         project.projectDir
     }
 
-    static ProjectEnforcerContext beforeProject(Project project) {
-        return new ProjectEnforcerContext(EnforcerPhase.BEFORE_PROJECT, project, null)
+    @Override
+    boolean isWarnings() {
+        warnings
     }
 
-    static ProjectEnforcerContext afterProject(Project project, ProjectState projectState) {
-        return new ProjectEnforcerContext(EnforcerPhase.AFTER_PROJECT, project, projectState)
+    static ProjectEnforcerContext beforeProject(Project project, boolean warnings) {
+        return new ProjectEnforcerContext(EnforcerPhase.BEFORE_PROJECT, project, null, warnings)
+    }
+
+    static ProjectEnforcerContext afterProject(Project project, ProjectState projectState, boolean warnings) {
+        return new ProjectEnforcerContext(EnforcerPhase.AFTER_PROJECT, project, projectState, warnings)
     }
 
     private class ProjectEnforcerLogger extends EnforcerContextLogger {

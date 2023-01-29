@@ -66,7 +66,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void settingsEvaluated(Settings settings) {
-        EnforcerContext context = beforeBuild(gradle, settings)
+        EnforcerContext context = beforeBuild(gradle, settings, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -83,7 +83,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void projectsLoaded(Gradle gradle) {
-        EnforcerContext context = beforeProjects(gradle, settings)
+        EnforcerContext context = beforeProjects(gradle, settings, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -105,7 +105,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
     }
 
     private void doProjectsEvaluated() {
-        EnforcerContext context = afterProjects(gradle, settings)
+        EnforcerContext context = afterProjects(gradle, settings, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -122,7 +122,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void buildFinished(BuildResult buildResult) {
-        EnforcerContext context = afterBuild(gradle, settings, buildResult)
+        EnforcerContext context = afterBuild(gradle, settings, buildResult, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) {
             cleanup()
             return
@@ -166,7 +166,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void beforeEvaluate(Project project) {
-        EnforcerContext context = beforeProject(project)
+        EnforcerContext context = beforeProject(project, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -183,7 +183,7 @@ class BuildEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements Pr
 
     @Override
     void afterEvaluate(Project project, ProjectState projectState) {
-        EnforcerContext context = afterProject(project, projectState)
+        EnforcerContext context = afterProject(project, projectState, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")

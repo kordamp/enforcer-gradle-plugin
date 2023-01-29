@@ -75,7 +75,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
     @Override
     void beforeEvaluate(Project project) {
-        EnforcerContext context = beforeProject(project)
+        EnforcerContext context = beforeProject(project, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")
@@ -92,7 +92,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
     @Override
     void afterEvaluate(Project project, ProjectState projectState) {
-        EnforcerContext context = afterProject(project, projectState)
+        EnforcerContext context = afterProject(project, projectState, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
         extension().LOG.debug("${extension().prefix} ${context}")

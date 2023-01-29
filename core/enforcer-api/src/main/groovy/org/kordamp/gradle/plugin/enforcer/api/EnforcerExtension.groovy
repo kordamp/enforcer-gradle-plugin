@@ -32,6 +32,11 @@ interface EnforcerExtension {
     Property<Boolean> getEnabled()
 
     /**
+     * Whether to output warnings or silence them. Defaults to {@code true}.
+     */
+    Property<Boolean> getWarnings()
+
+    /**
      * Whether the enforce should fail the build on the first rule violation. Defaults to {@code true}.
      */
     Property<Boolean> getFailFast()

@@ -45,6 +45,7 @@ abstract class AbstractEnforcerExtension implements EnforcerExtension {
     static final Logger LOG = Logging.getLogger(Project)
 
     final Property<Boolean> enabled
+    final Property<Boolean> warnings
     final Property<Boolean> failFast
     final Property<MergeStrategy> mergeStrategy
     final Property<EnforcerLevel> enforcerLevel
@@ -58,11 +59,12 @@ abstract class AbstractEnforcerExtension implements EnforcerExtension {
     AbstractEnforcerExtension(ObjectFactory objects, ProviderFactory providers) {
         this.objects = objects
         this.providers = providers
-        enabled = objects.property(Boolean).convention(true)
-        failFast = objects.property(Boolean).convention(true)
-        resolvedFailFast = booleanProvider(providers, 'GRADLE_ENFORCER_FAIL_FAST', 'enforcer.fail.fast', failFast)
-        mergeStrategy = objects.property(MergeStrategy).convention(MergeStrategy.OVERRIDE)
-        enforcerLevel = objects.property(EnforcerLevel).convention(EnforcerLevel.ERROR)
+        this.enabled = objects.property(Boolean).convention(true)
+        this.warnings = objects.property(Boolean).convention(true)
+        this.failFast = objects.property(Boolean).convention(true)
+        this.resolvedFailFast = booleanProvider(providers, 'GRADLE_ENFORCER_FAIL_FAST', 'enforcer.fail.fast', failFast)
+        this.mergeStrategy = objects.property(MergeStrategy).convention(MergeStrategy.OVERRIDE)
+        this.enforcerLevel = objects.property(EnforcerLevel).convention(EnforcerLevel.ERROR)
     }
 
     @Override
