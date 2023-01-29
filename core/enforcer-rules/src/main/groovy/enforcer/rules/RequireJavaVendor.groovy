@@ -18,6 +18,7 @@
 package enforcer.rules
 
 import groovy.transform.CompileStatic
+import org.apache.commons.lang3.SystemUtils
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.kordamp.gradle.plugin.enforcer.api.EnforcerContext
@@ -60,27 +61,23 @@ class RequireJavaVendor extends AbstractStandardEnforcerRule {
 
     @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
-        String javaVendor = System.getProperty('java.vendor')
+        String javaVendor = SystemUtils.JAVA_VENDOR
 
-        if (excludes.get().contains(javaVendor)) {
-            if (!includes.get().empty) {
-                if (!includes.get().contains(javaVendor)) {
-                    throw createException(javaVendor)
-                }
-                return
-            }
-            throw createException(javaVendor)
+        if (excludes.present && excludes.get().contains(javaVendor)) {
+            throw fail(javaVendor, 'an excluded', (List<String>) excludes.get())
+        } else if (includes.present && !includes.get().contains(javaVendor)) {
+            throw fail(javaVendor, 'not an included', (List<String>) includes.get())
         }
     }
 
-    private EnforcerRuleException createException(String javaVendor) {
+    private EnforcerRuleException fail(String javaVendor, String action, List<String> list) {
         StringBuilder sb = new StringBuilder()
 
         if (message.present) {
             sb.append(message.get())
                 .append(System.lineSeparator())
         }
-        sb.append("Vendor \"${javaVendor}\" is in a list of banned vendors: ${excludes.get()}")
+        sb.append("${javaVendor} is ${action} Required Java Vendor (JAVA_HOME=${SystemUtils.JAVA_HOME}) ${list}")
 
         fail(sb.toString())
     }
