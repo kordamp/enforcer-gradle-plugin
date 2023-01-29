@@ -16,7 +16,7 @@ group   = 'com.acme'
 version = '1.2.3'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -34,7 +34,7 @@ group   = 'com.acme'
 version = '1.2.3'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
