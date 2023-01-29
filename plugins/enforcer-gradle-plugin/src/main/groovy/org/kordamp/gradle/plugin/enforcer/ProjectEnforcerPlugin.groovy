@@ -45,6 +45,6 @@ class ProjectEnforcerPlugin implements Plugin<Project> {
             DefaultProjectEnforcerExtension,
             project)
 
-        project.gradle.addListener(new ProjectEnforcerRuleInvoker(project.gradle, extension))
+        project.gradle.addListener(new ProjectEnforcerRuleInvoker(project.name, project.gradle, extension))
     }
 }

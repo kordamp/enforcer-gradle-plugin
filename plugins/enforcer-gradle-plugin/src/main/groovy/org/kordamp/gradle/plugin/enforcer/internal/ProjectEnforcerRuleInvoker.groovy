@@ -38,9 +38,11 @@ import static org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerContext.befo
 @CompileStatic
 class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements ProjectEvaluationListener {
     private final List<? extends EnforcerRule> rules = []
+    private final String projectName
 
-    ProjectEnforcerRuleInvoker(Gradle gradle, EnforcerExtension extension) {
+    ProjectEnforcerRuleInvoker(String projectName, Gradle gradle, EnforcerExtension extension) {
         super(gradle, extension)
+        this.projectName = projectName
     }
 
     @Override
@@ -75,6 +77,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
     @Override
     void beforeEvaluate(Project project) {
+        if (projectName != project.name) return
         EnforcerContext context = beforeProject(project, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
@@ -92,6 +95,7 @@ class ProjectEnforcerRuleInvoker extends AbstractEnforcerRuleInvoker implements 
 
     @Override
     void afterEvaluate(Project project, ProjectState projectState) {
+        if (projectName != project.name) return
         EnforcerContext context = afterProject(project, projectState, extension.warnings.get())
         if (!isBuildPhaseEnabled(context)) return
 
