@@ -22,7 +22,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
 import org.kordamp.gradle.plugin.enforcer.api.ProjectEnforcerExtension
-import org.kordamp.gradle.plugin.enforcer.internal.Banner
 import org.kordamp.gradle.plugin.enforcer.internal.DefaultProjectEnforcerExtension
 import org.kordamp.gradle.plugin.enforcer.internal.ProjectEnforcerRuleInvoker
 
@@ -35,7 +34,9 @@ class ProjectEnforcerPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         if (project.gradle.startParameter.logLevel != LogLevel.QUIET) {
-            Banner.display(project)
+            project.gradle.sharedServices
+                .registerIfAbsent('enforcer-banner', Banner, { spec -> })
+                .get().display(project)
         }
 
         ProjectEnforcerExtension extension = project.extensions.create(

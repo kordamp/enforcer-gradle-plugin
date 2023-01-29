@@ -23,7 +23,6 @@ import org.gradle.api.initialization.Settings
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.model.ObjectFactory
 import org.kordamp.gradle.plugin.enforcer.api.BuildEnforcerExtension
-import org.kordamp.gradle.plugin.enforcer.internal.Banner
 import org.kordamp.gradle.plugin.enforcer.internal.BuildEnforcerRuleInvoker
 import org.kordamp.gradle.plugin.enforcer.internal.DefaultBuildEnforcerExtension
 
@@ -45,7 +44,9 @@ class BuildEnforcerPlugin implements Plugin<Settings> {
     @Override
     void apply(Settings settings) {
         if (settings.gradle.startParameter.logLevel != LogLevel.QUIET) {
-            Banner.display(settings)
+            settings.gradle.sharedServices
+                .registerIfAbsent('enforcer-banner', Banner, { spec -> })
+                .get().display(settings)
         }
 
         BuildEnforcerExtension extension = settings.extensions.create(
