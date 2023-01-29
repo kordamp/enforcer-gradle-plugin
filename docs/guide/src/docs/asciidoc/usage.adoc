@@ -67,7 +67,7 @@ enforce {
 
 == Requirements
 
-Java 8 and Gradle 5 are the minimum requirements to use this plugin.
+Java 8 and Gradle 6 are the minimum requirements to use this plugin.
 
 == Rule DSL
 

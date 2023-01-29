@@ -75,7 +75,7 @@ abstract class AbstractVersionEnforcerRule extends AbstractStandardEnforcerRule 
     @Override
     protected void doExecute(EnforcerContext context) throws EnforcerRuleException {
         ArtifactVersion detectedVersion = detectVersion(context)
-        String requiredVersionRange = version.get()
+        String requiredVersionRange = adjustVersion(version.get())
 
         String msg = 'Detected ' + variableName + ' Version: ' + detectedVersion
 
@@ -135,5 +135,9 @@ abstract class AbstractVersionEnforcerRule extends AbstractStandardEnforcerRule 
             matched = (compareTo <= 0)
         }
         return matched
+    }
+
+    protected String adjustVersion(String version) {
+        version
     }
 }

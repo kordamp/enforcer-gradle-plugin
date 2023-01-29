@@ -71,7 +71,12 @@ class RequireJavaVersion extends AbstractVersionEnforcerRule {
         'JDK'
     }
 
-    /**
+    @Override
+    protected String adjustVersion(String version) {
+        version == '8'? '1.8' : version
+    }
+
+/**
      * Converts a jdk string from 1.5.0-11b12 to a single 3 digit version like 1.5.0-11
      *
      * @param theJdkVersion to be converted.
