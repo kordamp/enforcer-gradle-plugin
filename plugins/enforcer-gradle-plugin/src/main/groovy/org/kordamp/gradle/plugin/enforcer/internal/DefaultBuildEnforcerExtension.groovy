@@ -17,6 +17,8 @@
  */
 package org.kordamp.gradle.plugin.enforcer.internal
 
+import org.kordamp.gradle.plugin.enforcer.api.EnforcerRuleConfiguration
+
 import groovy.transform.CompileStatic
 import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory
