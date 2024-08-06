@@ -31,7 +31,7 @@ project:
   inceptionYear: 2020
   java:
     groupId: org.kordamp.gradle
-    version: 1.8
+    version: 11
 
 release:
   github:
