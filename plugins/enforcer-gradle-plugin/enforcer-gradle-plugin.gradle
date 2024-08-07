@@ -79,3 +79,29 @@ integrationTest {
     ].collect { "'${it.destinationDirectory.get().asFile.absolutePath}'" }
         .join(',')
 }
+
+afterEvaluate {
+    def publishPluginJar = project.tasks.findByName('publishPluginJar')
+    def publishTask = project.tasks.findByName('publishMainPublicationToMavenLocal')
+    if (publishTask && publishPluginJar) publishTask.dependsOn(publishPluginJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalSnapshotRepository')
+    if (publishTask && publishPluginJar) publishTask.dependsOn(publishPluginJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalReleaseRepository')
+    if (publishTask && publishPluginJar) publishTask.dependsOn(publishPluginJar)
+
+    def publishPluginJavaDocsJar = project.tasks.findByName('publishPluginJavaDocsJar')
+    publishTask = project.tasks.findByName('publishMainPublicationToMavenLocal')
+    if (publishTask && publishPluginJavaDocsJar) publishTask.dependsOn(publishPluginJavaDocsJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalSnapshotRepository')
+    if (publishTask && publishPluginJavaDocsJar) publishTask.dependsOn(publishPluginJavaDocsJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalReleaseRepository')
+    if (publishTask && publishPluginJavaDocsJar) publishTask.dependsOn(publishPluginJavaDocsJar)
+
+    def publishPluginGroovyDocsJar = project.tasks.findByName('publishPluginGroovyDocsJar')
+    publishTask = project.tasks.findByName('publishMainPublicationToMavenLocal')
+    if (publishTask && publishPluginGroovyDocsJar) publishTask.dependsOn(publishPluginGroovyDocsJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalSnapshotRepository')
+    if (publishTask && publishPluginGroovyDocsJar) publishTask.dependsOn(publishPluginGroovyDocsJar)
+    publishTask = tasks.findByName('publishMainPublicationToLocalReleaseRepository')
+    if (publishTask && publishPluginGroovyDocsJar) publishTask.dependsOn(publishPluginGroovyDocsJar)
+}
