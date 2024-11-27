@@ -60,7 +60,7 @@ class BanDuplicateClasses extends AbstractResolveDependencies {
      * duplicated in any jar file. Furthermore in use cases for multi release jars the <code>module-info.class</code> is
      * also contained several times.
      */
-    private static final List<String> DEFAULT_CLASSES_IGNORES = ['module-info', 'META-INF/versions/*/module-info']
+    private static final List<String> DEFAULT_CLASSES_IGNORES = ['module-info', 'META-INF/versions/*/module-info', 'package-info']
 
     final ListProperty<String> ignoreClasses
     final ListProperty<String> configurations
