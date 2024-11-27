@@ -17,6 +17,7 @@
  */
 plugins{
     id 'org.kordamp.gradle.integration-test'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 dependencies {
@@ -76,7 +77,7 @@ integrationTest {
         project(':enforcer-api').jar,
         project(':enforcer-rules').jar,
         jar
-    ].collect { "'${it.destinationDirectory.get().asFile.absolutePath}'" }
+    ].collect { "'${it.destinationDirectory.get().asFile.absolutePath.replace('\\', '/')}'" }
         .join(',')
 }
 

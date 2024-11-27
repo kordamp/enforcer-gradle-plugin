@@ -25,7 +25,7 @@ import org.gradle.api.provider.Property
  * @since 0.1.0
  */
 @CompileStatic
-interface EnforcerExtension {
+interface EnforcerExtension extends EnforcerRuleConfiguration {
     /**
      * Whether enforcer behavior is enabled or not. Defaults to {@code true}.
      */
